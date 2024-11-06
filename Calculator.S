@@ -1,81 +1,98 @@
-SECTION .text
-     GLOBAL _addIntegers
-     GLOBAL _subIntegers
-     GLOBAL _mulIntegers
-     GLOBAL _divIntegers
-     GLOBAL _destroyStackFrame
+SECTION .text 
+ global _addIntegers
+ global _destroyStackFrame 
+ global _subIntegers
+ global _mulIntegers
+ global _divIntegers 
+ global _toDecimal 
+ global _toWhole 
 
+_addIntegers:  
+
+     ; Setup the stack frame
+     push ebp 
+     mov ebp, esp
+     
+     ; Get the two parameters, add them and destroy the stack frame
+     mov eax, [ebp + 8]
+     mov edx, [ebp + 12]
+     add eax, edx 
+     jmp _destroyStackFrame 
 
 _destroyStackFrame:
      ; Destroy the stack frame
      pop ebp 
      mov esp, ebp 
-
-     ; return eax
+    
+     ; return eax 
      push eax 
      pop eax 
      ret 
 
-_addIntegers:
+_subIntegers:
 
-     ; Setup the stack frame
+     ; Setup the stack frame 
      push ebp 
      mov ebp, esp 
 
-     ; Get the two parameters and add them together
-     mov eax, [ebp + 8]
-     mov edx, [ebp + 12]
-     add eax, edx 
-
-     jmp _destroyStackFrame 
-
-_subIntegers:
-     
-     ; Setup the stack frame
-     push ebp 
-     mov ebp, esp
-
-     ; Get the two parameters and subtract them together 
+     ; Get the two parameters, subtract them and destroy the stack frame 
      mov eax, [ebp + 8]
      mov edx, [ebp + 12]
      sub eax, edx 
-
-     ; Destroy the stack frame 
-     jmp _destroyStackFrame
+     jmp _destroyStackFrame 
 
 _mulIntegers:
 
      ; Setup the stack frame 
      push ebp 
-     mov ebp, esp
+     mov ebp, esp 
 
-     ; Get the two parameters and multiply them together
+     ; Get the parameters, multiply them and destroy the stack frame
      mov eax, [ebp + 8]
      mov edx, [ebp + 12]
-     mul eax 
-
-     jmp _destroyStackFrame 
+     mul edx 
+     jmp _destroyStackFrame
 
 _divIntegers:
-     
-     ; Setup the stack frame 
-     push ebp 
-     mov ebp, esp
 
-     ; Get the two parameters and divide them together 
+     ; Setup the stack frame
+     push ebp 
+     mov ebp, esp 
+
+     ; Get the parameters, divide them and destroy the stack frame 
      mov eax, [ebp + 8]
      mov edx, [ebp + 12]
      
-     ; Check if either is 0 
+     ; check if the parameters are 0
      test eax, edx 
      jz .divisionByZeroError
-     
-     .divide:
-           div eax 
-           push eax 
 
      .divisionByZeroError:
-          mov eax, -1 
-          push eax 
+          mov eax, -1
+          
+     div edx
+     jmp _destroyStackFrame
 
-    jmp _destroyStackFrame
+_toDecimal:
+
+     ; Setup the stack frame
+     push ebp 
+     mov ebp, esp 
+
+     ; Get the parameter and divide it by 100 and then destroy the stack frame
+     mov eax, [ebp + 8]
+     mov edx, 100
+     div edx 
+     jmp _destroyStackFrame 
+
+_toWhole:
+
+     ; Setup the stack frame
+     push ebp 
+     mov ebp, esp 
+
+     ; Get the parameter and multiply it by 100 and then destroy the stack frame
+     mov eax, [ebp + 8]
+     mov edx, 100
+     mul edx 
+     jmp _destroyStackFrame
