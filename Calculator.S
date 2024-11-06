@@ -3,6 +3,8 @@ section .text
   global _subIntegers
   global _multiplyIntegers
   global _divideIntegers
+  global _toDecimal
+  global _toWhole
 
 _addIntegers:
      
@@ -53,7 +55,7 @@ _multiplyIntegers:
      mov esp, ebp 
      ret 
 
-_divideIntegers:
+_divide:
 
      ; set up the stack frame
      push ebp 
@@ -66,12 +68,43 @@ _divideIntegers:
      ; Check for a division by zero error
      test edx, edx
      jz .divisionByZeroError
-     idiv edx 
      .divisionByZeroError:
           mov eax, -1
-     
+     idiv edx 
 
      ; Destroy the stack frame 
      pop ebp 
      mov esp, ebp 
      ret 
+
+_toDecimal:
+     
+     ; Setup the stack frame
+     push ebp 
+     mov ebp, esp 
+
+     ; Get the parameter and divide it by 100
+     mov eax, [ebp + 8]
+     mov edx, 100
+     idiv edx 
+    
+     ; Destroy the stack frame
+     pop ebp 
+     mov esp, ebp 
+     ret  
+
+_toWhole:
+
+     ; Setup the stack frame
+     push ebp 
+     mov ebp, esp 
+
+     ; Get the parameter and multiply it by 100
+     mov eax, [ebp + 8]
+     mov edx, 100 
+     imul edx
+
+     ; Destroy the stack frame
+     pop ebp 
+     mov esp, ebp 
+     ret
