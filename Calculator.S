@@ -18,7 +18,6 @@ _addIntegers:
                push ecx 
                jmp _setupStackFrame 
 
-org 0x1001
 _subIntegers:
 
      ; check if we need to setup the stack frame
@@ -38,7 +37,6 @@ _subIntegers:
           push eax 
           jmp _destroyStackFrame
           
-org 0x1002
 _mulIntegers:
 
      ; check if we need to setup the stack frame
@@ -58,7 +56,6 @@ _mulIntegers:
           push eax 
           jmp _destroyStackFrame 
 
-org 0x1003
 _divIntegers:
 
      ; check if we need to setup the stack frame
@@ -78,7 +75,6 @@ _divIntegers:
           push eax 
           jmp _destroyStackFrame 
 
-org 0x1004
 _toDecimal:
 
      ; check if we need to setup the stack frame
@@ -98,7 +94,6 @@ _toDecimal:
           push eax 
           jmp _destroyStackFrame 
 
-org 0x1005
 _toWhole:
 
      ; check if we need to setup the stack frames
