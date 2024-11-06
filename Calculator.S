@@ -62,6 +62,12 @@ _divide:
      ; Get the parameters
      mov eax, [ebp + 8]
      mov edx, [ebp + 12]
+    
+     ; Check for a division by zero error
+     test edx, edx
+     jz .divisionByZeroError
+     .divisionByZeroError:
+          mov eax, -1
      idiv edx 
 
      ; Destroy the stack frame 
