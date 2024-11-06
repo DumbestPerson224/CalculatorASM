@@ -3,7 +3,7 @@ SECTION .text
      GLOBAL _subIntegers
      GLOBAL _mulIntegers
      GLOBAL _divIntegers
-     GLOBAL _destroyStackFrame:
+     GLOBAL _destroyStackFrame
 
 
 _destroyStackFrame:
