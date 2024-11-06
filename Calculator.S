@@ -6,93 +6,134 @@ SECTION .text
  global _divIntegers 
  global _toDecimal 
  global _toWhole 
+ global _setupStackFrame 
 
-_addIntegers:  
+org 0x1000 
+_addIntegers:
+     .setup:
+          test ecx, 0x1000 
+          jne .setupAddress
+          .setupAddress:
+               mov ecx, 0x1000
+               push ecx 
+               jmp _setupStackFrame 
 
-     ; Setup the stack frame
-     push ebp 
-     mov ebp, esp
+org 0x1001
+_subIntegers:
+
+     ; check if we need to setup the stack frame
+     .setup:
+          test ecx, 0x1001 
+          jne .setupAddress
+          .setupAddress:
+               mov ecx, 0x1001 
+               push ecx 
+               jmp _setupStackFrame 
+
+     ; handle the subtraction
+     .handle:
+          mov eax, [ebp + 8]
+          mov edx, [ebp + 12]
+          add eax, edx 
+          push eax 
+          jmp _destroyStackFrame
+          
+org 0x1002
+_mulIntegers:
+
+     ; check if we need to setup the stack frame
+     .setup:
+          test ecx, 0x1002
+          jne .setupAddress 
+          .setupAddress:
+               mov ecx, 0x1002
+               push ecx 
+               jmp _setupStackFrame
+
+     ; handle the multiplication
+     .handle:
+          mov eax, [ebp + 8]
+          mov edx, [ebp + 12]
+          mul edx 
+          push eax 
+          jmp _destroyStackFrame 
+
+org 0x1003
+_divIntegers:
+
+     ; check if we need to setup the stack frame
+     .setup:
+          test ecx, 0x1003
+          jne .setupAddress
+          .setupAddress:
+               mov ecx, 0x1003
+               push ecx 
+               jmp _setupStackFrame 
+
+     ; handle the division
+     .handle:
+          mov eax, [ebp + 8]
+          mov edx, [ebp + 12]
+          div edx 
+          push eax 
+          jmp _destroyStackFrame 
+
+org 0x1004
+_toDecimal:
+
+     ; check if we need to setup the stack frame
+     .setup:
+          test ecx, 0x1004 
+          jne .setupAddress
+          .setupAddress:
+                    mov ecx, 0x1004
+                    push ecx 
+                    jmp _setupStackFrame 
      
-     ; Get the two parameters, add them and destroy the stack frame
-     mov eax, [ebp + 8]
-     mov edx, [ebp + 12]
-     add eax, edx 
-     jmp _destroyStackFrame 
+     ; handle the conversion
+     .handle:
+          mov eax, [ebp + 8]
+          mov edx, 100
+          div edx 
+          push eax 
+          jmp _destroyStackFrame 
+
+org 0x1005
+_toWhole:
+
+     ; check if we need to setup the stack frames
+     .setup:
+          test ecx, 0x1005
+          jne .setupAddress 
+          .setupAddress:
+               mov ecx, 0x1005 
+               push ecx 
+               jmp _setupStackFrame
+               
+     ; handle the conversion
+     .handle:
+          mov eax, [ebp + 8]
+          mov edx, 100
+          mul edx 
+          push eax 
+          jmp _destroyStackFrame 
+
+_setupStackFrame:  
+
+     ; Setup the stack frame 
+     push ebp 
+     mov esp, ebp 
+     
+     ; Go back to the function
+     pop ecx 
+     jmp ecx 
 
 _destroyStackFrame:
+     
      ; Destroy the stack frame
      pop ebp 
      mov esp, ebp 
-    
-     ; return eax 
-     push eax 
+
+     ; Return eax
      pop eax 
-     ret 
-
-_subIntegers:
-
-     ; Setup the stack frame 
-     push ebp 
-     mov ebp, esp 
-
-     ; Get the two parameters, subtract them and destroy the stack frame 
-     mov eax, [ebp + 8]
-     mov edx, [ebp + 12]
-     sub eax, edx 
-     jmp _destroyStackFrame 
-
-_mulIntegers:
-
-     ; Setup the stack frame 
-     push ebp 
-     mov ebp, esp 
-
-     ; Get the parameters, multiply them and destroy the stack frame
-     mov eax, [ebp + 8]
-     mov edx, [ebp + 12]
-     mul edx 
-     jmp _destroyStackFrame
-
-_divIntegers:
-
-     ; Setup the stack frame
-     push ebp 
-     mov ebp, esp 
-
-     ; Get the parameters, divide them and destroy the stack frame 
-     mov eax, [ebp + 8]
-     mov edx, [ebp + 12]
-     
-     ; check if the parameters are 0
-     test eax, edx 
-     jz .divisionByZeroError
-
-     .divisionByZeroError:
-          mov eax, -1
-          
-     div edx
-     jmp _destroyStackFrame
-
-_toDecimal:
-
-     ; Setup the stack frame
-     push ebp 
-     mov ebp, esp 
-
-     ; Get the parameter and divide it by 100 and then destroy the stack frame
-     mov eax, [ebp + 8]
-     mov edx, 100
-     div edx 
-     jmp _destroyStackFrame 
-
-_toWhole:
-
-     ; Setup the stack frame
-     push ebp 
-     mov ebp, esp 
-
-     ; Get the parameter and multiply it by 100 and then destroy the stack frame
-     mov eax, [ebp + 8]
-     mov edx, 100
-     mul edx 
-     jmp _destroyStackFrame
+     ret
