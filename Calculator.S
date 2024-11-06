@@ -53,7 +53,7 @@ _multiplyIntegers:
      mov esp, ebp 
      ret 
 
-_divide:
+_divideIntegers:
 
      ; set up the stack frame
      push ebp 
