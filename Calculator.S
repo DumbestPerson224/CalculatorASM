@@ -9,7 +9,7 @@ SECTION .text
 _destroyStackFrame:
      ; Destroy the stack frame
      pop ebp 
-     mov ebp, esp 
+     mov esp, ebp 
 
      ; return eax
      push eax 
@@ -20,7 +20,7 @@ _addIntegers:
 
      ; Setup the stack frame
      push ebp 
-     mov esp, ebp 
+     mov ebp, esp 
 
      ; Get the two parameters and add them together
      mov eax, [ebp + 8]
@@ -33,7 +33,7 @@ _subIntegers:
      
      ; Setup the stack frame
      push ebp 
-     mov esp, ebp 
+     mov ebp, esp
 
      ; Get the two parameters and subtract them together 
      mov eax, [ebp + 8]
@@ -47,7 +47,7 @@ _mulIntegers:
 
      ; Setup the stack frame 
      push ebp 
-     mov esp, ebp 
+     mov ebp, esp
 
      ; Get the two parameters and multiply them together
      mov eax, [ebp + 8]
@@ -60,7 +60,7 @@ _divIntegers:
      
      ; Setup the stack frame 
      push ebp 
-     mov esp, ebp 
+     mov ebp, esp
 
      ; Get the two parameters and divide them together 
      mov eax, [ebp + 8]
