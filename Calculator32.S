@@ -145,7 +145,7 @@ _getRemainder:
  jz .divisionByZeroError
  jnz .getRemainder
 
- .getRemainder
+ .getRemainder:
    div edx 
    sub eax, edx
 
