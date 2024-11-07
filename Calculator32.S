@@ -86,6 +86,11 @@ _toDecimal:
      ; Get the parameter and divide it by 100
      mov eax, [ebp + 8]
      mov edx, 100
+
+     ; check for a division by zero error
+     test eax, eax
+     .divisionByZeroError:
+        mov eax, -1
      idiv edx 
     
      ; Destroy the stack frame
