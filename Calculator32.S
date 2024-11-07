@@ -67,12 +67,15 @@ _divide:
     
 
      .divisionByZeroError:
-          mov eax, -1
-     
-     ; Check for a division by zero error
      test edx, edx
-     jz .divisionByZeroError
+     jnz .divide
+     mov eax, -1
+
+     .divide:
      idiv edx 
+
+     ; Clear EDX to ensure that we don't have any issues related to storing the unneeded sum
+     xor edx, edx 
 
      ; Destroy the stack frame 
      pop ebp 
