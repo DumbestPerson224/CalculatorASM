@@ -87,15 +87,24 @@ _toDecimal:
      push rbp 
      mov rbp, rsp 
 
-     ; Get the parameter and divide it by 100
+     ; Get the parameter
      mov rax, [rbp + 8]
-     mov rdx, 100
-     idiv rdx 
-    
+     mov rdx, 100  
+
+     ; Check for division by zero errors
+     test rax, rax
+     jnz .notDivisionByZeroError
+     
      ; Destroy the stack frame
      pop rbp 
      mov rsp, rbp 
      ret  
+     
+     ; Handle division by zero error
+     mov rax, -1 
+
+     .notDivisionByZeroError:
+     idiv rdx 
 
 _toWhole:
 
