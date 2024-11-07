@@ -74,7 +74,7 @@ _divide:
      test rdx, rdx
      jnz .notDivisionByZeroError
      .notDivisionByZeroError:
-          idiv rdx
+     idiv rdx
       
 
      
