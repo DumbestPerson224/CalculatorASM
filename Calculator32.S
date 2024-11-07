@@ -89,9 +89,10 @@ _toDecimal:
 
      ; check for a division by zero error
      test eax, eax
+     jnz .divide
+     mov eax, -1
      .divisionByZeroError:
-        mov eax, -1
-     idiv edx 
+       idiv edx
     
      ; Destroy the stack frame
      pop ebp 
