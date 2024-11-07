@@ -71,7 +71,7 @@ _divide:
      jnz .notDivisionByZeroError 
 
      ; Handle the error code
-     mov eax, -1 
+     mov rax, -1 
 
      ; Destroy the stack frame 
      pop rbp 
