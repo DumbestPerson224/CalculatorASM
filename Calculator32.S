@@ -9,6 +9,7 @@ section .text
 
 section .data
     divisionByZero: db "Division By Zero Error!", 0
+
 _addIntegers:
      
      ; Set up the stack frame
