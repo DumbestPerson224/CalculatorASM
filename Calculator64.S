@@ -65,14 +65,17 @@ _divide:
      mov rax, [rbp + 8]
      mov rdx, [rbp + 12]
      
+    
+     
+     ; Check for a division by zero error
+     test rdx, rdx
+     jnz .notDivisionByZeroError 
+     
      ; Destroy the stack frame 
      pop rbp 
      mov rsp, rbp 
      ret 
      
-     ; Check for a division by zero error
-     test rdx, rdx
-     jnz .notDivisionByZeroError
      .notDivisionByZeroError:
      idiv rdx
       
