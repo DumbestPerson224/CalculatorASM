@@ -17,7 +17,9 @@ _addIntegers:
      mov edx, [ebp + 12]
      add eax, edx      
 
-
+     ; Clear edx
+     xor edx, edx
+ 
      ; Destroy the stack frame
      pop ebp 
      mov esp, ebp 
@@ -33,7 +35,11 @@ _subIntegers:
      mov eax, [ebp + 8]
      mov edx, [ebp + 12]
      sub eax, edx 
-     
+
+     ; Clear EDX
+     xor edx, edx
+
+   
      ; Destroy the stack frame
      pop ebp 
      mov esp, ebp 
@@ -49,7 +55,10 @@ _multiplyIntegers:
      mov eax, [ebp + 8]
      mov edx, [ebp + 12]
      imul edx 
-     
+
+     ; Clear edx
+     xor edx, edx 
+ 
      ; Destroy the stack frame 
      pop ebp 
      mov esp, ebp 
@@ -92,7 +101,10 @@ _toDecimal:
      mov eax, [ebp + 8]
      mov edx, 100
      idiv edx
-    
+
+     ; Clear edx
+     xor edx, edx
+
      ; Destroy the stack frame
      pop ebp 
      mov esp, ebp 
@@ -104,10 +116,13 @@ _toWhole:
      push ebp 
      mov ebp, esp 
 
-     ; Get the parameter and multiply it by 100
+     ; Get the parameter and multiply it by 100 
      mov eax, [ebp + 8]
      mov edx, 100 
      imul edx
+
+     ; Clear edx
+     xor edx, edx
 
      ; Destroy the stack frame
      pop ebp 
