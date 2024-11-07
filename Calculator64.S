@@ -10,7 +10,7 @@ _addIntegers:
      
      ; Set up the stack frame
      push rbp 
-     mov ebp, esp 
+     mov rbp, rsp 
 
      ; Get the parameters
      mov rax, [rbp + 8]
