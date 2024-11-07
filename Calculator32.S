@@ -7,6 +7,8 @@ section .text
   global _toWhole
   global _getRemainder
 
+section .data
+    divisionByZero: db "Division By Zero Error!", 0
 _addIntegers:
      
      ; Set up the stack frame
@@ -79,7 +81,7 @@ _divide:
      .divisionByZeroError:
      test edx, edx
      jnz .divide
-     mov eax, -1
+     mov eax, divisionByZero
 
      .divide:
      idiv edx 
@@ -137,14 +139,14 @@ _getRemainder:
   mov ebp, esp
 
   ; Get the parameters
-  mov eax, [ebp + 8]
-  mov edx, [ebp + 12]
+  mov ymm0, [ebp + 8]
+  mov ymm1, [ebp + 12]
 
  ; Check for a divison by zero error 
  .divisionByZeroError:
- test edx, edx
+ test ymm0, ymm1
  jnz .getRemainder
- mov eax, -1
+ mov eax, divisionByZero
 
 .end:
 ; Destroy the stack frame
@@ -153,7 +155,8 @@ mov esp,ebp
 ret 
  
 .getRemainder:
-div edx
-sub eax, edx
-xor edx, edx 
+div ymm1
+sub ymm0, ymm1
+xor ymm1, ymm1
+mov eax, ymm0
 jmp .end 
