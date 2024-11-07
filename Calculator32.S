@@ -139,12 +139,12 @@ _getRemainder:
   mov ebp, esp
 
   ; Get the parameters
-  mov ymm0, [ebp + 8]
-  mov ymm1, [ebp + 12]
+  mov eax, [ebp + 8]
+  mov edx, [ebp + 12]
 
  ; Check for a divison by zero error 
  .divisionByZeroError:
- test ymm0, ymm1
+ test edx, edx
  jnz .getRemainder
  mov eax, divisionByZero
 
@@ -155,8 +155,8 @@ mov esp,ebp
 ret 
  
 .getRemainder:
-div ymm1
-sub ymm0, ymm1
-xor ymm1, ymm1
-mov eax, ymm0
+div edx
+sub eax, edx
+mov eax, edx 
+xor edx, edx
 jmp .end 
