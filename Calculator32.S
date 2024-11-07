@@ -143,15 +143,15 @@ _getRemainder:
  ; Check if the dividant is zero
  test edx, edx
  jz .divisionByZeroError
- jnz .getRemainder
 
  .getRemainder:
    idiv edx 
    sub eax, edx
 
-   ; Clear edx
+   ; Store the remainder in eax and clear edx
+   mov eax, edx
    xor edx, edx
-   
+
 ; handle division by zero error
 .divisionByZeroError:
     mov eax, -1
