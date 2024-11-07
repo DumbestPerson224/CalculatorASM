@@ -64,18 +64,20 @@ _divide:
      ; Get the parameters
      mov rax, [rbp + 8]
      mov rdx, [rbp + 12]
-    
-     ; Check for a division by zero error
-     test rdx, rdx
-     jz .divisionByZeroError
-     .divisionByZeroError:
-          mov rax, -1
-     idiv rdx 
-
+     
      ; Destroy the stack frame 
      pop rbp 
      mov rsp, rbp 
      ret 
+     
+     ; Check for a division by zero error
+     test rdx, rdx
+     jnz .notDivisionByZeroError
+     .notDivisionByZeroError:
+          idiv rdx
+      
+
+     
 
 _toDecimal:
      
