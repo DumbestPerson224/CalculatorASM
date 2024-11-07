@@ -140,24 +140,20 @@ _getRemainder:
   mov eax, [ebp + 8]
   mov edx, [ebp + 12]
 
- ; Check if the dividant is zero
+ ; Check for a divison by zero error 
+ .divisionByZeroError:
  test edx, edx
- jz .divisionByZeroError
+ jnz .getRemainder
+ mov eax, -1
 
- .getRemainder:
-   idiv edx 
-   sub eax, edx
-
-   ; Store the remainder in eax and clear edx
-   mov eax, edx
-   xor edx, edx
-
-; handle division by zero error
-.divisionByZeroError:
-    mov eax, -1
-    xor edx, edx
 .end:
 ; Destroy the stack frame
 pop ebp
-mov esp, ebp
-ret
+mov esp,ebp
+ret 
+ 
+.getRemainder:
+div edx
+sub eax, edx
+xor edx, edx 
+jmp .end 
