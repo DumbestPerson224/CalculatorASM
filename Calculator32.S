@@ -72,8 +72,6 @@ _divide:
      ; Check for a division by zero error
      test edx, edx
      jz .divisionByZeroError
-     .divisionByZeroError:
-          mov eax, -1
      idiv edx 
 
      ; Destroy the stack frame 
