@@ -17,9 +17,6 @@ _addIntegers:
      mov rdx, [rbp + 12]
      add rax, rdx      
 
-     ; Handle the error code
-     mov eax, -1
-
      ; Destroy the stack frame
      pop rbp 
      mov rsp, rbp 
@@ -72,7 +69,10 @@ _divide:
      ; Check for a division by zero error
      test rdx, rdx
      jnz .notDivisionByZeroError 
-     
+
+     ; Handle the error code
+     mov eax, -1 
+
      ; Destroy the stack frame 
      pop rbp 
      mov rsp, rbp 
