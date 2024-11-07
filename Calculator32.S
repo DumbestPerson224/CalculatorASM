@@ -146,7 +146,7 @@ _getRemainder:
  jnz .getRemainder
 
  .getRemainder:
-   div edx 
+   idiv edx 
    sub eax, edx
 
    ; Clear edx
