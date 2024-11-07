@@ -5,6 +5,7 @@ section .text
   global _divideIntegers
   global _toDecimal
   global _toWhole
+  global _getRemainder
 
 _addIntegers:
      
@@ -128,3 +129,35 @@ _toWhole:
      pop ebp 
      mov esp, ebp 
      ret
+
+_getRemainder:
+
+  ; Setup the stack frame
+  push ebp
+  mov ebp, esp
+
+  ; Get the parameters
+  mov eax, [ebp + 8]
+  mov edx, [ebp + 12]
+
+ ; Check if the dividant is zero
+ test edx, edx
+ jz .divisionByZeroError
+ jnz .getRemainder
+
+ .getRemainder
+   div edx 
+   sub eax, edx
+
+   ; Clear edx
+   xor edx, edx
+   
+; handle division by zero error
+.divisionByZeroError:
+    mov eax, -1
+    xor edx, edx
+
+; Destroy the stack frame
+pop ebp
+mov esp, ebp
+ret
