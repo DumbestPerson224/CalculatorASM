@@ -156,7 +156,7 @@ _getRemainder:
 .divisionByZeroError:
     mov eax, -1
     xor edx, edx
-
+.end:
 ; Destroy the stack frame
 pop ebp
 mov esp, ebp
