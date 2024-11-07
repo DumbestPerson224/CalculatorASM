@@ -65,6 +65,10 @@ _divide:
      mov eax, [ebp + 8]
      mov edx, [ebp + 12]
     
+
+     .divisionByZeroError:
+          mov eax, -1
+     
      ; Check for a division by zero error
      test edx, edx
      jz .divisionByZeroError
