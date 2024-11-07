@@ -17,6 +17,8 @@ _addIntegers:
      mov rdx, [rbp + 12]
      add rax, rdx      
 
+     ; Handle the error code
+     mov eax, -1
 
      ; Destroy the stack frame
      pop rbp 
