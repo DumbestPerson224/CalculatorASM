@@ -148,6 +148,7 @@ _getRemainder:
  test edx, edx
  jnz .getRemainder
  mov eax, divisionByZero
+ jz .end 
 
 .end:
 ; Destroy the stack frame
