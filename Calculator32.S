@@ -168,8 +168,8 @@ _getFactorial:
 
   ; Setup the stack frame
   push ebp
-  mov esp, ebp
-  
+  mov ebp, esp
+
   ; Get the parameters
   mov eax, [ebp + 8]
   mov edx, [ebp + 12]
