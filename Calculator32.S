@@ -176,9 +176,9 @@ _getFactorial:
 
   .handle:
   ; Multiply until edx is zero
-  cmp edx, 0
-  jg .multiply
-  je .end
+  test edx, edx
+  jnz .multiply
+  jz .end
   .multiply:
   mul edx
   sub edx, 1
