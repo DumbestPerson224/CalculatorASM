@@ -179,6 +179,7 @@ _getFactorial:
   test edx, edx
   jnz .multiply
   jz .end
+
   .multiply:
   mul edx
   sub edx, 1
