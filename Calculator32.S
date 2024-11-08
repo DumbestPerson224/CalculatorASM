@@ -181,5 +181,5 @@ _getFactorial:
   je .end
   .multiply:
   mul edx
-  sub edx
+  sub edx, 1
   jmp .handle
