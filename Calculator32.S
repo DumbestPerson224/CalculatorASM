@@ -6,6 +6,7 @@ section .text
   global _toDecimal
   global _toWhole
   global _getRemainder
+  global _getFactorial
 
 section .data
     divisionByZero: db "Division By Zero Error!", 0
@@ -162,3 +163,23 @@ sub eax, edx
 mov eax, edx 
 xor edx, edx
 jmp .end 
+
+_getFactorial:
+
+  ; Setup the stack frame
+  push ebp
+  mov esp, ebp
+  
+  ; Get the parameters
+  mov eax, [ebp + 8]
+  mov edx, [ebp + 12]
+
+  .handle:
+  ; Multiply until edx is zero
+  cmp edx, 0
+  jg .multiply
+  je .end
+  .multiply:
+  mul edx
+  sub edx
+  jmp .handle
