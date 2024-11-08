@@ -181,6 +181,6 @@ _getFactorial:
   jz .end
 
   .multiply:
-  mul edx
+  imul edx
   sub edx, 1
   jmp .handle
