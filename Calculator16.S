@@ -115,5 +115,5 @@ _getFactorial:
 
      ; Get the factorial
      mul dx 
-     sub dx 
+     sub dx, 1
      jmp .handle 
