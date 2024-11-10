@@ -7,8 +7,9 @@
      .global _subIntegers
      .global _mulIntegers
      .global _toWhole 
-	 .global _toDecimal
-	 
+     .global _toDecimal
+     .global _getFactorial 
+
 _addIntegers:
 
      // Setup the stack frame
@@ -114,3 +115,31 @@ _toDecimal:
 	pop {fp}
 	mov sp, fp
 	bx lr 
+
+_getFactorial:
+
+    // Setup the stack frame 
+    push fp 
+    mov fp, sp 
+
+    // Get the parameters 
+    ldr r0, [fp, #8]
+    ldr r1, [fp, #12]
+
+    // Check if r1 is zero 
+    cmp r0, #0
+    bne .divide 
+    mov r0, =divisionByZero
+
+    .divide:
+        udiv r0, r0, r1 
+
+
+    // Store the result 
+    ldr r1, [result]
+    str r1, [r0]
+        
+    // Destroy the stack frame and return the result
+    pop fp 
+    mov sp, fp 
+    bx lr 
