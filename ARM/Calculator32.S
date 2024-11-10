@@ -130,16 +130,17 @@ _getFactorial:
     cmp r0, #0
     bne .divide 
     mov r0, =divisionByZero
+    
+    // Destroy the stack frame and return the result
+    pop {fp} 
+    mov sp, fp 
+    bx lr
 
     .divide:
         udiv r0, r0, r1 
 
-
+  
     // Store the result 
     ldr r1, [result]
     str r1, [r0]
-        
-    // Destroy the stack frame and return the result
-    pop {fp} 
-    mov sp, fp 
-    bx lr 
+    b .divide
