@@ -22,6 +22,8 @@ _divIntegers:
 	vmov.f32 s0, r0
 	vmov.f32 s1, r1
 	vdiv.f32 s0, s0, s1
+
+	// Store the result into r0
 	vmov r0, s0
 	
 	// Destroy the stack frame and return the result
@@ -41,7 +43,10 @@ _toDecimal:
 	vmov.f32 s0, r0
 	vmov.f32 s1, r1
 	vdiv.f32 s0, s0, s1
-	
+
+	// Store the result into r0
+	vmov  s0, r0
+
 	// Destroy the stack frame and return the result
 	pop {fp}
 	mov sp, fp
