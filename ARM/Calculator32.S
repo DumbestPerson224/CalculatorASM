@@ -119,7 +119,7 @@ _toDecimal:
 _getFactorial:
 
     // Setup the stack frame 
-    push fp 
+    push {fp} 
     mov fp, sp 
 
     // Get the parameters 
@@ -140,6 +140,6 @@ _getFactorial:
     str r1, [r0]
         
     // Destroy the stack frame and return the result
-    pop fp 
+    pop {fp} 
     mov sp, fp 
     bx lr 
