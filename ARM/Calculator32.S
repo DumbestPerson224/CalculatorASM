@@ -108,9 +108,8 @@ _toDecimal:
 		udiv r0, r0, r1
 
 		// Store the result
-		str [r2], [r0]
 		ldr r2, =result
-
+		str [r2], [r1]
 	// Destroy the stack frame and return the error code
 	pop {fp}
 	mov sp, fp
