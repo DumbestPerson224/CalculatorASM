@@ -7,9 +7,46 @@
      .global _subIntegers
      .global _mulIntegers
      .global _toWhole 
-     .global _toDecimal
-     .global _getFactorial 
+	 .global _toDecimal
+     .global _divIntegers
+	 
+_divIntegers:
+	
+	// Setup the stack frame
+	push {fp}
+	mov fp, sp
+	
+	// Get the parameters and divide them
+	ldr r0, [fp, #8]
+	ldr r1, [fp, #12]
+	vmov.f32 s0, r0
+	vmov.f32 s1, r1
+	vdiv.f32 s0, s0, s1
+	vmov r0, s0
+	
+	// Destroy the stack frame and return the result
+	pop {fp}
+	mov sp, fp
+	bx lr
+	
+_toDecimal:
 
+	// Setup the stack frame
+	push {fp}
+	mov fp, sp
+	
+	// Get the parameter and divide it by 100
+	ldr r0, [fp, #8]
+	mov r1, #100
+	vmov.f32 s0, r0
+	vmov.f32 s1, r1
+	vdiv.f32 s0, s0, s1
+	
+	// Destroy the stack frame and return the result
+	pop {fp}
+	mov sp, fp
+	bx lr 
+	
 _addIntegers:
 
      // Setup the stack frame
@@ -82,65 +119,30 @@ _mulIntegers:
     mul r0, r1 
 
     // Store the result 
-    ldr r1, =result 
+    ldr r0, =result
     str r1, [r0]
 
     // Destroy the stack frame and return the result 
     pop {fp}
     mov sp, fp 
     bx lr
-	
-_toDecimal:
-	
-	// Setup the stack frame
-	push {fp}
-	mov fp, sp
-	
-	// Get the paramater and set the divident to 100
- 	ldr r0, [fp, #8]
-	mov r1, #100
-	
-	// Check if the divider is 0
-	cmp r0, #0
-	bne .divide
-	ldr r0, =divisionByZero
-	
-	.divide:
-		udiv r0, r0, r1
-
-		// Store the result
-		ldr r2, =result
-		str r2, [r0]
-	// Destroy the stack frame and return the error code
-	pop {fp}
-	mov sp, fp
-	bx lr 
 
 _getFactorial:
-
+     
     // Setup the stack frame 
-    push {fp} 
+    push {fp}
     mov fp, sp 
 
     // Get the parameters 
     ldr r0, [fp, #8]
     ldr r1, [fp, #12]
-
-    // Check if r1 is zero 
-    cmp r0, #0
-    bne .divide 
-    mov r0, =divisionByZero
     
-    // Destroy the stack frame and return the result
-    pop {fp} 
-    mov sp, fp 
-    bx lr
+    // Check if the second parameter is not 0
+    .handle:
+        cmp r1, #0
+        bne .getFactorial 
 
-    .divide:
-        udiv r0, r0, r1 
-
-  
-    // Store the result 
-    ldr r1, [result]
-    str r1, [r0]
-    b .divide
+    .getFactorial:
+        mul r0, r1 
+        sub r1, #1
+        b .handle 
