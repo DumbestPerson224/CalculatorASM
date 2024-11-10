@@ -1,120 +1,91 @@
-.section .data
-    divisionByZero: .asciz "Division By Zero Error!"
-
-.section .text
+.data
+	sum: .word 0
+	msg: .byte "Division By Zero Error!"
 .global _addIntegers
 .global _subIntegers
-.global _multiplyIntegers
-.global _divideIntegers
-.global _toDecimal
-.global _toWhole
-.global _getRemainder
-.global _getFactorial
+.global _mulIntegers
+.global _divIntegers
 
 _addIntegers:
-    push {fp, lr}
-    add fp, sp, #4
 
-    ldr r0, [fp, #8]  // Load first parameter
-    ldr r1, [fp, #12] // Load second parameter
-    add r0, r0, r1    // Perform addition
-    mov r1, #0        // Clear r1
-
-    pop {fp, lr}
-    bx lr
-
+	// Setup the stack frame
+	push {fp}
+	mov fp, sp
+	
+	// Get the parameters and add them
+	ldr r0, [fp, #8]
+	ldr r1, [fp, #12]
+	add r0, r1
+	
+	// Store the sum into the result variable
+	ldr r1, =sum
+	str r1, [r0]
+	
+	// Destroy the stack frame and return the sum
+	pop {fp}
+	mov sp, fp
+	bx lr
+	
 _subIntegers:
-    push {fp, lr}
-    add fp, sp, #4
 
-    ldr r0, [fp, #8]  // Load first parameter
-    ldr r1, [fp, #12] // Load second parameter
-    sub r0, r0, r1    // Perform subtraction
-    mov r1, #0        // Clear r1
+	// Setup the stack frame
+	push {fp}
+	mov fp, sp
+	
+	// Get the parameters and subtract them
+	ldr r0, [fp, #8]
+	ldr r1, [fp, #12]
+	sub r0, r1
+	
+	// Store the sum into the result variable
+	ldr r0, =sum
+	str r1, [r0]
+	
+	// Destroy the stack and return the result
+	pop {fp}
+	mov sp, fp
+	bx lr
+	
+_mulIntegers:
 
-    pop {fp, lr}
-    bx lr
+	// Setup the stack frame
+	push {fp}
+	mov fp, sp
+	
+	// Get the parameters and multiply them
+	ldr r0, [fp, #8]
+	ldr r1, [fp, #12]
+	mul r0, r1
+	
+	// Store the result
+	ldr r0, =sum
+	str r1, [r0]
+	
+	// Destroy the stack frame and return the result
+	pop {fp}
+	mov sp, fp
+	bx lr
+	
+_divIntegers:
 
-_multiplyIntegers:
-    push {fp, lr}
-    add fp, sp, #4
-
-    ldr r0, [fp, #8]  // Load first parameter
-    ldr r1, [fp, #12] // Load second parameter
-    mul r0, r0, r1    // Perform multiplication
-    mov r1, #0        // Clear r1
-
-    pop {fp, lr}
-    bx lr
-
-_divideIntegers:
-    push {fp, lr}
-    add fp, sp, #4
-
-    ldr r0, [fp, #8]  // Load first parameter
-    ldr r1, [fp, #12] // Load second parameter
-    cmp r1, #0
-    beq .divisionByZero
-    udiv r0, r0, r1   // Perform division
-    mov r1, #0        // Clear r1
-    b .done
-
-.divisionByZero:
-    ldr r0, =divisionByZero
-
-.done:
-    pop {fp, lr}
-    bx lr
-
-_toDecimal:
-    push {fp, lr}
-    add fp, sp, #4
-
-    ldr r0, [fp, #8]  // Load parameter
-    mov r1, #100
-    udiv r0, r0, r1   // Divide by 100
-    mov r1, #0        // Clear r1
-
-    pop {fp, lr}
-    bx lr
-
-_toWhole:
-    push {fp, lr}
-    add fp, sp, #4
-
-    ldr r0, [fp, #8]  // Load parameter
-    mov r1, #100
-    mul r0, r0, r1    // Multiply by 100
-    mov r1, #0        // Clear r1
-
-    pop {fp, lr}
-    bx lr
-
-_getRemainder:
-    push {fp, lr}
-    add fp, sp, #4
-
-    ldr r0, [fp, #8]  // Load first parameter
-    ldr r1, [fp, #12] // Load second parameter
-    cmp r1, #0
-    beq .divisionByZero
-    udiv r2, r0, r1   // Perform division
-    mls r0, r2, r1, r0 // Calculate remainder
-    mov r1, #0        // Clear r1
-    b .done
-
-_getFactorial:
-    push {fp, lr}
-    add fp, sp, #4
-
-    ldr r0, [fp, #8]  // Load parameter
-    mov r1, r0
-.factorial_loop:
-    subs r1, r1, #1
-    ble .done
-    mul r0, r0, r1
-    b .factorial_loop
-
-.done:
-    pop {fp, lr}
-    bx lr
+	// Setup the stack frame
+	push {fp}
+	mov fp, sp
+	
+	// Get the parameters and multiply them
+	ldr r0, [fp, #8]
+	ldr r1, [fp, #12]
+	cmp r1, #0
+	bne .divide
+	ldr r0, =msg
+	.divide:
+		div r0, r1
+		
+		// Store the result
+		ldr r1, =sum
+		str r1, [r0]
+		
+	// Destroy the stack frame and return the result
+	pop {fp}
+	mov sp, fp
+	bx lr
