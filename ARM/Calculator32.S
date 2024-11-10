@@ -109,7 +109,7 @@ _toDecimal:
 
 		// Store the result
 		ldr r2, =result
-		str [r2], [r0]
+		str r2, [r0]
 	// Destroy the stack frame and return the error code
 	pop {fp}
 	mov sp, fp
