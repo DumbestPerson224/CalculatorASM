@@ -43,10 +43,10 @@ _subIntegers:
      ldr r1, =result
      str r1, [r0]
 
-     // Destroy the stack frame 
+     // Destroy the stack frame  and return the result 
      pop {fp}
      mov sp, fp  
-
+     bx lr
 
 _toWhole:
     
