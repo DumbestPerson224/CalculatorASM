@@ -1,5 +1,5 @@
 .data
-     divisionByZero: .byte "Division By Zero Error"
+     divisionByZero: .word 1
      result: .word 0 
 
 .text     
@@ -7,7 +7,8 @@
      .global _subIntegers
      .global _mulIntegers
      .global _toWhole 
-
+	 .global _toDecimal
+	 
 _addIntegers:
 
      // Setup the stack frame
@@ -56,7 +57,7 @@ _toWhole:
 
     // Get the parameters and divide them 
     ldr r0, [fp, #8]
-    mov r1, 100
+    mov r1, #100
     mul r0, r1 
 
     // Store the result
@@ -70,7 +71,7 @@ _toWhole:
 
 _mulIntegers:
     
-    ; Setup the stack frame
+    // Setup the stack frame
     push {fp}
     mov fp, sp 
 
@@ -86,4 +87,26 @@ _mulIntegers:
     // Destroy the stack frame and return the result 
     pop {fp}
     mov sp, fp 
-    bx lr 
+    bx lr
+	
+_toDecimal:
+	
+	// Setup the stack frame
+	push {fp}
+	mov fp, sp
+	
+	// Get the paramater and set the divident to 100
+ 	ldr r0, [fp, #8]
+	mov r1, #100
+	
+	// Check if the divider is 0
+	cmp r0, #0
+	bne .divide
+	ldr r0, =divisionByZero
+	
+	.divide:
+		udiv r0, r0, r1
+	// Destroy the stack frame and return the error code
+	pop {fp}
+	mov sp, fp
+	bx lr 
