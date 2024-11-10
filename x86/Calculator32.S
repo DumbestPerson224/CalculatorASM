@@ -1,186 +1,109 @@
-section .text 
-  global _addIntegers
-  global _subIntegers
-  global _multiplyIntegers
-  global _divideIntegers
-  global _toDecimal
-  global _toWhole
-  global _getRemainder
-  global _getFactorial
+.data
+     divisionByZero: .word 1
+     result: .word 0 
 
-section .data
-    divisionByZero: db "Division By Zero Error!", 0
+.text     
+     .global _addIntegers
+     .global _subIntegers
+     .global _mulIntegers
+     .global _toWhole 
 
 _addIntegers:
-     
-     ; Set up the stack frame
-     push ebp 
-     mov ebp, esp 
 
-     ; Get the parameters
-     mov eax, [ebp + 8]
-     mov edx, [ebp + 12]
-     add eax, edx      
+     // Setup the stack frame
+     push {fp}
+     mov fp, sp 
 
-     ; Clear edx
-     xor edx, edx
- 
-     ; Destroy the stack frame
-     pop ebp 
-     mov esp, ebp 
-     ret 
+     // Get the parameters and add them
+     ldr r0, [fp, #8]
+     ldr r1, [fp, #12]
+     add r0, r1
+
+     // Store the result
+     ldr r1, =result 
+     str r1, [r0]
+
+     // Destroy the stack frame and return the result
+     pop {fp}
+     mov sp, fp 
+     bx lr 
 
 _subIntegers:
 
-     ; Set up the stack frame
-     push ebp
-     mov ebp, esp 
+     // Setup the stack frame
+     push {fp}
+     mov fp, sp
 
-     ; Get the parameters
-     mov eax, [ebp + 8]
-     mov edx, [ebp + 12]
-     sub eax, edx 
+     // Get the parameters and add them
+     ldr r0, [fp, #8]
+     ldr r1, [fp, #12]
+     sub r0, r1 
 
-     ; Clear EDX
-     xor edx, edx
+     // Store the result
+     ldr r1, =result
+     str r1, [r0]
 
-   
-     ; Destroy the stack frame
-     pop ebp 
-     mov esp, ebp 
-     ret 
-
-_multiplyIntegers:
-
-     ; Set up the stack frame
-     push ebp 
-     mov ebp, esp 
-
-     ; Get the parameters
-     mov eax, [ebp + 8]
-     mov edx, [ebp + 12]
-     imul edx 
-
-     ; Clear edx
-     xor edx, edx 
- 
-     ; Destroy the stack frame 
-     pop ebp 
-     mov esp, ebp 
-     ret 
-
-_divide:
-
-     ; set up the stack frame
-     push ebp 
-     mov ebp, esp 
-
-     ; Get the parameters
-     mov eax, [ebp + 8]
-     mov edx, [ebp + 12]
-    
-
-     .divisionByZeroError:
-     test edx, edx
-     jnz .divide
-     mov eax, divisionByZero
-
-     .divide:
-     idiv edx 
-
-     ; Clear EDX to ensure that we don't have any issues related to storing the unneeded sum
-     xor edx, edx 
-
-     ; Destroy the stack frame 
-     pop ebp 
-     mov esp, ebp 
-     ret 
-
-_toDecimal:
-     
-     ; Setup the stack frame
-     push ebp 
-     mov ebp, esp 
-
-     ; Get the parameter and divide it by 100
-     mov eax, [ebp + 8]
-     mov edx, 100
-     idiv edx
-
-     ; Clear edx
-     xor edx, edx
-
-     ; Destroy the stack frame
-     pop ebp 
-     mov esp, ebp 
-     ret  
+     // Destroy the stack frame  and return the result 
+     pop {fp}
+     mov sp, fp  
+     bx lr
 
 _toWhole:
+    
+    // Setup the stack frame 
+    push {fp}
+    mov fp, sp 
 
-     ; Setup the stack frame
-     push ebp 
-     mov ebp, esp 
+    // Get the parameters and divide them 
+    ldr r0, [fp, #8]
+    mov r1, #100
+    mul r0, r1 
 
-     ; Get the parameter and multiply it by 100 
-     mov eax, [ebp + 8]
-     mov edx, 100 
-     imul edx
+    // Store the result
+    ldr r1, =result 
+    str r1, [r0]
 
-     ; Clear edx
-     xor edx, edx
+    // Destroy the stack frame and return the result
+    pop {fp}
+    mov sp, fp 
+    bx lr 
 
-     ; Destroy the stack frame
-     pop ebp 
-     mov esp, ebp 
-     ret
+_mulIntegers:
+    
+    // Setup the stack frame
+    push {fp}
+    mov fp, sp 
 
-_getRemainder:
+    // Get the parameters and multiply them 
+    ldr r0, [fp, #8]
+    ldr r1, [fp, #12]
+    mul r0, r1 
 
-  ; Setup the stack frame
-  push ebp
-  mov ebp, esp
+    // Store the result 
+    ldr r1, =result 
+    str r1, [r0]
 
-  ; Get the parameters
-  mov eax, [ebp + 8]
-  mov edx, [ebp + 12]
-
- ; Check for a divison by zero error 
- .divisionByZeroError:
- test edx, edx
- jnz .getRemainder
- mov eax, divisionByZero
- jz .end 
-
-.end:
-; Destroy the stack frame
-pop ebp
-mov esp,ebp
-ret 
- 
-.getRemainder:
-div edx
-sub eax, edx
-mov eax, edx 
-xor edx, edx
-jmp .end 
+    // Destroy the stack frame and return the result 
+    pop {fp}
+    mov sp, fp 
+    bx lr
 
 _getFactorial:
+     
+    // Setup the stack frame 
+    push {fp}
+    mov fp, sp 
 
-  ; Setup the stack frame
-  push ebp
-  mov ebp, esp
+    // Get the parameters 
+    ldr r0, [fp, #8]
+    ldr r1, [fp, #12]
+    
+    // Check if the second parameter is not 0
+    .handle:
+        cmp r1, #0
+        bne .getFactorial 
 
-  ; Get the parameters
-  mov eax, [ebp + 8]
-  mov edx, [ebp + 12]
-
-  .handle:
-  ; Multiply until edx is zero
-  test edx, edx
-  jnz .multiply
-  jz .end
-
-  .multiply:
-  imul edx
-  sub edx, 1
-  jmp .handle
+    .getFactorial:
+        mul r0, r1 
+        sub r1, #1
+        b .handle 
