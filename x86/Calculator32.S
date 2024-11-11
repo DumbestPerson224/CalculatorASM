@@ -7,6 +7,7 @@ section .text
   global _toWhole
   global _getRemainder
   global _getFactorial
+  global _getSummation
 
 section .data
     divisionByZero: db "Division By Zero Error!", 0
@@ -184,3 +185,24 @@ _getFactorial:
   imul edx
   sub edx, 1
   jmp .handle
+
+_getSummation:
+
+  ; Setup the stack frame
+  push ebp
+  mov ebp, esp
+
+  ; Get the parameter
+  mov eax, [ebp + 8]
+
+  .handle:
+  
+  ; Add until edx is met
+  cmp eax, edx
+  jne .increment
+
+  .increment:
+      mov edx, eax
+      inc edx
+      add eax, edx
+      jmp .handle
