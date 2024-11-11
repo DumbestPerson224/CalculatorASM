@@ -127,6 +127,7 @@ _getFactorial:
     ldr r1, [fp, #12]
 
     // Check if r1 is zero 
+    .isZero:
     cmp r0, #0
     bne .multiply 
     mov r0, =divisionByZero
@@ -143,4 +144,4 @@ _getFactorial:
     // Store the result 
     ldr r0, [result]
     str r0, [r1]
-    b .multiply
+    b .isZero
