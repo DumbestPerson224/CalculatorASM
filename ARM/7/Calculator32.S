@@ -138,7 +138,8 @@ _getFactorial:
 
     .multiply:
         mul r1, r0
-  
+  	sub r0, 1
+
     // Store the result 
     ldr r0, [result]
     str r0, [r1]
