@@ -143,5 +143,5 @@ _getFactorial:
 
     // Store the result 
     ldr r0, =result
-    str r0, [r1]
+    str r1, [r0]
     b .isZero
