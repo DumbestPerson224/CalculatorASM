@@ -67,7 +67,12 @@ _divideIntegers:
      ; Get the parameters and handle the division
      mov rax, [rbp + 8]
      mov rdx, [rbp + 12]
-     test rdx. rdxidiv rdx ; a = a / d
+     test rdx, rdx
+     jnz .divide
+     mov rax, divisionByZero
+
+     .divide:
+     idiv rdx ; a = a / d
      
      ; Destroy the stack frame
      pop rbp 
