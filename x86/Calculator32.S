@@ -200,6 +200,9 @@ _getSummation:
   ; Add until edx is met
   cmp eax, edx
   jne .increment
+  pop ebp
+  mov esp, ebp
+  ret
 
   .increment:
       mov edx, eax
