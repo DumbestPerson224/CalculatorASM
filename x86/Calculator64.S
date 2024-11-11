@@ -138,7 +138,8 @@ _getFactorial:
    
      ; Destroy the stack frame
      pop rbp 
-     mov rsp, rbp 
+     mov rsp, rbp
+     ret
 
      ; Handle the factorial
      .handleFactorial:
