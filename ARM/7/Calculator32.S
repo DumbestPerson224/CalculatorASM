@@ -130,7 +130,7 @@ _getFactorial:
     .isZero:
     cmp r0, #0
     bne .multiply 
-    ldr [=divisionByZero], r0
+    ldr r0, =divisionByZero
     
     // Destroy the stack frame and return the result
     pop {fp} 
