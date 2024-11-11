@@ -94,7 +94,7 @@ _toDecimal:
      ; Check for a division by zero error
      test rdx, rdx 
      jnz .divide 
-     mov eax, divisionByZero
+     mov rax, divisionByZero
    
      .divide:
      idiv rdx ; a = a / 100
