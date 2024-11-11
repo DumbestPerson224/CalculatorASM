@@ -67,6 +67,8 @@ _divideIntegers:
      ; Get the parameters and handle the division
      mov rax, [rbp + 8]
      mov rdx, [rbp + 12]
+
+     ; Check if rdx is not zero
      test rdx, rdx
      jnz .divide
      mov rax, divisionByZero
