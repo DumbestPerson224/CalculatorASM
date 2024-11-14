@@ -115,8 +115,8 @@ _divide:
 
      .isBlindlyReturned:
           cmp dx, 1
-          je .getParameters 
-          jne .return 
+          jne .getParameters 
+          je .return 
      .return:
           pop ebp 
           mov esp, ebp
