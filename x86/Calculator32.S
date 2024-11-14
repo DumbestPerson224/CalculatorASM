@@ -9,27 +9,18 @@ _setupStackFrame:
      mov ebp, esp 
      mov ax, 1
 
-     ; Check if ecx is valid
-     sub esp, 1
+     ; Check if esp is valid 
      cmp ecx, esp 
-     je .goto 
-     jne esp 
-
-     .goto:
-          jmp ecx
-
+     j
 _destroyStackFrame:
      pop ebp 
      mov esp, ebp 
      mov ax, 0 
 
-     ; Check if ecx is valid
-     sub esp, 1 
-     cmp ecx, esp 
-     je .goto 
-     jne esp
-     .goto:
-     jmp ecx
+     ; Validate esp 
+     cmp esp, ecx 
+     je esp 
+     jne ecx 
 
 _add:
      mov ecx, esp 
