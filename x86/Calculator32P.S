@@ -6,14 +6,14 @@ SECTION .text
 _add:
      movsd xmm0, [rbp + 8]
      movsd xmm1, [rbp + 12]
-     add xmm0, xmm1
+     addsd xmm0, xmm1
      mov rax, xmm0
      ret 
 
 _sub:    
      movsd xmm0, [rbp + 8]
      movsd xmm1, [rbp + 12]
-     addsd xmm0, xmm1 
+     subsd xmm0, xmm1 
      movsd rax, xmm0 
      ret 
 
