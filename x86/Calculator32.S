@@ -152,7 +152,7 @@ _toDecimal:
      mov ecx, 100
      mul ecx 
 
-     ; Destroy the stack frame
-     pop ebp 
-     mov esp, ebp 
-     ret
+     ; Check if we need to destroy the stack frame 
+     test dx, dx 
+     jz _destroyStackFrame 
+     ret 
