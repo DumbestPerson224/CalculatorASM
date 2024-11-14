@@ -45,7 +45,7 @@ _add:
 
      ; Check if we need to destroy the stack frame
      test dx, dx
-     jz _destroyStackFrame 
+     jnz _destroyStackFrame 
      ret ;if not just return
 
 _subtract:
