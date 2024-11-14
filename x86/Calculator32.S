@@ -42,8 +42,15 @@ _add:
      mov eax, [ebp + 8]
      mov edx, [ebp + 12]
 
+     ; Check if either parameter is 0 
+     test eax, edx 
+     jz .additionError
+     
      ; Add them together
      add eax, edx 
+
+     .additionError:
+          mov eax, -1
 
      ; Check if we need to destroy the stack frame
      test dx, dx
@@ -59,10 +66,14 @@ _subtract:
 
      ; Get the parameters 
      mov eax, [ebp + 8]
-     mov edx, [ebp + 12]
+     mov ecx, [ebp + 12]
 
-     ; Subtract them together
-     sub eax, edx 
+     ; Check if either eax or ecx is zero
+     test eax, ecx 
+     jz .subtractionError
+     sub eax, ecx
+     .subtractionError:
+          mov eax, -2
 
      ; Check if we need to destroy the stack frame 
      test dx, dx 
@@ -78,10 +89,17 @@ _multiply:
      
      ; Get the parameters
      mov eax, [ebp + 8]
-     mov edx, [ebp + 12]
+     mov ecx, [ebp + 12]
 
+     ; Check if either parameter is zero 
+     test eax, ecx
+     jz .multiplyError
+     .multiply:
      ; Multiply them
      mul edx 
+
+     .multiplyError:
+          mov eax, -3
 
      ; Check if we need to destroy the stack frame
      test dx, dx 
@@ -104,7 +122,7 @@ _divide:
      jnz .notDivisionByZeroError
      
      .divisionByZeroError:
-     mov eax, -1 
+     mov eax, -4
 
      .destroy: 
           ; Check if we need to destroy the stack frame
