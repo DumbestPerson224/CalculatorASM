@@ -1,67 +1,126 @@
-section .text
-     global _setupStackFrame 
-     global _destroyStackFrame
-     global _add 
-     global _subtract 
+section .text 
+     global _setupStackFrame
+     global _add
+     global _subtract
+     global _multiply 
+     global _divide 
 
 _setupStackFrame:
-     push ebp 
-     mov ebp, esp 
-     mov ax, 1
 
-     ; Check if esp is valid 
-     cmp ecx, esp 
-     j
-_destroyStackFrame:
-     pop ebp 
-     mov esp, ebp 
-     mov ax, 0 
-
-     ; Validate esp 
-     cmp esp, ecx 
-     je esp 
-     jne ecx 
+     ; Check if the stack frame has already been setup
+     cmp ax, 0
+     je .allocate 
+     jmp ecx 
+     .allocate:
+          push ebp 
+          mov ebp, esp 
+          mov ax, 1
+          jmp ecx 
 
 _add:
      mov ecx, esp 
-     cmp ax, 0
+     cmp ax, 0 
      je .setupStackFrame 
-     jg .handle 
-
-     .setupStackFrame
-          call _setupStackFrame
-     
-     .handle:
-     ; Get the parameters and add them  
-     mov eax, [ebp + 8]
-     mov edx, [ebp + 12]
-     add eax, edx 
-
-     ; Check if the stack frame needs to be destroyed 
-     cmp ax, 1 
-     je .destroyStackFrame 
-
-     .destroyStackFrame:
-          call _destroyStackFrame 
-
-_subtract:
-     mov ecx, esp 
-     cmp ax, 1 
-     jne .setupStackFrame 
-     je .handle 
+     jg .getParameters
 
      .setupStackFrame:
           call _setupStackFrame 
 
-     .handle:
-     ; Get the parameters and add them 
+     .getParameters:
      mov eax, [ebp + 8]
-     mov edx, [ebp + 12] 
-     sub eax, edx 
+     mov edx, [ebp + 12]
+     add eax, edx 
+     mov dx, 1 
+     
+     ; Check if the function just blindly returned 
+     .isReturnedBlindly:
+          cmp dx, 1
+          je .return 
+          jne _return 
+     
+     .return:
+          pop ebp 
+          mov esp, ebp 
+          ret 
 
-     ; Check if the stack frame needs to be destroyed 
-     cmp ax, 1 
-     je .destroyStackFrame 
+_subtract:
+     mov ecx, esp 
+     cmp ax, 0
+     je .setupStackFrame 
+     jg .getParameters
 
-     .destoryStackFrame:
-          call _destroyStackFrame
+     .setupStackFrame:
+          call _setupStackFrame 
+
+     .getParameters:
+          mov eax, [ebp + 8]
+          mov ecx, [ebp + 12]
+          sub eax, ecx
+          mov dx, 1
+     
+     .isReturnedBlindly:
+          cmp dx, 1
+          jne .getParameters
+          je .return 
+
+     .return:
+          pop ebp 
+          mov esp, ebp
+          ret 
+
+_multiply:
+     mov ecx, esp 
+
+     ; Check if the stack frame is setup 
+     cmp ax, 0
+     je .setupStackFrame 
+     jne .getParameters 
+
+     .setupStackFrame:
+          call _setupStackFrame 
+
+     .getParameters:
+          mov eax, [ebp + 8]
+          mov ecx, [ebp + 12]
+          mul ecx 
+          mov dx, 1
+     
+     ; Check if the function was blindly returned 
+     .isReturnedBlindly:
+          cmp dx, 1 
+          je .return 
+          jne .getParameters 
+     .return:
+          pop ebp 
+          mov esp, ebp 
+          ret
+
+_divide:
+     mov ecx, esp 
+     cmp ax, 0
+     je .setupStackFrame 
+     jne .getParameters 
+     
+     .setupStackFrame:
+          call _setupStackFrame 
+
+     .getParameters:
+          mov dx, 1 
+          mov eax, [ebp + 8]
+          mov ecx, [ebp + 12]
+          cmp ecx, 0 
+          jne .divide 
+          mov eax, -1
+          
+
+     .isBlindlyReturned:
+          cmp dx, 1
+          je .getParameters 
+          jne .return 
+     .return:
+          pop ebp 
+          mov esp, ebp
+          ret 
+          
+     .divide:
+        div edx 
