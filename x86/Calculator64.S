@@ -1,148 +1,94 @@
 section .text 
-  global _addIntegers
-  global _subIntegers
-  global _multiplyIntegers
-  global _divideIntegers
-  global _toDecimal
-  global _toWhole
-  global _getFactorial 
+ global _setupStackFrame
+ global _destroyStackFrame
+ global _add
+ global _subtract 
+ global _multiply
+ global _divide 
 
-section .data 
-     divisionByZero: db "Division By Zero!"
-
-_addIntegers:
-     
-     ; Set up the stack frame
+_setupStackFrame:
      push rbp 
-     mov rbp, rsp
+     mov rbp, rsp 
+     mov dx, 1
 
-     ; Get the parameters and handle the addition
-     mov rax, [rbp + 8]
-     mov rdx, [rbp + 12]
-     add rax, rdx   
-     
-     ; destroy the stack frame
-     pop rbp 
-     mov rsp, rbp
-     ret 
-
-_subIntegers:
-
-     ; Set up the stack frame
-     push rbp 
-     mov rbp, rsp
-
-     ; Get the parameters and handle the subtraction
-     mov rax, [rbp + 8]
-     mov rdx, [rbp + 12]
-     sub rax, rdx  ; a -= b 
-     
-     ; Destroy the stack frame
+_destroyStackFrame:
      pop rbp 
      mov rsp, rbp 
-     ret
-
-_multiplyIntegers:
-
-     ; Set up the stack frame
-     push rbp
-     mov rbp, rsp 
-
-     ; Get the parameters and handle the multiplication
-     mov rax, [rbp + 8]
-     mov rdx, [rbp + 12]
-     imul rdx ; a *= b 
-
-     ; Destroy the stack frame
-     pop rbp 
-     mov rsp, rbp 
-     ret
-
-_divideIntegers:
-
-     ; Setup the stack frame
-     push rbp 
-     mov rbp, rsp 
-
-     ; Get the parameters and handle the division
-     mov rax, [rbp + 8]
-     mov rdx, [rbp + 12]
-
-     ; Check if rdx is not zero
-     test rdx, rdx
-     jnz .divide
-     mov rax, divisionByZero
-
-     .divide:
-     idiv rdx ; a = a / d
-     
-     ; Destroy the stack frame
-     pop rbp 
-     mov rsp, rbp 
+     mov dx, 0
      ret 
 
-_toDecimal:
+_add:
 
-     ; setup the stack frame
-     push rbp
-     mov rbp, rsp 
-
-     ; Get the parameters
-     mov rax, [rbp + 8]
-     mov rdx, 100
-     
-     ; Check for a division by zero error
-     test rdx, rdx 
-     jnz .divide 
-     mov rax, divisionByZero
-   
-     .divide:
-     idiv rdx ; a = a / 100
-     
-     ; Destroy the stack frame 
-     pop rbp 
-     mov rsp, rbp
-     ret 
-
-_toWhole:
-
-     ; setup the stack frame
-     push rbp 
-     mov rbp, rsp 
-     
-     ; Get the parameters
-     mov rax, [rbp + 8]
-     mov rdx, 100
-     imul rdx 
-     
-     ; Destroy the stack frame
-     pop rbp 
-     mov rsp, rbp 
-     ret 
-
-_getFactorial:
-
-     ; setup the stack frame
-     push rbp 
-     mov rbp, rsp 
-
-     ; Get the parameters
-     mov rax, [rbp + 8]
-     mov rdx, [rbp + 12]
-     
+     ; Check if the stack frame is setup
+     test dx, 1 
+     jne _setupStackFrame
      .handle:
-     ; Check for a division by zero error
-     test rdx, rdx 
-     jnz .handleFactorial
-     mov rax, divisionByZero 
-   
-     ; Destroy the stack frame
-     pop rbp 
-     mov rsp, rbp
-     ret
 
-     ; Handle the factorial
-     .handleFactorial:
+          ; Get the parameters and add them
+          mov rax, [rbp + 8]
+          mov rdx, [rbp + 12]
+          add rax, rdx 
+
+          ; Check if we need to destroy the stack frame
+          test dx, dx 
+          jnz _destroyStackFrame 
+          ret
+
+_subtract:
+
+     ; Check if the stack frame is setup 
+     test dx, 1
+     jne _setupStackFrame 
+     .handle:
+
+          ; Get the parameers and subtract them
+          mov rax, [rbp + 8]
+          mov rdx, [rbp + 12]
+          sub rax, edx 
+
+          ; Check if we need to destroy the stack frame
+          test dx, dx 
+          jnz _destroyStackFrame 
+          ret 
+
+_multiply:
+
+     ; Check if the stack frame is setup
+     test dx, 1
+     jne _setupStackFrame 
+     .handle:
+
+          ; Get the parameters and multiply them
+          mov rax, [rbp + 8]
+          mov rdx, [rbp + 12]
           mul rdx 
-          sub rdx, 1
-          jmp .handle 
+
+
+          ; Check if we need to destroy the stack frame
+          test dx, dx 
+          jnz _destroyStackFrame 
+          ret
+
+_divide:
+
+     ; Check if the stack frame is setup
+     test dx, 1 
+     jne _setupStackFrame 
+     .handle:
+
+          ; Get the parameters and divide them m
+          mov rax, [rbp + 8]
+          mov rdx, [rbp + 12]
+
+          ; Check for a division by zero error
+          test rdx, rdx 
+          je .divisionByZeroError
+          div rdx 
+
+          .divisionByZeroError:
+               mov rax, 1 
+               
+          ; Check if we need to destroy the stack framee
+          test dx, dx 
+          jnz _destroyStackFrame 
+          ret 
