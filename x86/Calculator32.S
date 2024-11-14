@@ -118,7 +118,7 @@ _divide:
      mov edx, [ebp + 12]
 
      ; Check for a division by zero error
-     test edx, eax
+     test edx, edx
      jnz .notDivisionByZeroError
      
      .divisionByZeroError:
