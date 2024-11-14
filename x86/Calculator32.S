@@ -33,8 +33,11 @@ _destroyStackFrame:
 
 _add:
      mov ecx, esp 
-     cmp ax, 1
-     jne _setupStackFrame
+     cmp ax, 0
+     je .setupStackFrame 
+     
+     .setupStackFrame
+          call _setupStackFrame
      
      ; Get the parameters and add them  
      mov eax, [ebp + 8]
@@ -43,13 +46,19 @@ _add:
 
      ; Check if the stack frame needs to be destroyed 
      cmp ax, 1 
-     je _destroyStackFrame 
+     je .destroyStackFrame 
+
+     .destroyStackFrame:
+          call _destroyStackFrame 
 
 _subtract:
      mov ecx, esp 
      cmp ax, 1 
-     jne _setupStackFrame 
+     jne .setupStackFrame 
 
+     .setupStackFrame:
+          call _setupStackFrame 
+          
      ; Get the parameters and add them 
      mov eax, [ebp + 8]
      mov edx, [ebp + 12] 
@@ -57,4 +66,7 @@ _subtract:
 
      ; Check if the stack frame needs to be destroyed 
      cmp ax, 1 
-     je _destroyStackFrame 
+     je .destroyStackFrame 
+
+     .destoryStackFrame:
+          call _destroyStackFrame
