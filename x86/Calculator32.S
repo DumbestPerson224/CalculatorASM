@@ -10,8 +10,10 @@ _setupStackFrame:
      mov ax, 1
 
      ; Check if ecx is valid
-     cmp ecx, 0
-     jnle .goto 
+     sub esp, 1
+     cmp ecx, esp 
+     je .goto 
+     jne esp 
 
      .goto:
           jmp ecx
@@ -22,8 +24,10 @@ _destroyStackFrame:
      mov ax, 0 
 
      ; Check if ecx is valid
-     cmp ecx, 0
-     jnle .goto 
+     sub esp, 1 
+     cmp ecx, esp 
+     je .goto 
+     jne esp
      .goto:
      jmp ecx
 
