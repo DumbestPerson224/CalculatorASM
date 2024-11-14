@@ -5,6 +5,8 @@ section .text
    global _subtract 
    global _multiply 
    global _divide
+   global _toWhole
+   global _toDecimal 
 
 _setupStackFrame:
      mov dx, 1
@@ -113,3 +115,44 @@ _divide:
      .notDivisionByZeroError:
      div edx 
      jmp .destroy
+
+_toWhole:
+
+   ; Check if the stack frame is setup 
+   test dx, dx 
+   jnz _setupStackFrame 
+
+   ; Get the parameter and divide it by 100
+   movsd xmm0, [ebp + 8]
+   movsd xmm1, 100
+
+   ; Check for a division by zero error 
+   cmpsd xmm0, 0
+   jne .notDivisionByZeroError 
+   .divisionByZeroError:
+   mov eax, -1 
+   
+   .end:
+     ; Check if we need to destroy the stack frame
+     test dx, dx 
+     jz _destroyStackFrame 
+     ret
+   .notDivisionByZeroError:
+   divsd xmm0, xmm1
+   jmp .end 
+
+_toDecimal:
+
+     ; Check if the stack frame needs to be setup 
+     test dx, dx
+     jnz _setupStackFrame 
+
+     ; Get the parameter and multiply it by 100
+     mov eax, [ebp + 8]
+     mov ecx, 100
+     mul ecx 
+
+     ; Destroy the stack frame
+     pop ebp 
+     mov esp, ebp 
+     ret
