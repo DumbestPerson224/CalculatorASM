@@ -1,43 +1,43 @@
 section .text 
-  global _add 
-  global _subtract
-  global _multiply 
-  global _divide 
+     global _add 
+     global _subtract 
+     global _multiply 
+     global _divide 
 
 _add:
-
-     ; setup the stack frame
-     push ebp 
+     ; Setup the stack frame
+     push ebp
      mov ebp, esp 
-
-     ; Get the parameters
-     mov eax, [ebp + 8]
-     mov ecx, [ebp + 12]
      
-     ; add them together
-     add eax, ecx 
 
-     ; Destroy the stack frame 
+     ; Get the parameters and add them together
+     movps xmm0, [ebp + 8]
+     movps xmm1, [ebp + 12]
+     addps  xmm0, xmm1 
+
+     ; Destroy the stack frame and return 
      pop ebp 
      mov esp, ebp 
+     mov eax, xmm0 
      ret 
 
 _subtract:
 
-     ; setup the stack frame
+     ; Setup the stack frame
      push ebp 
-     mov ebp, esp 
+     mov ebp, esp
 
-     ; Get the parameters
-     mov eax, [ebp + 8]
-     mov ecx, [ebp + 12]
+     ; Get the parameters 
+     movps xmm0, [ebp + 8]
+     movps xmm1, [ebp + 12]
+     
+     ; Subtract them
+     subps  xmm0, xmm1 
 
-     ; subtract them
-     sub eax, ecx 
-
-     ; Destroy th stack frame
+     ; Destroy the stack frame and return
      pop ebp 
      mov esp, ebp 
+     mov eax, xmm0 
      ret 
 
 _multiply:
@@ -47,31 +47,15 @@ _multiply:
      mov ebp, esp 
 
      ; Get the parameters
-     mov eax, [ebp + 8]
-     mov ecx, [ebp + 12]
+     movps  xmm0, [ebp + 8]
+     movps  xmm1, [ebp + 1]
 
-     ; subtact them 
-     sub eax, ecx 
+     ; Multiply them
+     mulps  xmm0, xmm1 
+     mov eax, xmm0 
 
-     ; Destroy the stack frame
+     ; Destroy the stack frame and return
      pop ebp 
      mov esp, ebp 
-     ret 
-
-_divide:
-     
-     ; Setup the stack frame
-     push ebp 
-     mov ebp, esp 
-
-     ; Get the parameters
-     mov eax, [ebp + 8]
-     mov edx, [ebp + 12]
-
-     ; Divide 
-     div edx 
-
-     ; Destroy the stack frame 
-     pop ebp 
-     mov esp, ebp 
+     movps eax, xmm0 
      ret
