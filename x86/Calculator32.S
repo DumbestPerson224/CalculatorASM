@@ -35,10 +35,12 @@ _add:
      mov ecx, esp 
      cmp ax, 0
      je .setupStackFrame 
-     
+     jg .handle 
+
      .setupStackFrame
           call _setupStackFrame
      
+     .handle:
      ; Get the parameters and add them  
      mov eax, [ebp + 8]
      mov edx, [ebp + 12]
@@ -55,10 +57,12 @@ _subtract:
      mov ecx, esp 
      cmp ax, 1 
      jne .setupStackFrame 
+     je .handle 
 
      .setupStackFrame:
           call _setupStackFrame 
-          
+
+     .handle:
      ; Get the parameters and add them 
      mov eax, [ebp + 8]
      mov edx, [ebp + 12] 
