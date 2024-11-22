@@ -82,7 +82,7 @@ _divide:
 
           ; Check for a division by zero error
           test rdx, rdx 
-          je .divisionByZeroError
+          jz .divisionByZeroError
           div rdx 
 
           .divisionByZeroError:
