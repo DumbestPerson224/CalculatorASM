@@ -9,19 +9,20 @@ section .text
 _setupStackFrame:
      push rbp 
      mov rbp, rsp 
-     mov dx, 1
+     mov edx, 1
 
 _destroyStackFrame:
      pop rbp 
-     mov rsp, rbp 
-     mov dx, 0
+     mov rsp, rbp
      ret 
+     mov edx, 0
 
 _add:
 
      ; Check if the stack frame is setup
-     test dx, 1 
-     jne _setupStackFrame
+     cmp edx, 0 
+     je _setupStackFrame
+
      .handle:
 
           ; Get the parameters and add them
@@ -30,32 +31,33 @@ _add:
           add rax, rdx 
 
           ; Check if we need to destroy the stack frame
-          test dx, dx 
-          jnz _destroyStackFrame 
+          cmp edx, 1
+          je _destroyStackFrame 
           ret
 
 _subtract:
 
      ; Check if the stack frame is setup 
-     test dx, 1
-     jne _setupStackFrame 
+     cmp edx, 0
+     je _setupStackFrame 
+
      .handle:
 
           ; Get the parameers and subtract them
           mov rax, [rbp + 8]
           mov rdx, [rbp + 12]
-          sub rax, edx 
+          sub rax, rdx 
 
           ; Check if we need to destroy the stack frame
-          test dx, dx 
-          jnz _destroyStackFrame 
+          cmp edx, 1
+          je _destroyStackFrame 
           ret 
 
 _multiply:
 
      ; Check if the stack frame is setup
-     test dx, 1
-     jne _setupStackFrame 
+     cmp edx, 0
+     je _setupStackFrame 
      .handle:
 
           ; Get the parameters and multiply them
@@ -65,18 +67,18 @@ _multiply:
 
 
           ; Check if we need to destroy the stack frame
-          test dx, dx 
-          jnz _destroyStackFrame 
+          cmp edx, 1
+          je _destroyStackFrame 
           ret
 
 _divide:
 
      ; Check if the stack frame is setup
-     test dx, 1 
-     jne _setupStackFrame 
-     .handle:
+     cmp edx, 0
+     je _setupStackFrame 
 
-          ; Get the parameters and divide them m
+     .handle:
+          ; Get the parameters and divide them 
           mov rax, [rbp + 8]
           mov rdx, [rbp + 12]
 
@@ -84,11 +86,13 @@ _divide:
           test rdx, rdx 
           jz .divisionByZeroError
           div rdx 
+          .needToDestroyStackFrame:
+                       ; Check if we need to destroy the stack framee
+                       cmp edx, 1
+                       je _destroyStackFrame 
+                       ret 
 
           .divisionByZeroError:
                mov rax, 1 
-               
-          ; Check if we need to destroy the stack framee
-          test dx, dx 
-          jnz _destroyStackFrame 
-          ret 
+               jmp .needToDestroyStackFrame
+          
