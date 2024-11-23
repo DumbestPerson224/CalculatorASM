@@ -66,13 +66,44 @@ _divide:
 
 	; Check for a division by zero error
 	cmp eax, 0
-	je .divisionByZero 
-	idiv edx 
+	jg .notDivisionByZeroError
+	mov eax, -1
+
+	; Destroy the stack frame
 	.done:
 		pop ebp 
 		mov esp, ebp 
 		ret 
 
-	.divisionByZero:
-		mov eax, - 1
+	.notDivisionByZeroError:
+		div edx 
 		jmp .done 
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;		C example			;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;:;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; int add(int num1, num2){									;
+;	return num1 + num2;										;
+; }														;
+;														;
+; int subtract(int num1, int num2){							;
+;	return num1 - num2;										;
+; }														;
+;														;
+; int multiply(int num1, int num2){							;
+; 	return num1 * num2;										;
+; }														;
+;  														;
+; int divide (int num1, int num2){								;
+;	if(num1 > 0){											;
+;	   return num1 / num2;									;
+;	}else{												;
+;	   num1 = -0;											;
+;	   return num1;										;
+;	}													;
+; }														;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
