@@ -92,7 +92,7 @@ _divide:
 ; }                                                        ;
 ;                                                          ;
 ; uint64_t multiply(uint64_t num1, uint64_t num2){         ;
-;                                                          ;
+;      return  num1 * num2;                                ;
 ; }                                                        ;
 ;                                                          ;
 ; uint64_t divide(uint64_t num1, uint64_t num2){           ;
