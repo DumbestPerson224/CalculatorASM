@@ -1,7 +1,7 @@
 section .text 
      global _add 
      global _subtract
-     global _multiplyAdds two parameter
+     global _multiply
      global _divide 
 
 _add:
