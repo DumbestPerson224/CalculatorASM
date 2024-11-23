@@ -7,9 +7,9 @@ section .text
 _add:
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ; Description This function adds two parameters ;
-     ; Parameter   int (rax)    	    			   ;
-     ; Parameter   int (rcx)    	    			   ;
-     ; Returns     rax + rcx               		   ;
+     ; Parameter   int (rax)    	    	     ;
+     ; Parameter   int (rcx)    	             ;
+     ; Returns     rax + rcx                         ;
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
      ; Setup the stack frame
@@ -29,9 +29,9 @@ _add:
 _subtract:
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ; Description This function subtracts two parameters  ;
-     ; Parameter   int (rax)        	    			    ;
-     ; Parameter   int (rcx)        	    			    ;
-     ; Returns     rax - rcx      	    				    ;
+     ; Parameter   int (rax)        	    		   ;
+     ; Parameter   int (rcx)        	    	           ;
+     ; Returns     rax - rcx                               ;
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 
@@ -52,8 +52,8 @@ _subtract:
 _multiply:
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ; Description  This function multiplies two parameters ;
-     ; Parameter    int (rdx)             	   		     ;
-     ; Returns      rax * rdx                   			;
+     ; Parameter    int (rdx)             	            ;
+     ; Returns      rax * rdx                   	    ;
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
      ; Setup the stack frame
