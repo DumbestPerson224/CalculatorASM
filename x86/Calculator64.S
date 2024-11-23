@@ -5,13 +5,7 @@ section .text
      global _divide 
 
 _add:
-     ;;;;;;;;;;;;;;;;;;;;;;;
-     ; Add two parameters  ;
-     ; @param int (rax)    ;
-     ; @param int (rcx)    ;
-     ; @return rax + rcx   ;
-     ;;;;;;;;;;;;;;;;;;;;;;;
-
+     
      ; Setup the stack frame
      push rbp 
      mov rbp, rsp 
@@ -27,12 +21,6 @@ _add:
      ret 
 
 _subtract:
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ; Subtract two parameters ;
-     ; @param int (rax)        ;
-     ; @pram  int (rcx)        ;
-     ; @returns rax - rcx      ;
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
      ; Setup the stack frame
      push rbp 
@@ -49,18 +37,12 @@ _subtract:
      ret 
 
 _multiply:
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ; multiply two parameters      ;
-     ; @param int (rax)             ;
-     ; @param int (rdx)             ;
-     ; @returns rax * rdx           ;
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
      ; Setup the stack frame
      push rbp
      mov rbp, rsp 
 
-     ; Get the parameters and multiply them
+     ; Get the paramaters and multiply them
      mov rax, [rbp + 4]
      mov rdx, [rbp + 8]
      mul rdx 
@@ -71,18 +53,12 @@ _multiply:
      ret
 
 _divide:
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ; divide two parameters                                          ;
-     ; @param int (rax)                                               ;
-     ; @param int (rdx)                                               ;
-     ; @returns rax / rdx if rax is not zero, otherwise it returns -1 ;
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    
+
      ; Setup the stack frame
      push rbp 
      mov rbp, rsp 
 
-     ; Get the parameters 
+     ; Get the paramaters 
      mov rax, [rbp + 4]
      mov rdx, [rbp + 8]
 
@@ -116,14 +92,14 @@ _divide:
 ; }                                                        ;
 ;                                                          ;
 ; uint64_t multiply(uint64_t num1, uint64_t num2){         ;
-;      return  num1 * num2;                                ;
+;                                                          ;
 ; }                                                        ;
 ;                                                          ;
 ; uint64_t divide(uint64_t num1, uint64_t num2){           ;
 ;      if(num1 > 0){                                       ;
 ;           return num1 / num2;                            ;
 ;      }else{                                              ;
-;          num1 = -1;                                      ;
+;          num1 = -0;                                      ;
 ;          return num1;                                    ;
 ;      }                                                   ;
 ;}                                                         ;                             
