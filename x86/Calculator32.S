@@ -1,126 +1,78 @@
 section .text 
-     global _setupStackFrame
-     global _add
-     global _subtract
-     global _multiply 
-     global _divide 
-
-_setupStackFrame:
-
-     ; Check if the stack frame has already been setup
-     cmp ax, 0
-     je .allocate 
-     jmp ecx 
-     .allocate:
-          push ebp 
-          mov ebp, esp 
-          mov ax, 1
-          jmp ecx 
+   global _add 
+   global _subtract
+   global _multiply
+   global _divide
 
 _add:
-     mov ecx, esp 
-     cmp ax, 0 
-     je .setupStackFrame 
-     jg .getParameters
 
-     .setupStackFrame:
-          call _setupStackFrame 
+	; Setup the stack frame
+	push ebp 
+	mov ebp, esp 
 
-     .getParameters:
-     mov eax, [ebp + 8]
-     mov edx, [ebp + 12]
-     add eax, edx 
-     mov dx, 1 
-     
-     ; Check if the function just blindly returned 
-     .isReturnedBlindly:
-          cmp dx, 1
-          je .return 
-          jne _return 
-     
-     .return:
-          pop ebp 
-          mov esp, ebp 
-          ret 
+	; Get the parameters 
+	mov eax, [ebp + 4]
+	mov edx, [ebp + 8]
+
+	; Add them
+	add eax, edx 
+
+	; Destroy the stack frame
+	pop ebp 
+	mov esp, ebp 
+	ret 
 
 _subtract:
-     mov ecx, esp 
-     cmp ax, 0
-     je .setupStackFrame 
-     jg .getParameters
+	
+	; Setup the stack frame
+	push ebp 
+	mov ebp, esp 
 
-     .setupStackFrame:
-          call _setupStackFrame 
+	; Get the parameters and subtract them
+	mov eax, [ebp + 4]
+	mov edx, [ebp + 8]
+	sub eax, edx 
 
-     .getParameters:
-          mov eax, [ebp + 8]
-          mov ecx, [ebp + 12]
-          sub eax, ecx
-          mov dx, 1
-     
-     .isReturnedBlindly:
-          cmp dx, 1
-          jne .getParameters
-          je .return 
-
-     .return:
-          pop ebp 
-          mov esp, ebp
-          ret 
+	; Destroy the stack frame
+	pop ebp 
+	mov esp, ebp 
+	ret
 
 _multiply:
-     mov ecx, esp 
 
-     ; Check if the stack frame is setup 
-     cmp ax, 0
-     je .setupStackFrame 
-     jne .getParameters 
+	; Setup the stack frame
+	push ebp 
+	mov ebp, esp 
 
-     .setupStackFrame:
-          call _setupStackFrame 
+	; Get the parameters and multiply them
+	mov eax, [ebp + 4]
+	mov edx, [ebp + 8]
+	imul edx 
 
-     .getParameters:
-          mov eax, [ebp + 8]
-          mov ecx, [ebp + 12]
-          mul ecx 
-          mov dx, 1
-     
-     ; Check if the function was blindly returned 
-     .isReturnedBlindly:
-          cmp dx, 1 
-          je .return 
-          jne .getParameters 
-     .return:
-          pop ebp 
-          mov esp, ebp 
-          ret
+	; Destroy the stack frame
+	pop ebp 
+	mov esp, ebp 
+	ret 
 
 _divide:
-     mov ecx, esp 
-     cmp ax, 0
-     je .setupStackFrame 
-     jne .getParameters 
-     
-     .setupStackFrame:
-          call _setupStackFrame 
+	
+	; Setup the stack frame
+	push ebp 
+	mov ebp, esp 
 
-     .getParameters:
-          mov dx, 1 
-          mov eax, [ebp + 8]
-          mov ecx, [ebp + 12]
-          cmp ecx, 0 
-          jne .divide 
-          mov eax, -1
-          
+	; Get the parameters 
+	mov eax, [ebp + 4]
+	mov edx, [ebp + 8]
 
-     .isBlindlyReturned:
-          cmp dx, 1
-          jne .getParameters 
-          je .return 
-     .return:
-          pop ebp 
-          mov esp, ebp
-          ret 
-          
-     .divide:
-        div edx 
+	; Check for a division by zero error
+	cmp eax, 0
+	je .divisionByZero 
+	idiv edx 
+	.done:
+		pop ebp 
+		mov esp, ebp 
+		ret 
+
+	.divisionByZero:
+		mov eax, - 1
+		jmp .done 
