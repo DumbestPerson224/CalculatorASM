@@ -53,6 +53,7 @@ _multiply:
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      ; Description  This function multiplies two parameters ;
      ; Parameter    int (rdx)             	            ;
+     ; Parameter    int (rax)                               ;
      ; Returns      rax * rdx                   	    ;
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
