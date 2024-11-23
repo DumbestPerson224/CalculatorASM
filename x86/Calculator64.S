@@ -1,98 +1,79 @@
 section .text 
- global _setupStackFrame
- global _destroyStackFrame
- global _add
- global _subtract 
- global _multiply
- global _divide 
-
-_setupStackFrame:
-     push rbp 
-     mov rbp, rsp 
-     mov edx, 1
-
-_destroyStackFrame:
-     pop rbp 
-     mov rsp, rbp
-     ret 
-     mov edx, 0
+     global _add 
+     global _subtract
+     global _multiply
+     global _divide 
 
 _add:
+     
+     ; Setup the stack frame
+     push rbp 
+     mov rbp, rsp 
 
-     ; Check if the stack frame is setup
-     cmp edx, 0 
-     je _setupStackFrame
-
-     .handle:
-
-          ; Get the parameters and add them
-          mov rax, [rbp + 8]
-          mov rdx, [rbp + 12]
-          add rax, rdx 
-
-          ; Check if we need to destroy the stack frame
-          cmp edx, 1
-          je _destroyStackFrame 
-          ret
+     ; Get the parameters and add them
+     mov rax, [rbp + 8]
+     mov rcx, [rbp + 12]
+     add rax, rcx 
+     
+     ; Destroy the stack frame
+     pop rbp 
+     mov rsp, rbp 
+     ret 
 
 _subtract:
 
-     ; Check if the stack frame is setup 
-     cmp edx, 0
-     je _setupStackFrame 
+     ; Setup the stack frame
+     push rbp 
+     mov rbp, rsp 
 
-     .handle:
+     ; Get the parameters and subtract them
+     mov rax, [rbp + 4]
+     mov rcx, [rbp + 8]
+     sub rax, rcx 
 
-          ; Get the parameers and subtract them
-          mov rax, [rbp + 8]
-          mov rdx, [rbp + 12]
-          sub rax, rdx 
-
-          ; Check if we need to destroy the stack frame
-          cmp edx, 1
-          je _destroyStackFrame 
-          ret 
+     ; Destroy the stack frame
+     pop rbp 
+     mov rsp, rbp 
+     ret 
 
 _multiply:
 
-     ; Check if the stack frame is setup
-     cmp edx, 0
-     je _setupStackFrame 
-     .handle:
+     ; Setup the stack frame
+     push rbp
+     mov rbp, rsp 
 
-          ; Get the parameters and multiply them
-          mov rax, [rbp + 8]
-          mov rdx, [rbp + 12]
-          mul rdx 
+     ; Get the paramaters and multiply them
+     mov rax, [rbp + 4]
+     mov rdx, [rbp + 8]
+     mul rdx 
 
-
-          ; Check if we need to destroy the stack frame
-          cmp edx, 1
-          je _destroyStackFrame 
-          ret
+     ; Destroy the stack frame
+     pop rbp 
+     mov rsp, rbp 
+     ret
 
 _divide:
 
-     ; Check if the stack frame is setup
-     cmp edx, 0
-     je _setupStackFrame 
+     ; Setup the stack frame
+     push rbp 
+     mov rbp, rsp 
 
-     .handle:
-          ; Get the parameters and divide them 
-          mov rax, [rbp + 8]
-          mov rdx, [rbp + 12]
+     ; Get the paramaters 
+     mov rax, [rbp + 4]
+     mov rdx, [rbp + 8]
 
-          ; Check for a division by zero error
-          test rdx, rdx 
-          jz .divisionByZeroError
-          div rdx 
-          .needToDestroyStackFrame:
-                       ; Check if we need to destroy the stack framee
-                       cmp edx, 1
-                       je _destroyStackFrame 
-                       ret 
+     ; Check for a division by zero error
+     cmp rax, 0 
+     jg .notDivisionByZeroError
+     mov rax, -1
 
-          .divisionByZeroError:
-               mov rax, 1 
-               jmp .needToDestroyStackFrame
+     .done:
           
+          ; Destroy the stack frame
+          pop rbp 
+          mov rsp, rbp 
+          ret 
+
+     .notDivisionByZeroError:
+          idiv rdx 
+          jmp .done
