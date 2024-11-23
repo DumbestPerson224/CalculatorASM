@@ -1,11 +1,17 @@
 section .text 
      global _add 
      global _subtract
-     global _multiply
+     global _multiplyAdds two parameter
      global _divide 
 
 _add:
-     
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ; Description This function adds two parameters ;
+     ; Parameter   int (rax)    	    			   ;
+     ; Parameter   int (rcx)    	    			   ;
+     ; Returns     rax + rcx               		   ;
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
      ; Setup the stack frame
      push rbp 
      mov rbp, rsp 
@@ -21,6 +27,13 @@ _add:
      ret 
 
 _subtract:
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ; Description This function subtracts two parameters  ;
+     ; Parameter   int (rax)        	    			    ;
+     ; Parameter   int (rcx)        	    			    ;
+     ; Returns     rax - rcx      	    				    ;
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	
 
      ; Setup the stack frame
      push rbp 
@@ -37,12 +50,17 @@ _subtract:
      ret 
 
 _multiply:
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ; Description  This function multiplies two parameters ;
+     ; Parameter    int (rdx)             	   		     ;
+     ; Returns      rax * rdx                   			;
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
      ; Setup the stack frame
      push rbp
      mov rbp, rsp 
 
-     ; Get the paramaters and multiply them
+     ; Get the parameters and multiply them
      mov rax, [rbp + 4]
      mov rdx, [rbp + 8]
      mul rdx 
@@ -53,12 +71,18 @@ _multiply:
      ret
 
 _divide:
-
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ; Description This function divides two parameters                  ;
+     ; Parameter   int (rax)                                             ;
+     ; Parameter   int (rdx)                                             ;
+     ; Returns     rax / rdx if rax is not zero, otherwise it returns -1 ;
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    
      ; Setup the stack frame
      push rbp 
      mov rbp, rsp 
 
-     ; Get the paramaters 
+     ; Get the parameters 
      mov rax, [rbp + 4]
      mov rdx, [rbp + 8]
 
@@ -92,15 +116,15 @@ _divide:
 ; }                                                        ;
 ;                                                          ;
 ; uint64_t multiply(uint64_t num1, uint64_t num2){         ;
-;                                                          ;
+;      return  num1 * num2;                                ;
 ; }                                                        ;
 ;                                                          ;
 ; uint64_t divide(uint64_t num1, uint64_t num2){           ;
 ;      if(num1 > 0){                                       ;
 ;           return num1 / num2;                            ;
 ;      }else{                                              ;
-;          num1 = -0;                                      ;
+;          num1 = -1;                                      ;
 ;          return num1;                                    ;
 ;      }                                                   ;
 ;}                                                         ;                             
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
