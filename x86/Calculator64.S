@@ -77,3 +77,30 @@ _divide:
      .notDivisionByZeroError:
           idiv rdx 
           jmp .done
+
+;;;;;;;;;;;;;;;;;;;;;
+;    C example      ;
+;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; uint64_t add(uint64_t num1, uint64_t num2){              ;
+;   return num1 + num2;                                    ;
+; }                                                        ;
+;                                                          ;
+; uint64_t subtract(uint64_t num1, uint64_t num2){         ;
+;        return num1 - num2;                               ;
+; }                                                        ;
+;                                                          ;
+; uint64_t multiply(uint64_t num1, uint64_t num2){         ;
+;                                                          ;
+; }                                                        ;
+;                                                          ;
+; uint64_t divide(uint64_t num1, uint64_t num2){           ;
+;      if(num1 > 0){                                       ;
+;           return num1 / num2;                            ;
+;      }else{                                              ;
+;          num1 = -0;                                      ;
+;          return num1;                                    ;
+;      }                                                   ;
+;}                                                         ;                             
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
