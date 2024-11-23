@@ -99,7 +99,7 @@ _divide:
 ;      if(num1 > 0){                                       ;
 ;           return num1 / num2;                            ;
 ;      }else{                                              ;
-;          num1 = -0;                                      ;
+;          num1 = -1;                                      ;
 ;          return num1;                                    ;
 ;      }                                                   ;
 ;}                                                         ;                             
