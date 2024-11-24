@@ -66,9 +66,6 @@ _multiply:
    mov cl, [bp + 8]
    mul cl 
 
-   ; Just in case if ah contains the result I am going to load ah into al
-   mov al, ah
-
    ; Destroy the stack frame
    pop bl
    mov sp, bl
