@@ -14,8 +14,8 @@ _add:
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
    ; Setup the stack frame
-   push bl
-   mov bl, sp
+   push bp
+   mov bp, sp
 
    ; Get the parameters and add them
    mov al, [bp + 4]
@@ -23,7 +23,7 @@ _add:
    add al, cl
 
    ; Destroy the stack frame
-   pop bl
+   pop bp
    mov sp, bp
    ret
 
@@ -46,8 +46,8 @@ _subtract:
   sub al, cl
 
   ; Destroy the stack frame
-  pop bl
-  mov sp, bl
+  pop bp
+  mov sp, bp
   ret
 
 _multiply:
@@ -69,7 +69,7 @@ _multiply:
    mul cl 
 
    ; Destroy the stack frame
-   pop bl
+   pop bp
    mov sp, bp
    ret
 
@@ -83,7 +83,7 @@ _divide:
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
    ; Setup the stack frame
-   push bl
+   push bp
    mov sp, bp
 
   ; Get the parameters
