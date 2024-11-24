@@ -17,8 +17,8 @@ _add:
   mov bp, sp
 
   ; Get the parameters and add them
-  mov ax, [bp + 4]
-  mov dx, [bp + 8]
+  mov ax, [bp + 8]
+  mov dx, [bp + 12]
   add ax, dx
 
   ; Destroy the stack frame
@@ -39,8 +39,8 @@ _subtract:
    mov bp, sp
 
    ; Get the parameters and subtract them
-   mov ax, [bp + 4] 
-   mov dx, [bp + 8]
+   mov ax, [bp + 8] 
+   mov dx, [bp + 12]
    sub ax, dx
 
    ; Destroy the stack frame
@@ -62,8 +62,8 @@ _multiply:
   mov bp, sp
 
   ; Get the parameters and multiply them
-  mov ax, [bp + 4]
-  mov dx, [bp + 8]
+  mov ax, [bp + 8]
+  mov dx, [bp + 12]
   imul dx 
 
   ; Destroy the stack frame
@@ -81,8 +81,8 @@ _divide:
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   ; Get the parameters 
-  mov ax, [bp + 4]
-  mov dx, [bp + 8]
+  mov ax, [bp + 8]
+  mov dx, [bp + 12]
 
   ; Check for a division by zero error
   cmp ax, 0
