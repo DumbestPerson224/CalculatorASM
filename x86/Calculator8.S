@@ -18,13 +18,13 @@ _add:
    mov bl, sp
 
    ; Get the parameters and add them
-   mov al, [bl + 4]
-   mov cl, [bl + 8] 
+   mov al, [bp + 4]
+   mov cl, [bp + 8] 
    add al, cl
 
    ; Destroy the stack frame
    pop bl
-   mov sp, bl 
+   mov sp, bp
    ret
 
 _subtract:
@@ -37,12 +37,12 @@ _subtract:
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   ; Setup the stack frame
-  push bl
-  mov bl, sp
+  push bp
+  mov bp, sp
 
   ; Get the parameters and subtract them
-  mov al, [bl + 4]
-  mov cl, [bl + 8]
+  mov al, [bp + 4]
+  mov cl, [bp + 8]
   sub al, cl
 
   ; Destroy the stack frame
@@ -64,13 +64,13 @@ _multiply:
    mov bp, sp
 
    ; Get the parameters and multiply them
-   mov al, [bl + 4]
-   mov cl, [bl + 8]
+   mov al, [bp + 4]
+   mov cl, [bp + 8]
    mul cl 
 
    ; Destroy the stack frame
    pop bl
-   mov sp, bl
+   mov sp, bp
    ret
 
 _divide:
@@ -84,11 +84,11 @@ _divide:
 
    ; Setup the stack frame
    push bl
-   mov sp, bl
+   mov sp, bp
 
   ; Get the parameters
-  mov al, [bl + 4]
-  mov cl, [bl + 8]
+  mov al, [bp + 4]
+  mov cl, [bp + 8]
 
  ; Check for a division by zero error
  cmp al, 0
@@ -97,8 +97,8 @@ _divide:
   
  .end:
    ; Destroy the stack frame
-   pop bl
-   mov sp, bl
+   pop bp
+   mov sp, bp
    ret
 
  .divide:
