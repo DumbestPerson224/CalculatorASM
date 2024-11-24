@@ -102,20 +102,20 @@ _divide:
 ;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; uint8_t add(uint8_t num1, uint8_t num2){       ;
+; uint16_t add(uint16_t num1, uint16_t num2){    ;
 ;     return num1 + num2;                        ;
 ;}                                               ;
 ;                                                ;
-; uint8_t subtract(uint8_t num1, uint8_t num2){  ;
+; uint8_t subtract(uint16_t num1, uint16_t num2){;
 ;    return num1 - num2;                         ;
 ;}                                               ;
 ;                                                ;
 ;                                                ;
-; uint8_t multiply(uint8_t num1, uint8_t num2){  ;
+; uint8_t multiply(uint16_t num1, uint16_t num2){;
 ;    return num1 * num2;                         ;
 ;}                                               ;
 ;                                                ;
-; uint8_t divide(uint8_t num1, uint8_t num2){    ;
+; uint8_t divide(uint16_t num1, uint16_t num2){  ;
 ;    if(num1 > 0){                               ;
 ;        return num1 / num2;                     ;
 ;    }else{                                      ;
