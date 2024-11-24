@@ -87,6 +87,7 @@ _divide:
   ; Check for a division by zero error
   cmp ax, 0
   jnz .notDivisionByZeroError
+  mov ax, -1
   .end:
      pop bp
      mov sp, bp
@@ -95,3 +96,30 @@ _divide:
  .notDivisionByZeroError:
     idiv dx 
     jmp .end
+
+;;;;;;;;;;;;;;
+; C example  ;
+;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; uint8_t add(uint8_t num1, uint8_t num2){       ;
+;     return num1 + num2;                        ;
+;}                                               ;
+;                                                ;
+; uint8_t subtract(uint8_t num1, uint8_t num2){  ;
+;    return num1 - num2;                         ;
+;}                                               ;
+;                                                ;
+;                                                ;
+; uint8_t multiply(uint8_t num1, uint8_t num2){  ;
+;    return num1 * num2;                         ;
+;}                                               ;
+;                                                ;
+; uint8_t divide(uint8_t num1, uint8_t num2){    ;
+;    if(num1 > 0){                               ;
+;        return num1 / num2;                     ;
+;    }else{                                      ;
+;       return -1;                               ;
+;    }                                           ;
+;}                                               ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
