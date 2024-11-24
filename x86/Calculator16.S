@@ -1,119 +1,97 @@
-section .text 
-  global _addIntegers
-  global _subIntegers 
-  global _mulIntegrs 
-  global _divIntegers 
-  global _getFactorial 
+section .text
+  global _add
+  global _subtract
+  global _multiply
+  global _divide
 
-section .data 
-     divisionByZero: db "Division By Zero" 
-     
-_addIntegers:
+_add:
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ; This function adds two parameters  ;
+  ; Parameter AX (int)                 ;
+  ; Parameter CX (int)                 ;
+  ; Returns AX + CX                    ;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-     ; Set up the stack frame 
-     push bp 
-     mov bp, sp 
+  ; Setup the stack frame
+  push bp
+  mov bp, sp
 
-     ; Get the parameters and add them together
-     mov ax, [bp + 8]
-     mov dx, [bp + 12]
-     add ax, dx 
-     mov dx, 0
-     
-     ; Destroy the stack frame
-     pop bp 
-     mov sp, bp 
-     ret 
+  ; Get the parameters and add them
+  mov ax, [bp + 4]
+  mov dx, [bp + 8]
+  add ax, dx
 
-_subIntegers:
-          
+  ; Destroy the stack frame
+  pop bp
+  mov sp, bp
+  ret 
 
+_subtract:
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   ; This function subtracts two parameters ;
+   ; Parameter AX (int)                     ;
+   ; Parameter DX (int)                     ;
+   ; Returns AX - DX                        ;  
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-     ; Get the parameters and subtract them
-     mov ax, [bp + 8]
-     mov dx, [bp + 12]
-     sub ax, dx 
+   ; Setup the stack frame
+   push bp
+   mov bp, sp
 
-     ; Destroy the stack frame     
+   ; Get the parameters and subtract them
+   mov ax, [bp + 4] 
+   mov dx, [bp + 8]
+   sub ax, dx
 
-     pop bp 
-     mov sp, bp 
-     ret 
+   ; Destroy the stack frame
+   pop bp
+   mov sp, bp
+   ret
 
-_mulIntegers:
+_multiply:
 
-     ;Set up the stack frame
-     push bp 
-     mov bp, sp 
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ; This function multiplies two parameters  ;
+  ; Parameter AX (int)                       ; 
+  ; Parameter DX (int)                       ;
+  ; Returns AX * DX                          ;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+  ; Setup the stack frame
+  push bp
+  mov bp, sp
 
-     ; Get the parameters and subtract them 
-     mov ax, [bp + 8]
-     mov dx, [bp + 12]
-     imul dx 
+  ; Get the parameters and multiply them
+  mov ax, [bp + 4]
+  mov dx, [bp + 8]
+  imul dx 
 
-     ; Destroy the stack frame
-     pop bp 
-     mov sp, bp 
-     ret 
+  ; Destroy the stack frame
+  pop bp
+  mov sp, bp
+  ret
 
-_divIntegers:
-     
-     ; set up the stack frame
-     push bp 
-     mov bp, sp
+_divide:
 
-     ; Get the parameters and subtract them 
-     mov ax, [bp + 8]
-     mov dx, [bp + 12]
-     
-     ; Check for a division by zero error
-     test dx, dx 
-     jnz .notDivisionByZeroError
-     mov ax, divisionByZero 
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ; This function multiplies two parameters  ;
+  ; Parameter AX (int)                       ;
+  ; Parameter DX (int)                       ;
+  ; Returns AX / DX if AX > 0 else returns 0 ;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-     .notDivisionByZeroError:
-     idiv dx  
+  ; Get the parameters 
+  mov ax, [bp + 4]
+  mov dx, [bp + 8]
 
-     ; Destroy the stack frame
-     pop bp 
-     mov sp, bp 
-     ret 
+  ; Check for a division by zero error
+  cmp ax, 0
+  jnz .notDivisionByZeroError
+  .end:
+     pop bp
+     mov sp, bp
+     ret
 
-_getFactorial:
-     
-     ; Setup the stack frame
-     push bp 
-     mov bp, sp 
-
-     ; Get the parameters
-     mov ax, [bp + 8]
-     mov dx, [bp + 12]
-
-     .handle:
-
-     ; Check for a division by zero error 
-     test dx, dx 
-     jnz .notDivisionByZeroError 
-     mov ax, divisionByZeroError 
-     pop bp 
-     mov sp, bp 
-     ret 
-
-     .notDivisionByZeroError:
-
-     ; Check if the value of dx is 1 
-     cmp dx, 1 
-     jne .multiply 
-
-     ; Destroy the stack frame and return eax
-     pop bp 
-     mov sp, bp 
-     ret 
-
-     .multiply:
-
-     ; Get the factorial
-     mul dx 
-     sub dx, 1
-     jmp .handle 
+ .notDivisionByZeroError:
+    idiv dx 
+    jmp .end
