@@ -17,8 +17,8 @@ _add:
 	mov ebp, esp 
 
 	; Get the parameters 
-	mov eax, [ebp + 4]
-	mov edx, [ebp + 8]
+	mov eax, [ebp + 8]
+	mov edx, [ebp + 12]
 
 	; Add them
 	add eax, edx 
@@ -40,8 +40,8 @@ _subtract:
 	mov ebp, esp 
 
 	; Get the parameters and subtract them
-	mov eax, [ebp + 4]
-	mov edx, [ebp + 8]
+	mov eax, [ebp + 8]
+	mov edx, [ebp + 12]
 	sub eax, edx 
 
 	; Destroy the stack frame
@@ -61,8 +61,8 @@ _multiply:
 	mov ebp, esp 
 
 	; Get the parameters and multiply them
-	mov eax, [ebp + 4]
-	mov edx, [ebp + 8]
+	mov eax, [ebp + 8]
+	mov edx, [ebp + 12]
 	imul edx 
 
 	; Destroy the stack frame
@@ -83,8 +83,8 @@ _divide:
 	mov ebp, esp 
 
 	; Get the parameters 
-	mov eax, [ebp + 4]
-	mov edx, [ebp + 8]
+	mov eax, [ebp + 8]
+	mov edx, [ebp + 12]
 
 	; Check for a division by zero error
 	cmp eax, 0
