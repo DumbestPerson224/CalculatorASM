@@ -1,8 +1,8 @@
 section .text
    global _add
    global _subtract
-
-_add: 
+   global _multiply
+_add:
 
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    ; This function adds two integers              ;
@@ -47,3 +47,45 @@ _subtract:
   pop bl
   mov sp, bl
   ret
+
+_multiply:
+
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   ; This function multiplies two integers ;
+   ; Parameter (uint8_t) AL                ;
+   ; Parameter (uint8_t) CL                ; 
+   ; Returns AL * CL                       ;
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+   ; Setup the stack frame
+   push bp
+   mov bp, sp
+
+   ; Get the parameters and multiply them
+   mov al, [bp + 4]
+   mov cl, [bp + 8]
+   mul cl 
+
+   ; Destroy the stack frame
+   pop bl
+   mov sp, bl
+   ret
+
+;;;;;;;;;;;;;;;
+;  C example  ;
+;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; uint8_t add(uint8_t num1, uint8_t num2){      ;
+;   return num1 + num2;                         ;
+;}                                              ;
+;                                               ;
+; uint8_t subtract(uint8_t num1, uint8_t num2){ ;
+;   return num1 - num2;                         ;
+;}                                              ;
+;                                               ;
+; uint8_t multiply(uint8_t num1, uint8_t num2){ ;
+;   return num1 * num2;                         ;
+;}                                              ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
