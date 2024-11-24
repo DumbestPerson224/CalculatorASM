@@ -17,8 +17,8 @@ _add:
      mov rbp, rsp 
 
      ; Get the parameters and add them
-     mov rax, [rbp + 8]
-     mov rcx, [rbp + 12]
+     mov rax, [rbp + 4]
+     mov rcx, [rbp + 8]
      add rax, rcx 
      
      ; Destroy the stack frame
