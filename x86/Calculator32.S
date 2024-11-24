@@ -108,19 +108,19 @@ _divide:
 ;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; int add(int num1, num2){                                            ;
+; uint32_t add(uint32_t num1, uint32_t num2){                         ;
 ;	return num1 + num2;                                           ;
 ;}                                                                    ;
 ;                                                                     ;
-; int subtract(int num1, int num2){                                   ;
+; int subtract(uint32_t num1, uint32_t num2){                         ;
 ;	return num1 - num2;                                           ;
 ; }                                                                   ;
 ;                                                                     ;
-; int multiply(int num1, int num2){                                   ;
+; int multiply(uint32_t num1, int32_t num2){                          ;
 ; 	return num1 * num2;                                           ;
 ; }                                                                   ;
 ;                                                                     ;
-; int divide (int num1, int num2){                                    ;
+; int divide (uint32_t num1, uint32_t num2){                          ;
 ;	if(num1 > 0){                                                 ; 
 ;	   return num1 / num2;                                        ;
 ;	}else{                                                        ;
