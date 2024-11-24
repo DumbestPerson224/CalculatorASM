@@ -17,8 +17,8 @@ _add:
      mov rbp, rsp 
 
      ; Get the parameters and add them
-     mov rax, [rbp + 4]
-     mov rcx, [rbp + 8]
+     mov rax, [rbp + 8]
+     mov rcx, [rbp + 12]
      add rax, rcx 
      
      ; Destroy the stack frame
@@ -40,8 +40,8 @@ _subtract:
      mov rbp, rsp 
 
      ; Get the parameters and subtract them
-     mov rax, [rbp + 4]
-     mov rcx, [rbp + 8]
+     mov rax, [rbp + 8]
+     mov rcx, [rbp + 12]
      sub rax, rcx 
 
      ; Destroy the stack frame
@@ -62,8 +62,8 @@ _multiply:
      mov rbp, rsp 
 
      ; Get the parameters and multiply them
-     mov rax, [rbp + 4]
-     mov rdx, [rbp + 8]
+     mov rax, [rbp + 8]
+     mov rdx, [rbp + 12]
      mul rdx 
 
      ; Destroy the stack frame
@@ -84,8 +84,8 @@ _divide:
      mov rbp, rsp 
 
      ; Get the parameters 
-     mov rax, [rbp + 4]
-     mov rdx, [rbp + 8]
+     mov rax, [rbp + 8]
+     mov rdx, [rbp + 12]
 
      ; Check for a division by zero error
      cmp rax, 0 
