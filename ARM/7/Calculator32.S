@@ -1,66 +1,71 @@
-.text
-.global _add
-.global _subtract
-.global _multiply
-.global _divide
+.section .text
+.global add
+.global subtract
+.global multiply
+.global divide
 
-_add:
-    ; Setup the stack frame
-    push {r4, lr}
-    
-    ; Get the parameters
-    ldr r4, [sp, #4]   ; Load the first parameter from the stack
-    ldr r0, [sp, #8]   ; Load the second parameter from the stack
-    
-    ; Add them
-    adds r4, r4, r0
-    
-    ; Restore the stack frame
-    pop {r4, pc}
+add:
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ; Description This function adds two parameters ;
+    ; Parameter   int (r0)                          ;
+    ; Parameter   int (r1)                          ;
+    ; Returns     r0 + r1                           ;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-_subtract:
-    ; Setup the stack frame
-    push {r4, lr}
+    ; Get the parameters and add them
+    add r0, r0, r1
+
+    ; Return
+    bx lr
+
+subtract:
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ; Description This function subtracts two parameters  ;
+    ; Parameter   int (r0)                                ;
+    ; Parameter   int (r1)                                ;
+    ; Returns     r0 - r1                                 ;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     
     ; Get the parameters and subtract them
-    ldr r4, [sp, #4]
-    ldr r0, [sp, #8]
-    subs r4, r4, r0
-    
-    ; Restore the stack frame
-    pop {r4, pc}
+    sub r0, r0, r1
 
-_multiply:
-    ; Setup the stack frame
-    push {r4, lr}
+    ; Return
+    bx lr
+
+multiply:
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ; Description  This function multiplies two parameters ;
+    ; Parameter    int (r0)                                ;
+    ; Parameter    int (r1)                                ;
+    ; Returns      r0 * r1                                 ;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     
     ; Get the parameters and multiply them
-    ldr r4, [sp, #4]
-    ldr r0, [sp, #8]
-    smull r0, r1, r4, r0  ; r0:1 = r4 * r0
-    
-    ; Restore the stack frame
-    pop {r4, pc}
+    mul r0, r0, r1
 
-_divide:
-    ; Setup the stack frame
-    push {r4, lr}
+    ; Return
+    bx lr
 
-    ; Get the parameters
-    ldr r4, [sp, #4]
-    ldr r0, [sp, #8]
+divide:
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ; Description This function divides two parameters                  ;
+    ; Parameter   int (r0)                                              ;
+    ; Parameter   int (r1)                                              ;
+    ; Returns     r0 / r1 if r1 is not zero, otherwise it returns -1    ;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     
-    ; Check for division by zero error
-    cmp r0, #0
-    movgt r0, #-1  ; If greater than, set result to -1
-    
-    ; Divide
-    blt notDivisionByZeroError
-    sdiv r4, r4, r0
-    
-    ; Restore the stack frame
-    pop {r4, pc}
+    ; Check for a division by zero error
+    cmp r1, #0
+    beq divisionByZeroError
 
-notDivisionByZeroError:
-    ; Jump back to the done label
-    b done
+    ; Get the parameters and divide them
+    mov r2, r0  ; Store numerator in r2
+    mov r0, r0, lsr #31  ; Extend sign bit into r1
+    sdiv r0, r2, r1
+
+    ; Return
+    bx lr
+
+divisionByZeroError:
+    mov r0, #-1
+    bx lr
