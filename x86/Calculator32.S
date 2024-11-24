@@ -5,6 +5,12 @@ section .text
    global _divide
 
 _add:
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        ;  This function adds the two parameters ;
+        ;  Parameter eax (int)                   ;
+	;  Paramater edx (int)                   ; 
+        ;  Returns eax + edx                     ;
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 	; Setup the stack frame
 	push ebp 
@@ -23,7 +29,12 @@ _add:
 	ret 
 
 _subtract:
-	
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        ;   This function subtracts two parameters ;
+        ;   Parameter eax (int)                    ;
+        ;   Parameter edx (int)                    ;
+        ;   Returns   eax - edx                    ;
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	; Setup the stack frame
 	push ebp 
 	mov ebp, esp 
@@ -39,7 +50,12 @@ _subtract:
 	ret
 
 _multiply:
-
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        ;  This function multiplies two parameters ;
+        ;  Parameter eax (int)                     ;
+        ;  Parameter edx (int)                     ;
+        ;  Returns   eax * edx                     ;
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	; Setup the stack frame
 	push ebp 
 	mov ebp, esp 
@@ -55,8 +71,14 @@ _multiply:
 	ret 
 
 _divide:
-	
-	; Setup the stack frame
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        ; This function divides two parameters      ;
+        ; Parameter eax (int)                       ;
+        ; Parameter edx (int)                       ;
+        ; Returns eax / edx if eax > 0 otherwise -1 ;
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+        ; Setup the stack frame
 	push ebp 
 	mov ebp, esp 
 
@@ -82,28 +104,28 @@ _divide:
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;		C example			;
+;		C example     ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;:;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; int add(int num1, num2){									;
-;	return num1 + num2;										;
-; }														;
-;														;
-; int subtract(int num1, int num2){							;
-;	return num1 - num2;										;
-; }														;
-;														;
-; int multiply(int num1, int num2){							;
-; 	return num1 * num2;										;
-; }														;
-;  														;
-; int divide (int num1, int num2){								;
-;	if(num1 > 0){											;
-;	   return num1 / num2;									;
-;	}else{												;
-;	   num1 = -0;											;
-;	   return num1;										;
-;	}													;
-; }														;
+; int add(int num1, num2){                                            ;
+;	return num1 + num2;                                           ;
+;}                                                                    ;
+;                                                                     ;
+; int subtract(int num1, int num2){                                   ;
+;	return num1 - num2;                                           ;
+; }                                                                   ;
+;                                                                     ;
+; int multiply(int num1, int num2){                                   ;
+; 	return num1 * num2;                                           ;
+; }                                                                   ;
+;                                                                     ;
+; int divide (int num1, int num2){                                    ;
+;	if(num1 > 0){                                                 ; 
+;	   return num1 / num2;                                        ;
+;	}else{                                                        ;
+;	   num1 = -0;                                                 ;
+;	   return num1;                                               ;
+;	}                                                             ;
+; }                                                                   ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
