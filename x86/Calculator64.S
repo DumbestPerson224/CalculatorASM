@@ -6,8 +6,8 @@ global _divide
 global _toNegative
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Description This function gets two parameters and adds them  ;
-; Returns RAX (uint64_t + RDX (uint64_t)                                  ;
+; Description This function gets two parameters and adds them                                ;
+; Returns RAX (uint64_t + RDX (uint64_t)                                                     ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _add:
 
@@ -16,9 +16,10 @@ push rbp
 mov rbp, rsp
 
 ; Get the parameters and add them together
-mov rax, [rbp + 16]
+mov rsi, [rbp + 16]
 mov rdx, [rbp + 24]
-add rax, rdx 
+add rsi, rdx 
+mov rax, rsi
 
 ; Destroy the stack frame 
 pop rbp  
@@ -26,8 +27,8 @@ mov rsp, rbp
 ret 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Description This function gets two parameters and subtracts them  ;
-; Returns RAX (uint64_t) - RDX (uint64_t)                                        ;
+; Description This function gets two parameters and subtracts them                                 ;
+; Returns RAX (uint64_t) - RDX (uint64_t)                                                          ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 _subtract:
@@ -37,9 +38,10 @@ push rbp
 mov rbp, rsp
 
 ; Get the parameters and subtract them
-mov rax, [rbp + 16]
+mov rsi, [rbp + 16]
 mov rdx, [rbp + 24]
-sub rax, rdx 
+sub rsi, rdx 
+mov rax, rsi
 
 ; Destroy the stack frame 
 pop rbp 
@@ -53,8 +55,9 @@ push rbp
 mov rbp, rsp
 
 ; Get the parameters and multiply them 
-mov rax, [rbp + 16]
+mov rsi, [rbp + 16]
 mov rdx, [rbp + 24]
+mov rax, rsi
 mul rdx 
 
 ; Destroy the stack frame 
@@ -62,9 +65,9 @@ pop rbp
 mov rsp, rbp 
 ret 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Description This function gets two parameters and divides them  ;
-; Returns RAX (uint64_t)  / RDX (uint64_t)                                   ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Description This function gets two parameters and divides them                               ;
+; Returns RAX (uint64_t)  / RDX (uint64_t)                                                     ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _divide:
 
@@ -73,9 +76,10 @@ push rbp
 mov rbp, rsp 
 
 ; Get the parameters 
-mov rax, [rbp + 16]
+mov rsi, [rbp + 16]
 mov rdx, [rbp + 24]
-test rax, rax 
+mov rax, rsi
+test rsi, rsi 
 jnz .divide
 mov rax, -1
 
@@ -89,8 +93,8 @@ div rdx
 jmp .done 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Description This function gets a parameter and makes it negative ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Description This function gets a parameter and makes it negative                               ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _toNegative:
 
 ; Setup the stack frame 
@@ -98,8 +102,9 @@ push rbp
 mov rbp, rsp
 
 ; Get the parameter and convert it into a negative number
-mov rax, [rbp + 16]
-neg rax 
+mov rsi, [rbp + 16]
+neg rsi
+mov rax, rsi
 
 ; Destroy the stack frame 
 pop rbp 
