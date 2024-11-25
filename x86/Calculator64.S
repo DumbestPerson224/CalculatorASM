@@ -123,9 +123,6 @@ _addDecimal:
    ; Add it
    addsd xmm0, xmm1
 
-   ; Move the value to the accumulator
-   mov rax, xmm0
-
    ; Destroy the stack frame
    pop rbp
    mov rsp, rbp
