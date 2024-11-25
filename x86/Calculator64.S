@@ -15,6 +15,9 @@ _add:
 push rbp
 mov rbp, rsp
 
+; Save the return address
+push rax
+
 ; Get the parameters and add them together
 mov rsi, [rbp + 16]
 mov rdx, [rbp + 24]
@@ -22,6 +25,7 @@ add rsi, rdx
 mov rax, rsi
 
 ; Destroy the stack frame 
+pop rax
 pop rbp  
 mov rsp, rbp 
 ret 
@@ -37,6 +41,9 @@ _subtract:
 push rbp
 mov rbp, rsp
 
+; Save the return address
+push rax 
+
 ; Get the parameters and subtract them
 mov rsi, [rbp + 16]
 mov rdx, [rbp + 24]
@@ -45,7 +52,8 @@ mov rax, rsi
 
 ; Destroy the stack frame 
 pop rbp 
-mov rsp, rbp 
+pop rax
+mov rsp, rbp
 ret 
 
 _multiply:
@@ -54,13 +62,17 @@ _multiply:
 push rbp 
 mov rbp, rsp
 
+; Save the return address
+push rax
+
 ; Get the parameters and multiply them 
 mov rsi, [rbp + 16]
 mov rdx, [rbp + 24]
 mov rax, rsi
 mul rdx 
 
-; Destroy the stack frame 
+; Destroy the stack frame
+pop rax
 pop rbp 
 mov rsp, rbp 
 ret 
@@ -75,6 +87,9 @@ _divide:
 push rbp
 mov rbp, rsp 
 
+; Save the return address
+push rax
+
 ; Get the parameters 
 mov rsi, [rbp + 16]
 mov rdx, [rbp + 24]
@@ -84,6 +99,7 @@ jnz .divide
 mov rax, -1
 
 .done:
+pop rax
 pop rbp 
 mov rsp, rbp 
 ret 
@@ -101,12 +117,16 @@ _toNegative:
 push rbp 
 mov rbp, rsp
 
+; Save the return address
+push rax
+
 ; Get the parameter and convert it into a negative number
 mov rsi, [rbp + 16]
 neg rsi
 mov rax, rsi
 
 ; Destroy the stack frame 
+pop rax
 pop rbp 
 mov rsp, rbp 
 ret 
