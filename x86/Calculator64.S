@@ -50,7 +50,7 @@ _multiply:
 
 ; Setup the stack frame 
 push rbp 
-mov rsp, rbp 
+mov rbp, rsp
 
 ; Get the parameters and multiply them 
 mov rax, [rbp + 16]
