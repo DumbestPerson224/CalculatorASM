@@ -25,8 +25,8 @@ add rsi, rdx
 mov rax, rsi
 
 ; Destroy the stack frame 
-pop rax
-pop rbp  
+pop rax ; rax now contains the return address
+pop rbp ; rbp now contains the original address it was holding
 mov rsp, rbp 
 ret 
 
@@ -51,9 +51,9 @@ sub rsi, rdx
 mov rax, rsi
 
 ; Destroy the stack frame 
-pop rbp 
-pop rax
-mov rsp, rbp
+pop rbp ; rbp now contains the original value of rbp before pushing it
+pop rax ; rax now contains the return address
+mov rsp, rbp 
 ret 
 
 _multiply:
@@ -72,8 +72,8 @@ mov rax, rsi
 mul rdx 
 
 ; Destroy the stack frame
-pop rax
-pop rbp 
+pop rax ; rax now contains the return address
+pop rbp ; rbp now contains the original value of rbp
 mov rsp, rbp 
 ret 
 
@@ -99,7 +99,7 @@ jnz .divide
 mov rax, -1
 
 .done:
-pop rax
+pop rax ; rax now contains the return address
 pop rbp 
 mov rsp, rbp 
 ret 
@@ -126,7 +126,7 @@ neg rsi
 mov rax, rsi
 
 ; Destroy the stack frame 
-pop rax
-pop rbp 
+pop rax ; rax now contains the return address
+pop rbp ; rbp now contains the original value of rbp
 mov rsp, rbp 
 ret 
