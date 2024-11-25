@@ -114,7 +114,7 @@ _addDecimal:
 
    ; Setup the stack frame
    push rbp
-   mov rsp, rbp
+   mov rbp, rsp
 
    ; Get the parameters
    movsd xmm0, [rbp + 12]
