@@ -106,7 +106,12 @@ _divide:
           jmp .done
 
 _addDecimal:
-  
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   ;  Parameter xmm0 (double)                      ;
+   ;  Parameter xmm1 (double)                      ;
+   ;  Returns (RAX) xmm0 + xmm1                    ;
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
    ; Setup the stack frame
    push rbp
    mov rsp, rbp
