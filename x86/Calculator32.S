@@ -75,13 +75,17 @@ _multiply:
 	push ebp 
 	mov ebp, esp 
 
+        ; Save the return address
+        push eax
+
 	; Get the parameters and multiply them
 	mov eax, [ebp + 8]
 	mov edx, [ebp + 12]
 	imul edx 
-
+        
 	; Destroy the stack frame
-	pop ebp 
+        pop eax
+        pop ebp 
 	mov esp, ebp 
 	ret 
 
