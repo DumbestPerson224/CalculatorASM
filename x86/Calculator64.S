@@ -16,8 +16,8 @@ push rbp
 mov rbp, rsp
 
 ; Get the parameters and add them together
-mov rax, [rbp + 12]
-mov rdx, [rbp + 16]
+mov rax, [rbp + 16]
+mov rdx, [rbp + 24]
 add rax, rdx 
 
 ; Destroy the stack frame 
@@ -37,8 +37,8 @@ push rbp
 mov rbp, rsp
 
 ; Get the parameters and subtract them
-mov rax, [rbp + 12]
-mov rdx, [rbp + 16]
+mov rax, [rbp + 16]
+mov rdx, [rbp + 24]
 sub rax, rdx 
 
 ; Destroy the stack frame 
@@ -53,8 +53,8 @@ push rbp
 mov rsp, rbp 
 
 ; Get the parameters and multiply them 
-mov rax, [rbp + 12]
-mov rdx, [rbp + 16]
+mov rax, [rbp + 16]
+mov rdx, [rbp + 24]
 mul rdx 
 
 ; Destroy the stack frame 
@@ -73,8 +73,8 @@ push rbp
 mov rbp, rsp 
 
 ; Get the parameters 
-mov rax, [rbp + 12]
-mov rdx, [rbp + 16]
+mov rax, [rbp + 16]
+mov rdx, [rbp + 24]
 test rax, rax 
 jnz .divide
 mov rax, -1
@@ -98,7 +98,7 @@ push rbp
 mov rbp, rsp
 
 ; Get the parameter and convert it into a negative number
-mov rax, [rbp + 12]
+mov rax, [rbp + 16]
 neg rax 
 
 ; Destroy the stack frame 
