@@ -151,4 +151,8 @@ _addDecimal:
 ;          return num1;                                    ;
 ;      }                                                   ;
 ;}                                                         ;
+;                                                          ;
+; uint64_t add_decimal(uint64_t num1, uint64_t num2){      ;
+;     return num1 + num2;                                  ;
+; }                                                        ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
