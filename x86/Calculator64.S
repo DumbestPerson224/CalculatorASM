@@ -3,6 +3,8 @@ section .text
      global _subtract
      global _multiply
      global _divide 
+     global _increment
+     global _addDecimal
 
 _add:
      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -103,6 +105,27 @@ _divide:
           idiv rdx 
           jmp .done
 
+_addDecimal:
+  
+   ; Setup the stack frame
+   push rbp
+   mov rsp, rbp
+
+   ; Get the parameters
+   movsd xmm0, [rbp + 12]
+   movsd xmm1, [rbp + 16]
+
+   ; Add it
+   addsd xmm0, xmm1
+
+   ; Move the value to the accumulator
+   mov rax, xmm0
+
+   ; Destroy the stack frame
+   pop rbp
+   mov rsp, rbp
+   ret
+   
 ;;;;;;;;;;;;;;;;;;;;;
 ;    C example      ;
 ;;;;;;;;;;;;;;;;;;;;;
