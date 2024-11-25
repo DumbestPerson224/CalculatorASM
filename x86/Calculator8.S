@@ -2,7 +2,7 @@ section .text
    global _add
    global _subtract
    global _multiply
-   globabl _divide
+   global _divide
 
 _add:
 
