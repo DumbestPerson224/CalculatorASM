@@ -1,160 +1,102 @@
-section .text 
-     global _add 
-     global _subtract
-     global _multiply
-     global _divide 
-     global _increment
-     global _addDecimal
+section .text
+global _add
+global _subtract
+global _multiply
+global _divide
+global _toNegative
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Description This function gets two parameters and adds them  ;
+; Returns RAX (uint64_t + RDX (uint64_t)                                  ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _add:
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ; Description This function adds two parameters ;
-     ; Parameter   int (rax)    	    	     ;
-     ; Parameter   int (rcx)    	             ;
-     ; Returns     rax + rcx                         ;
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-     ; Setup the stack frame
-     push rbp 
-     mov rbp, rsp 
+; Setup the stack frame
+push rbp
+mov rbp, rsp
 
-     ; Get the parameters and add them
-     mov rax, [rbp + 16]
-     mov rcx, [rbp + 24]
-     add rax, rcx 
-     
-     ; Destroy the stack frame
-     pop rbp 
-     mov rsp, rbp 
-     ret 
+; Get the parameters and add them together
+mov rax, [rbp + 12]
+mov rdx, [rbp + 16]
+add rax, rdx 
+
+; Destroy the stack frame 
+pop rbp  
+mov rsp, rbp 
+ret 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Description This function gets two parameters and subtracts them  ;
+; Returns RAX (uint64_t) - RDX (uint64_t)                                        ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 _subtract:
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ; Description This function subtracts two parameters  ;
-     ; Parameter   int (rax)        	    		   ;
-     ; Parameter   int (rcx)        	    	           ;
-     ; Returns     rax - rcx                               ;
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	
 
-     ; Setup the stack frame
-     push rbp 
-     mov rbp, rsp 
+; Setup the stack frame 
+push rbp
+mov rbp, rsp
 
-     ; Get the parameters and subtract them
-     mov rax, [rbp + 16]
-     mov rcx, [rbp + 24]
-     sub rax, rcx 
+; Get the parameters and subtract them
+mov rax, [rbp + 12]
+mov rdx, [rbp + 16]
+sub rax, rdx 
 
-     ; Destroy the stack frame
-     pop rbp 
-     mov rsp, rbp 
-     ret 
+; Destroy the stack frame 
+pop rbp 
+mov rsp, rbp 
+ret 
 
 _multiply:
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ; Description  This function multiplies two parameters ;
-     ; Parameter    int (rdx)             	            ;
-     ; Parameter    int (rax)                               ;
-     ; Returns      rax * rdx                   	    ;
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-     ; Setup the stack frame
-     push rbp
-     mov rbp, rsp 
+; Setup the stack frame 
+push rbp 
+mov rsp, rbp 
 
-     ; Get the parameters and multiply them
-     mov rax, [rbp + 16]
-     mov rdx, [rbp + 24]
-     mul rdx 
+; Get the parameters and multiply them 
+mov rax, [rbp + 12]
+mov rdx, [rbp + 16]
+mul rdx 
 
-     ; Destroy the stack frame
-     pop rbp 
-     mov rsp, rbp 
-     ret
+; Destroy the stack frame 
+pop rbp 
+mov rsp, rbp 
+ret 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Description This function gets two parameters and divides them  ;
+; Returns RAX (uint64_t)  / RDX (uint64_t)                                   ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _divide:
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ; Description This function divides two parameters                  ;
-     ; Parameter   int (rax)                                             ;
-     ; Parameter   int (rdx)                                             ;
-     ; Returns     rax / rdx if rax is not zero, otherwise it returns -1 ;
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    
-     ; Setup the stack frame
-     push rbp 
-     mov rbp, rsp 
 
-     ; Get the parameters 
-     mov rax, [rbp + 16]
-     mov rdx, [rbp + 24]
+; Setup the stack frame
+push rbp
+mov rbp, rsp 
 
-     ; Check for a division by zero error
-     cmp rax, 0 
-     jg .notDivisionByZeroError
-     mov rax, -1
+; Get the parameters 
+mov rax, [rbp + 12]
+mov rdx, [rbp + 16]
+test rax, rax 
+jnz .divide
+mov rax, -1
 
-     .done:
-          
-          ; Destroy the stack frame
-          pop rbp 
-          mov rsp, rbp 
-          ret 
+.done:
+pop rbp 
+mov rsp, rbp 
+ret 
 
-     .notDivisionByZeroError:
-          idiv rdx 
-          jmp .done
+.divide:
+div rdx 
+jmp .done 
 
-_addDecimal:
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   ;  Parameter xmm0 (double)                      ;
-   ;  Parameter xmm1 (double)                      ;
-   ;  Returns (RAX) xmm0 + xmm1                    ;
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Description This function gets a parameter and makes it negative ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+_toNegative:
 
-   ; Setup the stack frame
-   push rbp
-   mov rbp, rsp
+; Setup the stack frame 
+push rbp 
+mov rbp, rsp
 
-   ; Get the parameters
-   movsd xmm0, [rbp + 12]
-   movsd xmm1, [rbp + 16]
-
-   ; Add it
-   addsd xmm0, xmm1
-
-   ; Destroy the stack frame
-   pop rbp
-   mov rsp, rbp
-   ret
-   
-;;;;;;;;;;;;;;;;;;;;;
-;    C example      ;
-;;;;;;;;;;;;;;;;;;;;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; uint64_t add(uint64_t num1, uint64_t num2){              ;
-;   return num1 + num2;                                    ;
-; }                                                        ;
-;                                                          ;
-; uint64_t subtract(uint64_t num1, uint64_t num2){         ;
-;        return num1 - num2;                               ;
-; }                                                        ;
-;                                                          ;
-; uint64_t multiply(uint64_t num1, uint64_t num2){         ;
-;      return  num1 * num2;                                ;
-; }                                                        ;
-;                                                          ;
-; uint64_t divide(uint64_t num1, uint64_t num2){           ;
-;      if(num1 > 0){                                       ;
-;           return num1 / num2;                            ;
-;      }else{                                              ;
-;          num1 = -1;                                      ;
-;          return num1;                                    ;
-;      }                                                   ;
-;}                                                         ;
-;                                                          ;
-; uint64_t add_decimal(uint64_t num1, uint64_t num2){      ;
-;     return num1 + num2;                                  ;
-; }                                                        ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Get the parameter and convert it into a negative number
+mov rax, [rbp + 12]
+neg rax 
