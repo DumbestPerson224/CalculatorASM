@@ -16,14 +16,21 @@ _add:
 	push ebp 
 	mov ebp, esp 
 
+	; Save the return address
+	push eax
+
 	; Get the parameters 
-	mov eax, [ebp + 8]
+	mov esi, [ebp + 8]
 	mov edx, [ebp + 12]
 
 	; Add them
-	add eax, edx 
+	add esi, edx 
+
+	; Put the sum into the accumulator 
+        mov eax, esi
 
 	; Destroy the stack frame
+	pop eax
 	pop ebp 
 	mov esp, ebp 
 	ret 
@@ -35,17 +42,25 @@ _subtract:
         ;   Parameter edx (int)                    ;
         ;   Returns   eax - edx                    ;
         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	; Setup the stack frame
+	
+        ; Setup the stack frame
 	push ebp 
 	mov ebp, esp 
 
+        ; Save the return address
+        push eax
+  
 	; Get the parameters and subtract them
-	mov eax, [ebp + 8]
+	mov esi, [ebp + 8]
 	mov edx, [ebp + 12]
-	sub eax, edx 
+	sub esi, edx 
+
+        ; Move the result into the accumulator
+        mov eax, esi
 
 	; Destroy the stack frame
-	pop ebp 
+	pop eax
+        pop ebp 
 	mov esp, ebp 
 	ret
 
