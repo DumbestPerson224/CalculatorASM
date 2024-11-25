@@ -100,3 +100,8 @@ mov rbp, rsp
 ; Get the parameter and convert it into a negative number
 mov rax, [rbp + 12]
 neg rax 
+
+; Destroy the stack frame 
+pop rbp 
+mov rsp, rbp 
+ret 
