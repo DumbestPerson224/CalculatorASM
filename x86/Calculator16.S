@@ -20,8 +20,10 @@ _add:
   mov ax, [bp + 8]
   mov dx, [bp + 12]
   add ax, dx
-
+  push ax ; save the sum
+  
   ; Destroy the stack frame
+  pop ax
   pop bp
   mov sp, bp
   ret 
@@ -39,11 +41,16 @@ _subtract:
    mov bp, sp
 
    ; Get the parameters and subtract them
-   mov ax, [bp + 8] 
+   mov si, [bp + 8] 
    mov dx, [bp + 12]
-   sub ax, dx
+   sub si, dx
+   mov ax, si
+
+   ; Save the result into the stack
+   push ax 
 
    ; Destroy the stack frame
+   pop ax
    pop bp
    mov sp, bp
    ret
@@ -62,11 +69,14 @@ _multiply:
   mov bp, sp
 
   ; Get the parameters and multiply them
-  mov ax, [bp + 8]
+  mov si, [bp + 8]
   mov dx, [bp + 12]
+  mov ax, si
   imul dx 
+  push ax ; save the result
 
   ; Destroy the stack frame
+  pop ax
   pop bp
   mov sp, bp
   ret
@@ -88,13 +98,16 @@ _divide:
   cmp ax, 0
   jnz .notDivisionByZeroError
   mov ax, -1
+  push ax
   .end:
+     pop ax
      pop bp
      mov sp, bp
      ret
 
  .notDivisionByZeroError:
     idiv dx 
+    push ax
     jmp .end
 
 ;;;;;;;;;;;;;;
