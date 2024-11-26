@@ -71,7 +71,7 @@ mov rdx, [rbp + 24]
 mov rax, rsi
 mul rdx 
 
-; Save the into the stack, so if rax is overwritten the result is still preserved
+; Save the result into the stack, so if rax is overwritten the result is still preserved
 push rax
 
 ; Destroy the stack frame
