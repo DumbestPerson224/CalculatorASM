@@ -17,8 +17,8 @@ _add:
   mov bp, sp
 
   ; Get the parameters and add them
-  mov ax, [bp + 8]
-  mov dx, [bp + 12]
+  mov ax, [bp + 4]
+  mov dx, [bp + 8]
   add ax, dx
   push ax ; save the sum
   
@@ -41,8 +41,8 @@ _subtract:
    mov bp, sp
 
    ; Get the parameters and subtract them
-   mov si, [bp + 8] 
-   mov dx, [bp + 12]
+   mov si, [bp + 4]
+   mov dx, [bp + 8]
    sub si, dx
    mov ax, si
 
@@ -69,8 +69,8 @@ _multiply:
   mov bp, sp
 
   ; Get the parameters and multiply them
-  mov si, [bp + 8]
-  mov dx, [bp + 12]
+  mov si, [bp + 4]
+  mov dx, [bp + 8]
   mov ax, si
   imul dx 
   push ax ; save the result
@@ -91,8 +91,8 @@ _divide:
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   ; Get the parameters 
-  mov ax, [bp + 8]
-  mov dx, [bp + 12]
+  mov ax, [bp + 4]
+  mov dx, [bp + 8]
 
   ; Check for a division by zero error
   cmp ax, 0
