@@ -16,9 +16,6 @@ _add:
 	push ebp 
 	mov ebp, esp 
 
-	; Save the return address
-	push eax
-
 	; Get the parameters 
 	mov esi, [ebp + 8]
 	mov edx, [ebp + 12]
@@ -26,8 +23,9 @@ _add:
 	; Add them
 	add esi, edx 
 
-	; Put the sum into the accumulator 
-        mov eax, esi
+        ; Save the result
+	mov eax, esi
+        push eax
 
 	; Destroy the stack frame
 	pop eax
@@ -46,17 +44,15 @@ _subtract:
         ; Setup the stack frame
 	push ebp 
 	mov ebp, esp 
-
-        ; Save the return address
-        push eax
   
 	; Get the parameters and subtract them
 	mov esi, [ebp + 8]
 	mov edx, [ebp + 12]
-	sub esi, edx 
+	sub esi, edx
 
-        ; Move the result into the accumulator
+        ; Move the result into the accumulator and save the accumulator
         mov eax, esi
+        push eax
 
 	; Destroy the stack frame
 	pop eax
@@ -71,12 +67,10 @@ _multiply:
         ;  Parameter edx (int)                     ;
         ;  Returns   eax * edx                     ;
         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 	; Setup the stack frame
 	push ebp 
 	mov ebp, esp 
-
-        ; Save the return address
-        push eax
 
 	; Get the parameters and multiply them
 	mov eax, [ebp + 8]
@@ -84,7 +78,6 @@ _multiply:
 	imul edx 
         
 	; Destroy the stack frame
-        pop eax
         pop ebp 
 	mov esp, ebp 
 	ret 
@@ -102,22 +95,25 @@ _divide:
 	mov ebp, esp 
 
 	; Get the parameters 
-	mov eax, [ebp + 8]
+	mov esi, [ebp + 8]
 	mov edx, [ebp + 12]
 
 	; Check for a division by zero error
-	cmp eax, 0
+	cmp esi, 0
 	jg .notDivisionByZeroError
 	mov eax, -1
+        push eax
 
 	; Destroy the stack frame
 	.done:
+                pop eax
 		pop ebp 
 		mov esp, ebp 
 		ret 
 
 	.notDivisionByZeroError:
 		div edx 
+                push eax
 		jmp .done 
 
 
