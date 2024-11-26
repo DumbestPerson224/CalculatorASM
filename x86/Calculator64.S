@@ -15,8 +15,6 @@ _add:
 push rbp
 mov rbp, rsp
 
-; Save the return address
-push rax
 
 ; Get the parameters and add them together
 mov rsi, [rbp + 16]
@@ -24,9 +22,12 @@ mov rdx, [rbp + 24]
 add rsi, rdx 
 mov rax, rsi
 
+; Save the return address
+push rax
+
 ; Destroy the stack frame 
-pop rax ; rax now contains the return address
-pop rbp ; rbp now contains the original address it was holding
+pop rax
+pop rbp  
 mov rsp, rbp 
 ret 
 
@@ -41,8 +42,6 @@ _subtract:
 push rbp
 mov rbp, rsp
 
-; Save the return address
-push rax 
 
 ; Get the parameters and subtract them
 mov rsi, [rbp + 16]
@@ -50,10 +49,13 @@ mov rdx, [rbp + 24]
 sub rsi, rdx 
 mov rax, rsi
 
+; Save the sum
+push rax 
+
 ; Destroy the stack frame 
-pop rbp ; rbp now contains the original value of rbp before pushing it
-pop rax ; rax now contains the return address
-mov rsp, rbp 
+pop rbp 
+pop rax
+mov rsp, rbp
 ret 
 
 _multiply:
@@ -62,8 +64,6 @@ _multiply:
 push rbp 
 mov rbp, rsp
 
-; Save the return address
-push rax
 
 ; Get the parameters and multiply them 
 mov rsi, [rbp + 16]
@@ -71,9 +71,12 @@ mov rdx, [rbp + 24]
 mov rax, rsi
 mul rdx 
 
+; Save the sum
+push rax
+
 ; Destroy the stack frame
-pop rax ; rax now contains the return address
-pop rbp ; rbp now contains the original value of rbp
+pop rax
+pop rbp 
 mov rsp, rbp 
 ret 
 
@@ -87,7 +90,7 @@ _divide:
 push rbp
 mov rbp, rsp 
 
-; Save the return address
+; Save the return sum
 push rax
 
 ; Get the parameters 
@@ -99,7 +102,7 @@ jnz .divide
 mov rax, -1
 
 .done:
-pop rax ; rax now contains the return address
+pop rax
 pop rbp 
 mov rsp, rbp 
 ret 
@@ -117,16 +120,16 @@ _toNegative:
 push rbp 
 mov rbp, rsp
 
-; Save the return address
-push rax
-
 ; Get the parameter and convert it into a negative number
 mov rsi, [rbp + 16]
 neg rsi
 mov rax, rsi
 
+; Save the sum
+push rax
+
 ; Destroy the stack frame 
-pop rax ; rax now contains the return address
-pop rbp ; rbp now contains the original value of rbp
+pop rax
+pop rbp 
 mov rsp, rbp 
 ret 
