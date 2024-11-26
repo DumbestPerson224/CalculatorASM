@@ -9,8 +9,8 @@ _add:
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    ; This function adds two integers              ;
    ; Parameter (uint8_t) AL                       ;
-   ; Parameter (uint8_t) CL                       ;
-   ; Returns AL + CL                              ;
+   ; Parameter (uint8_t) DL                       ;
+   ; Returns AL + DL                              ;
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
    ; Setup the stack frame
@@ -19,10 +19,14 @@ _add:
 
    ; Get the parameters and add them
    mov al, [bp + 4]
-   mov cl, [bp + 8] 
-   add al, cl
+   mov dl, [bp + 8] 
+   add al, dl
 
+   ; Save the accumulator's result, so if it is overwritten we can still save the sum
+   push al
+   
    ; Destroy the stack frame
+   pop al 
    pop bp
    mov sp, bp
    ret
@@ -32,8 +36,8 @@ _subtract:
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
    ; This function subracts two intebers ;
    ; Parameter (uint8_t) AL              ;
-   ; Parameter (uint8_t) CL              ;
-   ; Returns AL - CL                     ;
+   ; Parameter (uint8_t) DL              ;
+   ; Returns AL - DL                     ;
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   ; Setup the stack frame
@@ -42,10 +46,12 @@ _subtract:
 
   ; Get the parameters and subtract them
   mov al, [bp + 4]
-  mov cl, [bp + 8]
-  sub al, cl
+  mov dl, [bp + 8]
+  sub al, dl
+  push al
 
   ; Destroy the stack frame
+  pop al
   pop bp
   mov sp, bp
   ret
@@ -68,7 +74,11 @@ _multiply:
    mov cl, [bp + 8]
    mul cl 
 
+   ; Save the result
+   push al
+
    ; Destroy the stack frame
+   pop al
    pop bp
    mov sp, bp
    ret
@@ -93,17 +103,21 @@ _divide:
  ; Check for a division by zero error
  cmp al, 0
  mov al, -1
+ push al
  jg .divide
   
  .end:
    ; Destroy the stack frame
+   pop al
    pop bp
    mov sp, bp
    ret
 
  .divide:
     div cl
+    push al
     jmp .end
+
 ;;;;;;;;;;;;;;;
 ;  C example  ;
 ;;;;;;;;;;;;;;;
