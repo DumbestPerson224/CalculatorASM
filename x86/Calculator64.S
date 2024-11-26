@@ -22,7 +22,7 @@ mov rdx, [rbp + 24]
 add rsi, rdx 
 mov rax, rsi
 
-; Save the return address
+; Save the sum to the stack, so if rax is overwritten the result is still preserved
 push rax
 
 ; Destroy the stack frame 
@@ -49,7 +49,7 @@ mov rdx, [rbp + 24]
 sub rsi, rdx 
 mov rax, rsi
 
-; Save the sum
+; Save the result into the stack, so if rax is overwritten the result is still preserved
 push rax 
 
 ; Destroy the stack frame 
@@ -71,7 +71,7 @@ mov rdx, [rbp + 24]
 mov rax, rsi
 mul rdx 
 
-; Save the sum
+; Save the into the stack, so if rax is overwritten the result is still preserved
 push rax
 
 ; Destroy the stack frame
@@ -90,8 +90,6 @@ _divide:
 push rbp
 mov rbp, rsp 
 
-; Save the return sum
-push rax
 
 ; Get the parameters 
 mov rsi, [rbp + 16]
@@ -100,6 +98,7 @@ mov rax, rsi
 test rsi, rsi 
 jnz .divide
 mov rax, -1
+push rax ; Save the return code
 
 .done:
 pop rax
@@ -108,8 +107,9 @@ mov rsp, rbp
 ret 
 
 .divide:
-div rdx 
-jmp .done 
+ div rdx 
+ push rax ; Save the result
+ jmp .done 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Description This function gets a parameter and makes it negative                               ;
@@ -125,7 +125,7 @@ mov rsi, [rbp + 16]
 neg rsi
 mov rax, rsi
 
-; Save the sum
+; Save the result
 push rax
 
 ; Destroy the stack frame 
