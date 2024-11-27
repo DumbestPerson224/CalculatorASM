@@ -1,135 +1,109 @@
 section .text
-global _add
-global _subtract
-global _multiply
-global _divide
-global _toNegative
+  global _add
+  global _subtract 
+  global _multiply
+  global _divide 
+  global _toNegative 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Description This function gets two parameters and adds them                                ;
-; Returns RAX (uint64_t + RDX (uint64_t)                                                     ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _add:
+  
+     ; Setup the stack frame
+     push rbp 
+     mov rbp, rsp 
 
-; Setup the stack frame
-push rbp
-mov rbp, rsp
+     ; Get the parameters
+     mov rsi, qword [rbp + 12]
+     mov rdx, qword [rbp + 16]
+     
+     ; Add the parameters
+     add rsi, rdx
+     mov rax, qword [rsi]
+     push rax 
 
-
-; Get the parameters and add them together
-mov rsi, qword ptr [rbp + 16]
-mov rdx, qword ptr [rbp + 24]
-add qword ptr [rsi], qword ptr [rdx]
-mov rax, qword ptr [rsi]
-
-; Save the sum to the stack, so if rax is overwritten the result is still preserved
-push rax
-
-; Destroy the stack frame 
-pop rax
-pop rbp  
-mov rsp, rbp 
-ret 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Description This function gets two parameters and subtracts them                                 ;
-; Returns RAX (uint64_t) - RDX (uint64_t)                                                          ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ; Destroy the stack frame
+     pop rax 
+     pop rbp 
+     mov rsp, rbp 
+     ret 
 
 _subtract:
 
-; Setup the stack frame 
-push rbp
-mov rbp, rsp
+   ; Setup the stack frame
+   push rbp 
+   mov rbp, rsp 
 
+   ; Get the parameters
+   mov rsi, qword [rbp + 12]
+   mov rdx, qword [rbp + 16]
 
-; Get the parameters and subtract them
-mov rsi, qword ptr [rbp + 16]
-mov rdx, qword ptr [rbp + 24]
-sub qword ptr [rdx], qword ptr [rsi]
-mov rax, qword ptr [rdx]
+   ; Subtract the parameters
+   sub rsi, rdx
+   mov rax, rsi
+   push rax 
 
-; Save the result into the stack, so if rax is overwritten the result is still preserved
-push rax 
-
-; Destroy the stack frame 
-pop rbp 
-pop rax
-mov rsp, rbp
-ret 
+   ; Destroy the stack frame
+   pop rax
+   pop rbp 
+   mov rsp, rbp 
+   ret 
 
 _multiply:
 
-; Setup the stack frame 
-push rbp 
-mov rbp, rsp
+  ; Setup the stack frame
+  push rbp 
+  mov rbp, rsp 
 
+  ; Get the parameters and multiply them together
+  mov rsi, qword [rbp + 12]
+  mov rdx, qword [rbp + 16]
+  mov rax, qword [rsi]
+  imul rdx 
+  push rax 
 
-; Get the parameters and multiply them 
-mov rsi, qword ptr [rbp + 16]
-mov rdx, qword ptr [rbp + 24]
-mov rax, qword ptr [rsi]
-mul qword ptr [rdx] 
+  ; Destroy the stack frame
+  pop rax 
+  pop rbp 
+  mov rsp, rbp 
+  ret 
 
-; Save the result into the stack, so if rax is overwritten the result is still preserved
-push rax
-
-; Destroy the stack frame
-pop rax
-pop rbp 
-mov rsp, rbp 
-ret 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Description This function gets two parameters and divides them                               ;
-; Returns RAX (uint64_t)  / RDX (uint64_t)                                                     ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _divide:
+   
+    ; Setup the stack frame
+    push rbp 
+    mov rbp, rsp 
 
-; Setup the stack frame
-push rbp
-mov rbp, rsp 
+    ; Get the parameters 
+    mov rsi, qword [rbp + 12]
+    mov rdx, qword [rbp + 16]
+    
+    ; Check for a division by zero error
+    cmp rsi, 0
+    jne .divide 
+    mov rax, -1
+    .end:
+      pop rbp
+      mov rsp, rbp
+      ret 
 
+    .divide:
+       mov rax, rdx
+       div rsi
+       jmp .end
 
-; Get the parameters 
-mov rsi, qword ptr [rbp + 16]
-mov rdx, qword ptr [rbp + 24]
-mov rax, qword ptr [rsi]
-test qword ptr [rax], qword ptr [rax]
-jnz .divide
-mov rax, -1
-push rax ; Save the return code
-
-.done:
-pop rax
-pop rbp 
-mov rsp, rbp 
-ret 
-
-.divide:
- div qword ptr [rdx] 
- push rax ; Save the result
- jmp .done 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Description This function gets a parameter and makes it negative                               ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 _toNegative:
+   
+   ; Setup the stack frame
+   push rbp 
+   mov rbp, rsp
 
-; Setup the stack frame 
-push rbp 
-mov rbp, rsp
+   ; Get the parameter and convert it to a negative
+   mov rsi, qword [rbp + 12]
+   neg rsi 
 
-; Get the parameter and convert it into a negative number
-mov rsi, qword ptr [rbp + 16]
-neg rsi
-mov rax, qword ptr [rsi]
-
-; Save the result
-push rax
-
-; Destroy the stack frame 
-pop rax
-pop rbp 
-mov rsp, rbp 
-ret 
+   ; Store it into the accumulator for a proper return
+   mov rax, rsi 
+   
+   ; Destroy the stack frame
+   pop rbp 
+   mov rsp, rbp 
+   ret 
