@@ -17,9 +17,9 @@ _add:
   mov bp, sp
 
   ; Get the parameters and add them
-  mov ax, dword ptr [bp + 4]
-  mov dx, dword ptr [bp + 8]
-  add dword ptr [ax], dword ptr [dx]
+  mov ax, word ptr [bp + 4]
+  mov dx, word ptr [bp + 8]
+  add word ptr [ax], word ptr [dx]
   push ax ; save the sum
   
   ; Destroy the stack frame
@@ -41,10 +41,10 @@ _subtract:
    mov bp, sp
 
    ; Get the parameters and subtract them
-   mov si, dword ptr [bp + 4]
-   mov dx, dword ptr [bp + 8]
-   sub dword ptr [si], dword ptr [dx]
-   mov ax, dword ptr [si]
+   mov si, word ptr [bp + 4]
+   mov dx, word ptr [bp + 8]
+   sub word ptr [si], word ptr [dx]
+   mov ax, word ptr [si]
 
    ; Save the result into the stack
    push ax 
@@ -69,10 +69,10 @@ _multiply:
   mov bp, sp
 
   ; Get the parameters and multiply them
-  mov si, dword ptr [bp + 4]
-  mov dx, dword ptr [bp + 8]
-  mov ax, dword ptr [si]
-  imul dword ptr [dx] 
+  mov si, word ptr [bp + 4]
+  mov dx, word ptr [bp + 8]
+  mov ax, word ptr [si]
+  imul word ptr [dx] 
   push ax ; save the result
 
   ; Destroy the stack frame
@@ -91,8 +91,8 @@ _divide:
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   ; Get the parameters 
-  mov ax, dword ptr [bp + 4]
-  mov dx, dword ptr [bp + 8]
+  mov ax, word ptr [bp + 4]
+  mov dx, word ptr [bp + 8]
 
   ; Check for a division by zero error
   cmp dword ptr [ax], 0
@@ -106,7 +106,7 @@ _divide:
      ret
 
  .notDivisionByZeroError:
-    idiv dword ptr [dx] 
+    idiv word ptr [dx] 
     push ax
     jmp .end
 
