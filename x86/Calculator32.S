@@ -18,14 +18,14 @@ _add:
 	mov ebp, esp 
 
 	; Get the parameters 
-	mov esi, [ebp + 8]
-	mov edx, [ebp + 12]
+	mov esi, dword ptr [ebp + 8]
+	mov edx, dword ptr [ebp + 12]
 
 	; Add them
-	add esi, edx 
+	add dword ptr [esi], dword ptr [edx] 
 
         ; Save the result
-	mov eax, esi
+	mov eax, dword ptr [esi]
         push eax
 
 	; Destroy the stack frame
@@ -47,12 +47,12 @@ _subtract:
 	mov ebp, esp 
   
 	; Get the parameters and subtract them
-	mov esi, [ebp + 8]
-	mov edx, [ebp + 12]
-	sub esi, edx
+	mov esi, dword ptr [ebp + 8]
+	mov edx, dword ptr [ebp + 12]
+	sub dword ptr [esi], dword ptr [edx]
 
         ; Move the result into the accumulator and save the accumulator
-        mov eax, esi
+        mov eax, dword ptr [esi]
         push eax
 
 	; Destroy the stack frame
@@ -74,9 +74,9 @@ _multiply:
 	mov ebp, esp 
 
 	; Get the parameters and multiply them
-	mov eax, [ebp + 8]
-	mov edx, [ebp + 12]
-	imul edx 
+	mov eax, dword ptr [ebp + 8]
+	mov edx, dword ptr [ebp + 12]
+	imul dword ptr [edx] 
         
 	; Destroy the stack frame
         pop ebp 
@@ -96,11 +96,11 @@ _divide:
 	mov ebp, esp 
 
 	; Get the parameters 
-	mov esi, [ebp + 8]
-	mov edx, [ebp + 12]
+	mov esi, dword ptr [ebp + 8]
+	mov edx, dword ptr [ebp + 12]
 
 	; Check for a division by zero error
-	cmp esi, 0
+	cmp dword ptr [esi], 0
 	jg .notDivisionByZeroError
 	mov eax, -1
         push eax
@@ -113,8 +113,8 @@ _divide:
 		ret 
 
 	.notDivisionByZeroError:
-                mov eax, esi
-		div edx 
+                mov eax, dword ptr [esi]
+		div dword ptr [edx] 
                 push eax
 		jmp .done 
 
@@ -125,9 +125,9 @@ _toNegative:
    mov ebp, esp 
 
   ; Get the parameter and convert it to a negative number then store it into the accumulator
-  mov esi, [ebp + 8]
-  neg esi
-  mov eax, esi 
+  mov esi, dword ptr [ebp + 8]
+  neg dword ptr [esi]
+  mov eax, dword ptr [esi] 
   push eax ; save the result
 
   ; Destroy the stack frame
