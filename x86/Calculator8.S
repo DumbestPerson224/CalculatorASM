@@ -19,9 +19,9 @@ _add:
    mov bp, sp
 
    ; Get the parameters and add them
-   mov al, dword ptr [bp + 4]
-   mov dl, dword ptr [bp + 8] 
-   add dword ptr [al], dword ptr [dl]
+   mov al, byte ptr [bp + 4]
+   mov dl, byte ptr [bp + 8] 
+   add byte ptr [al], byte ptr [dl]
 
    ; Save the accumulator's result, so if it is overwritten we can still save the sum
    push al
@@ -46,9 +46,9 @@ _subtract:
   mov bp, sp
 
   ; Get the parameters and subtract them
-  mov al, dword ptr [bp + 4]
-  mov dl, dword ptr [bp + 8]
-  sub dword ptr [al], dword ptr [dl]
+  mov al, byte ptr [bp + 4]
+  mov dl, byte ptr [bp + 8]
+  sub byte ptr [al], byte ptr [dl]
   push al
 
   ; Destroy the stack frame
@@ -71,9 +71,9 @@ _multiply:
    mov bp, sp
 
    ; Get the parameters and multiply them
-   mov al, dword ptr [bp + 4]
-   mov cl, dword ptr [bp + 8]
-   mul dword ptr [cl] 
+   mov al, byte ptr [bp + 4]
+   mov cl, byte ptr [bp + 8]
+   mul byte ptr [cl] 
 
    ; Save the result
    push al
@@ -98,12 +98,12 @@ _divide:
    mov sp, bp
 
   ; Get the parameters
-  mov al, dword ptr [bp + 4]
-  mov cl, dword ptr [bp + 8]
+  mov al, byte ptr [bp + 4]
+  mov cl, byte ptr [bp + 8]
 
  ; Check for a division by zero error
- cmp dword ptr [al], 0
- mov al, -1
+ cmp byte ptr [al], 0
+ mov byte ptr [al], -1
  push al
  jg .divide
   
@@ -126,9 +126,9 @@ _toNegative:
     mov bp, sp 
 
     ; Get the parameter and convert it into a negative
-    mov si, dword ptr [bp + 8]
-    neg dword ptr [si]
-    mov al, dword ptr [si] 
+    mov si, byte ptr [bp + 8]
+    neg byte ptr [si]
+    mov al, byte ptr [si] 
 
     ; Destroy the stack frame
     pop bp
