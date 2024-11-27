@@ -95,7 +95,7 @@ _divide:
   mov dx, word ptr [bp + 8]
 
   ; Check for a division by zero error
-  cmp dword ptr [ax], 0
+  cmp word ptr [ax], 0
   jnz .notDivisionByZeroError
   mov ax, -1
   push ax
