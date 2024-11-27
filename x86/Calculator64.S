@@ -17,10 +17,10 @@ mov rbp, rsp
 
 
 ; Get the parameters and add them together
-mov rsi, [rbp + 16]
-mov rdx, [rbp + 24]
-add rsi, rdx 
-mov rax, rsi
+mov rsi, qword ptr [rbp + 16]
+mov rdx, qword ptr [rbp + 24]
+add qword ptr [rsi], qword ptr [rdx]
+mov rax, qword ptr [rsi]
 
 ; Save the sum to the stack, so if rax is overwritten the result is still preserved
 push rax
@@ -44,10 +44,10 @@ mov rbp, rsp
 
 
 ; Get the parameters and subtract them
-mov rsi, [rbp + 16]
-mov rdx, [rbp + 24]
-sub rsi, rdx 
-mov rax, rsi
+mov rsi, qword ptr [rbp + 16]
+mov rdx, qword ptr [rbp + 24]
+sub qword ptr [rdx], qword ptr [rsi]
+mov rax, qword ptr [rdx]
 
 ; Save the result into the stack, so if rax is overwritten the result is still preserved
 push rax 
@@ -66,10 +66,10 @@ mov rbp, rsp
 
 
 ; Get the parameters and multiply them 
-mov rsi, [rbp + 16]
-mov rdx, [rbp + 24]
-mov rax, rsi
-mul rdx 
+mov rsi, qword ptr [rbp + 16]
+mov rdx, qword ptr [rbp + 24]
+mov rax, qword ptr [rsi]
+mul qword ptr [rdx] 
 
 ; Save the result into the stack, so if rax is overwritten the result is still preserved
 push rax
@@ -92,10 +92,10 @@ mov rbp, rsp
 
 
 ; Get the parameters 
-mov rsi, [rbp + 16]
-mov rdx, [rbp + 24]
-mov rax, rsi
-test rsi, rsi 
+mov rsi, qword ptr [rbp + 16]
+mov rdx, qword ptr [rbp + 24]
+mov rax, qword ptr [rsi]
+test qword ptr [rax], qword ptr [rax]
 jnz .divide
 mov rax, -1
 push rax ; Save the return code
@@ -107,7 +107,7 @@ mov rsp, rbp
 ret 
 
 .divide:
- div rdx 
+ div qword ptr [rdx] 
  push rax ; Save the result
  jmp .done 
 
@@ -121,9 +121,9 @@ push rbp
 mov rbp, rsp
 
 ; Get the parameter and convert it into a negative number
-mov rsi, [rbp + 16]
+mov rsi, qword ptr [rbp + 16]
 neg rsi
-mov rax, rsi
+mov rax, qword ptr [rsi]
 
 ; Save the result
 push rax
