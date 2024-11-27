@@ -17,9 +17,9 @@ _add:
   mov bp, sp
 
   ; Get the parameters and add them
-  mov ax, [bp + 4]
-  mov dx, [bp + 8]
-  add ax, dx
+  mov ax, dword ptr [bp + 4]
+  mov dx, dword ptr [bp + 8]
+  add dword ptr [ax], dword ptr [dx]
   push ax ; save the sum
   
   ; Destroy the stack frame
@@ -41,10 +41,10 @@ _subtract:
    mov bp, sp
 
    ; Get the parameters and subtract them
-   mov si, [bp + 4]
-   mov dx, [bp + 8]
-   sub si, dx
-   mov ax, si
+   mov si, dword ptr [bp + 4]
+   mov dx, dword ptr [bp + 8]
+   sub dword ptr [si], dword ptr [dx]
+   mov ax, dword ptr [si]
 
    ; Save the result into the stack
    push ax 
@@ -69,10 +69,10 @@ _multiply:
   mov bp, sp
 
   ; Get the parameters and multiply them
-  mov si, [bp + 4]
-  mov dx, [bp + 8]
-  mov ax, si
-  imul dx 
+  mov si, dword ptr [bp + 4]
+  mov dx, dword ptr [bp + 8]
+  mov ax, dword ptr [si]
+  imul dword ptr [dx] 
   push ax ; save the result
 
   ; Destroy the stack frame
@@ -91,11 +91,11 @@ _divide:
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   ; Get the parameters 
-  mov ax, [bp + 4]
-  mov dx, [bp + 8]
+  mov ax, dword ptr [bp + 4]
+  mov dx, dword ptr [bp + 8]
 
   ; Check for a division by zero error
-  cmp ax, 0
+  cmp dword ptr [ax], 0
   jnz .notDivisionByZeroError
   mov ax, -1
   push ax
@@ -106,7 +106,7 @@ _divide:
      ret
 
  .notDivisionByZeroError:
-    idiv dx 
+    idiv dword ptr [dx] 
     push ax
     jmp .end
 
