@@ -3,6 +3,7 @@ section .text
    global _subtract
    global _multiply
    global _divide
+   global _toNegative
 
 _add:
         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -117,7 +118,23 @@ _divide:
                 push eax
 		jmp .done 
 
+_toNegative:
 
+   ; Setup the stack frame
+   push ebp
+   mov ebp, esp 
+
+  ; Get the parameter and convert it to a negative number then store it into the accumulator
+  mov esi, [ebp + 8]
+  neg esi
+  mov eax, esi 
+  push eax ; save the result
+
+  ; Destroy the stack frame
+  pop eax
+  pop ebp 
+  mov esp, ebp
+  ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;       C example      ;	
