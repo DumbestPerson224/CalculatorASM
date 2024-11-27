@@ -112,6 +112,7 @@ _divide:
 		ret 
 
 	.notDivisionByZeroError:
+                mov eax, esi
 		div edx 
                 push eax
 		jmp .done 
