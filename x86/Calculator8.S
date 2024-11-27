@@ -3,6 +3,7 @@ section .text
    global _subtract
    global _multiply
    global _divide
+   global _toNegative
 
 _add:
 
@@ -118,6 +119,21 @@ _divide:
     push al
     jmp .end
 
+_toNegative:
+
+    ; Setup the stack frame
+    push bp
+    mov bp, sp 
+
+    ; Get the parameter and convert it into a negative
+    mov si, [bp + 8]
+    neg si
+    mov al, si 
+
+    ; Destroy the stack frame
+    pop bp
+    mov sp, bp
+    ret
 ;;;;;;;;;;;;;;;
 ;  C example  ;
 ;;;;;;;;;;;;;;;
