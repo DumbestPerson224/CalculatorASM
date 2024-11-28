@@ -13,8 +13,8 @@ _add:
      mov rbp, rsp 
 
      ; Get the parameters
-     mov rsi, qword ptr [rbp + 12]
-     mov rdx, qword ptr [rbp + 16]
+     mov rsi, qword ptr [rbp + 16]
+     mov rdx, qword ptr [rbp + 24]
      
      ; Add the parameters
      add rsi, rdx
@@ -34,8 +34,8 @@ _subtract:
    mov rbp, rsp 
 
    ; Get the parameters
-   mov rsi, qword ptr [rbp + 12]
-   mov rdx, qword ptr [rbp + 16]
+   mov rsi, qword ptr [rbp + 16]
+   mov rdx, qword ptr [rbp + 24]
 
    ; Subtract the parameters
    sub rsi, rdx
@@ -55,8 +55,8 @@ _multiply:
   mov rbp, rsp 
 
   ; Get the parameters and multiply them together
-  mov rsi, qword ptr [rbp + 12]
-  mov rdx, qword ptr [rbp + 16]
+  mov rsi, qword ptr [rbp + 16]
+  mov rdx, qword ptr [rbp + 24]
   mov rax, qword ptr [rsi]
   imul rdx 
   push rax 
@@ -74,8 +74,8 @@ _divide:
     mov rbp, rsp 
 
     ; Get the parameters 
-    mov rsi, qword ptr [rbp + 12]
-    mov rdx, qword ptr [rbp + 16]
+    mov rsi, qword ptr [rbp + 16]
+    mov rdx, qword ptr [rbp + 24]
     
     ; Check for a division by zero error
     cmp rsi, 0
@@ -98,7 +98,7 @@ _toNegative:
    mov rbp, rsp
 
    ; Get the parameter and convert it to a negative
-   mov rsi, qword ptr [rbp + 12]
+   mov rsi, qword ptr [rbp + 16]
    neg rsi 
 
    ; Store it into the accumulator for a proper return
