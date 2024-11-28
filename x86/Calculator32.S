@@ -19,8 +19,8 @@ _add:
 	mov ebp, esp 
 
 	; Get the parameters 
-	mov esi, dword ptr [ebp + 8]
-	mov edx, dword ptr [ebp + 12]
+	mov esi, dword ptr [ebp + 12]
+	mov edx, dword ptr [ebp + 16]
 
 	; Add them
 	add esi, edx
@@ -48,8 +48,8 @@ _subtract:
 	mov ebp, esp 
   
 	; Get the parameters and subtract them
-	mov esi, dword ptr [ebp + 8]
-	mov edx, dword ptr [ebp + 12]
+	mov esi, dword ptr [ebp + 12]
+	mov edx, dword ptr [ebp + 16]
 	sub esi, edx 
 
      ; Move the result into the accumulator and save the accumulator
@@ -75,8 +75,8 @@ _multiply:
 	mov ebp, esp 
 
 	; Get the parameters and multiply them
-	mov eax, dword ptr [ebp + 8]
-	mov edx, dword ptr [ebp + 12]
+	mov eax, dword ptr [ebp + 12]
+	mov edx, dword ptr [ebp + 16]
 	imul edx
         
 	; Destroy the stack frame
@@ -97,8 +97,8 @@ _divide:
 	mov ebp, esp 
 
 	; Get the parameters 
-	mov esi, dword ptr [ebp + 8]
-     mov edx, dword ptr [ebp + 12]
+	mov esi, dword ptr [ebp + 12]
+        mov edx, dword ptr [ebp + 16]
 
 	; Check for a division by zero error
 	cmp esi, 0
@@ -126,7 +126,7 @@ _toNegative:
    mov ebp, esp 
 
   ; Get the parameter and convert it to a negative number then store it into the accumulator
-  mov esi, dword ptr [ebp + 8]
+  mov esi, dword ptr [ebp + 12]
   neg esi
   mov eax, esi
   push eax ; save the result
