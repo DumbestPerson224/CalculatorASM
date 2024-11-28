@@ -1,3 +1,4 @@
+%use masm 
 section .text
    global _add
    global _subtract
@@ -6,135 +7,74 @@ section .text
    global _toNegative
 
 _add:
-
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   ; This function adds two integers              ;
-   ; Parameter (uint8_t) AL                       ;
-   ; Parameter (uint8_t) DL                       ;
-   ; Returns AL + DL                              ;
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   ; This function adds two parameters  ;
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
    ; Setup the stack frame
-   push bp
-   mov bp, sp
+   push bp 
+   mov bp, sp 
 
-   ; Get the parameters and add them
+   ; Get the parameters and add them together
    mov al, byte ptr [bp + 4]
-   mov dl, byte ptr [bp + 8] 
-   add byte ptr [al], byte ptr [dl]
+   mov cl, byte ptr [bp + 8]
+   add al, cl
 
-   ; Save the accumulator's result, so if it is overwritten we can still save the sum
-   push al
-   
    ; Destroy the stack frame
-   pop al 
-   pop bp
-   mov sp, bp
-   ret
+   pop bp 
+   mov sp, bp 
+   ret 
 
 _subtract:
+    
+    ; Setup the stack frame
+    push bp 
+    mov bp, sp 
 
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   ; This function subracts two intebers ;
-   ; Parameter (uint8_t) AL              ;
-   ; Parameter (uint8_t) DL              ;
-   ; Returns AL - DL                     ;
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  ; Setup the stack frame
-  push bp
-  mov bp, sp
-
-  ; Get the parameters and subtract them
-  mov al, byte ptr [bp + 4]
-  mov dl, byte ptr [bp + 8]
-  sub byte ptr [al], byte ptr [dl]
-  push al
-
-  ; Destroy the stack frame
-  pop al
-  pop bp
-  mov sp, bp
-  ret
+    ; Get the parameters and subtract the parameters
+    mov al, byte ptr [bp + 4]
+    mov dl, byte ptr [bp + 8]
+    sub al, dl 
+    ; Destroy the stack frame
+    pop bp 
+    mov sp, bp 
+    ret 
 
 _multiply:
 
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   ; This function multiplies two integers ;
-   ; Parameter (uint8_t) AL                ;
-   ; Parameter (uint8_t) CL                ; 
-   ; Returns AL * CL                       ;
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
    ; Setup the stack frame
-   push bp
-   mov bp, sp
+   push bp 
+   mov bp, sp 
 
-   ; Get the parameters and multiply them
+   ; Multiply the parameters
    mov al, byte ptr [bp + 4]
-   mov cl, byte ptr [bp + 8]
-   mul byte ptr [cl] 
-
-   ; Save the result
-   push al
+   mul byte ptr [bp + 8]
 
    ; Destroy the stack frame
-   pop al
    pop bp
    mov sp, bp
    ret
 
 _divide:
 
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-   ; This function divides the two parameters   ;
-   ; Paramerer AL (uint8_t)                     ;
-   ; Parameter CL (uint8_t)                     ;
-   ; Returns AL / BL if AL > 0                  ;
-   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ; Setup the stack frame
+  push bp 
+  mov bp, sp 
 
-   ; Setup the stack frame
-   push bp
-   mov sp, bp
-
-  ; Get the parameters
+  ; Get the parameters and check for a division by zero error
   mov al, byte ptr [bp + 4]
-  mov cl, byte ptr [bp + 8]
-
- ; Check for a division by zero error
- cmp byte ptr [al], 0
- mov byte ptr [al], -1
- push al
- jg .divide
   
- .end:
-   ; Destroy the stack frame
-   pop al
-   pop bp
+  cmp al, 0
+  mov al, -1
+  jnz .divide 
+  .end:
+   pop bp 
    mov sp, bp
-   ret
-
- .divide:
-    div cl
-    push al
-    jmp .end
-
-_toNegative:
-
-    ; Setup the stack frame
-    push bp
-    mov bp, sp 
-
-    ; Get the parameter and convert it into a negative
-    mov si, byte ptr [bp + 8]
-    neg byte ptr [si]
-    mov al, byte ptr [si] 
-
-    ; Destroy the stack frame
-    pop bp
-    mov sp, bp
-    ret
-
+   ret 
+  
+  .divide: 
+     div byte ptr [bp + 8]
+     
 ;;;;;;;;;;;;;;;
 ;  C example  ;
 ;;;;;;;;;;;;;;;
