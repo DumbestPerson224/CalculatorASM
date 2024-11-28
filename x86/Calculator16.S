@@ -1,3 +1,4 @@
+%use masm 
 section .text
   global _add
   global _subtract
@@ -19,7 +20,7 @@ _add:
   ; Get the parameters and add them
   mov ax, word ptr [bp + 4]
   mov dx, word ptr [bp + 8]
-  add word ptr [ax], word ptr [dx]
+  add ax, dx
   push ax ; save the sum
   
   ; Destroy the stack frame
@@ -43,8 +44,8 @@ _subtract:
    ; Get the parameters and subtract them
    mov si, word ptr [bp + 4]
    mov dx, word ptr [bp + 8]
-   sub word ptr [si], word ptr [dx]
-   mov ax, word ptr [si]
+   sub si, dx 
+   mov ax, si 
 
    ; Save the result into the stack
    push ax 
@@ -71,8 +72,8 @@ _multiply:
   ; Get the parameters and multiply them
   mov si, word ptr [bp + 4]
   mov dx, word ptr [bp + 8]
-  mov ax, word ptr [si]
-  imul word ptr [dx] 
+  mov ax, si
+  imul dx
   push ax ; save the result
 
   ; Destroy the stack frame
@@ -95,7 +96,7 @@ _divide:
   mov dx, word ptr [bp + 8]
 
   ; Check for a division by zero error
-  cmp word ptr [ax], 0
+  cmp ax, 0
   jnz .notDivisionByZeroError
   mov ax, -1
   push ax
@@ -106,7 +107,7 @@ _divide:
      ret
 
  .notDivisionByZeroError:
-    idiv word ptr [dx] 
+    idiv dx 
     push ax
     jmp .end
 
