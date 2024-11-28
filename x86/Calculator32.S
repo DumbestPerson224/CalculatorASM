@@ -1,3 +1,4 @@
+%use masm 
 section .text 
    global _add 
    global _subtract
@@ -9,7 +10,7 @@ _add:
         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
         ;  This function adds the two parameters ;
         ;  Parameter eax (int)                   ;
-	;  Paramater edx (int)                   ; 
+	   ;  Paramater edx (int)                   ; 
         ;  Returns eax + edx                     ;
         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -22,11 +23,11 @@ _add:
 	mov edx, dword ptr [ebp + 12]
 
 	; Add them
-	add dword ptr [esi], dword ptr [edx] 
+	add esi, edx
 
-        ; Save the result
-	mov eax, dword ptr [esi]
-        push eax
+     ; Save the result
+	mov eax, esi
+     push eax
 
 	; Destroy the stack frame
 	pop eax
@@ -49,15 +50,15 @@ _subtract:
 	; Get the parameters and subtract them
 	mov esi, dword ptr [ebp + 8]
 	mov edx, dword ptr [ebp + 12]
-	sub dword ptr [esi], dword ptr [edx]
+	sub esi, edx 
 
-        ; Move the result into the accumulator and save the accumulator
-        mov eax, dword ptr [esi]
-        push eax
+     ; Move the result into the accumulator and save the accumulator
+	mov eax, esi 
+     push eax
 
 	; Destroy the stack frame
 	pop eax
-        pop ebp 
+     pop ebp 
 	mov esp, ebp 
 	ret
 
@@ -76,10 +77,10 @@ _multiply:
 	; Get the parameters and multiply them
 	mov eax, dword ptr [ebp + 8]
 	mov edx, dword ptr [ebp + 12]
-	imul dword ptr [edx] 
+	imul edx
         
 	; Destroy the stack frame
-        pop ebp 
+     pop ebp 
 	mov esp, ebp 
 	ret 
 
@@ -97,25 +98,25 @@ _divide:
 
 	; Get the parameters 
 	mov esi, dword ptr [ebp + 8]
-	mov edx, dword ptr [ebp + 12]
+     mov edx, dword ptr [ebp + 12]
 
 	; Check for a division by zero error
-	cmp dword ptr [esi], 0
+	cmp esi, 0
 	jg .notDivisionByZeroError
 	mov eax, -1
-        push eax
+     push eax
 
 	; Destroy the stack frame
 	.done:
-                pop eax
+          pop eax
 		pop ebp 
 		mov esp, ebp 
 		ret 
 
 	.notDivisionByZeroError:
-                mov eax, dword ptr [esi]
-		div dword ptr [edx] 
-                push eax
+          mov eax, esi
+		div edx
+          push eax
 		jmp .done 
 
 _toNegative:
@@ -126,8 +127,8 @@ _toNegative:
 
   ; Get the parameter and convert it to a negative number then store it into the accumulator
   mov esi, dword ptr [ebp + 8]
-  neg dword ptr [esi]
-  mov eax, dword ptr [esi] 
+  neg esi
+  mov eax, esi
   push eax ; save the result
 
   ; Destroy the stack frame
