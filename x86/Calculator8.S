@@ -34,6 +34,7 @@ _subtract:
     mov al, byte ptr [bp + 4]
     mov dl, byte ptr [bp + 8]
     sub al, dl 
+    
     ; Destroy the stack frame
     pop bp
     ret 
@@ -46,7 +47,8 @@ _multiply:
 
    ; Multiply the parameters
    mov al, byte ptr [bp + 4]
-   mul byte ptr [bp + 8]
+   mov dl, byte ptr [bp + 8]
+   imul dl
 
    ; Destroy the stack frame
    pop bp
@@ -60,7 +62,7 @@ _divide:
 
   ; Get the parameters and check for a division by zero error
   mov al, byte ptr [bp + 4]
-  
+  mov cl, byte ptr [bp + 8]
   cmp al, 0
   mov al, -1
   jnz .divide 
@@ -69,8 +71,8 @@ _divide:
    ret 
   
   .divide: 
-     div byte ptr [bp + 8]
-     
+     div cl 
+
 ;;;;;;;;;;;;;;;
 ;  C example  ;
 ;;;;;;;;;;;;;;;
