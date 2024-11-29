@@ -72,6 +72,7 @@ _divide:
   
   .divide: 
      div cl 
+     jmp .end
 
 ;;;;;;;;;;;;;;;
 ;  C example  ;
