@@ -23,8 +23,7 @@ _add:
 
      ; Destroy the stack frame
      pop rax 
-     pop rbp 
-     mov rsp, rbp 
+     pop rbp
      ret 
 
 _subtract:
@@ -44,8 +43,7 @@ _subtract:
 
    ; Destroy the stack frame
    pop rax
-   pop rbp 
-   mov rsp, rbp 
+   pop rbp  
    ret 
 
 _multiply:
@@ -63,8 +61,7 @@ _multiply:
 
   ; Destroy the stack frame
   pop rax 
-  pop rbp 
-  mov rsp, rbp 
+  pop rbp
   ret 
 
 _divide:
@@ -83,7 +80,6 @@ _divide:
     mov rax, -1
     .end:
       pop rbp
-      mov rsp, rbp
       ret 
 
     .divide:
@@ -105,6 +101,5 @@ _toNegative:
    mov rax, rsi 
 
    ; Destroy the stack frame
-   pop rbp 
-   mov rsp, rbp 
+   pop rbp
    ret 
