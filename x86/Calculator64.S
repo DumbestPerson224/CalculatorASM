@@ -13,16 +13,13 @@ _add:
      mov rbp, rsp 
 
      ; Get the parameters
-     mov rsi, qword ptr [rbp + 16]
+     mov rax, qword ptr [rbp + 16]
      mov rdx, qword ptr [rbp + 24]
      
      ; Add the parameters
-     add rsi, rdx
-     mov rax, rsi
-     push rax 
+     add rax, rdx
 
      ; Destroy the stack frame
-     pop rax 
      pop rbp
      ret 
 
@@ -33,16 +30,13 @@ _subtract:
    mov rbp, rsp 
 
    ; Get the parameters
-   mov rsi, qword ptr [rbp + 16]
+   mov rax, qword ptr [rbp + 16]
    mov rdx, qword ptr [rbp + 24]
 
    ; Subtract the parameters
-   sub rsi, rdx
-   mov rax, rsi
-   push rax 
+   sub rax, rdx
 
    ; Destroy the stack frame
-   pop rax
    pop rbp  
    ret 
 
@@ -53,14 +47,11 @@ _multiply:
   mov rbp, rsp 
 
   ; Get the parameters and multiply them together
-  mov rsi, qword ptr [rbp + 16]
+  mov rax, qword ptr [rbp + 16]
   mov rdx, qword ptr [rbp + 24]
-  mov rax, rsi
   imul rdx 
-  push rax 
 
   ; Destroy the stack frame
-  pop rax 
   pop rbp
   ret 
 
@@ -71,20 +62,19 @@ _divide:
     mov rbp, rsp 
 
     ; Get the parameters 
-    mov rsi, qword ptr [rbp + 16]
+    mov rax, qword ptr [rbp + 16]
     mov rdx, qword ptr [rbp + 24]
 
     ; Check for a division by zero error
-    cmp rsi, 0
-    jne .divide 
+    test rax, rax
+    jnz .divide 
     mov rax, -1
     .end:
       pop rbp
       ret 
 
     .divide:
-       mov rax, rdx
-       div rsi
+       div rdx
        jmp .end
 
 _toNegative:
@@ -94,11 +84,8 @@ _toNegative:
    mov rbp, rsp
 
    ; Get the parameter and convert it to a negative
-   mov rsi, qword ptr [rbp + 16]
-   neg rsi 
-
-   ; Store it into the accumulator for a proper return
-   mov rax, rsi 
+   mov rax, qword ptr [rbp + 16]
+   neg rax 
 
    ; Destroy the stack frame
    pop rbp
