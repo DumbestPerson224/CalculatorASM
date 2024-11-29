@@ -36,8 +36,7 @@ _subtract:
     mov dl, byte ptr [bp + 8]
     sub al, dl 
     ; Destroy the stack frame
-    pop bp 
-    mov sp, bp 
+    pop bp
     ret 
 
 _multiply:
