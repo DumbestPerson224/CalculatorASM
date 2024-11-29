@@ -10,7 +10,7 @@ _add:
         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
         ;  This function adds the two parameters ;
         ;  Parameter eax (int)                   ;
-	   ;  Paramater edx (int)                   ; 
+        ;  Paramater edx (int)                   ; 
         ;  Returns eax + edx                     ;
         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -19,20 +19,14 @@ _add:
 	mov ebp, esp 
 
 	; Get the parameters 
-	mov esi, dword ptr [ebp + 12]
+	mov eax, dword ptr [ebp + 12]
 	mov edx, dword ptr [ebp + 16]
 
 	; Add them
-	add esi, edx
-
-     ; Save the result
-	mov eax, esi
-     push eax
+	add eax, edx
 
 	; Destroy the stack frame
-	pop eax
 	pop ebp 
-	mov esp, ebp 
 	ret 
 
 _subtract:
@@ -48,18 +42,12 @@ _subtract:
 	mov ebp, esp 
   
 	; Get the parameters and subtract them
-	mov esi, dword ptr [ebp + 12]
+	mov eax, dword ptr [ebp + 12]
 	mov edx, dword ptr [ebp + 16]
-	sub esi, edx 
-
-     ; Move the result into the accumulator and save the accumulator
-	mov eax, esi 
-     push eax
+	sub eax, edx
 
 	; Destroy the stack frame
-	pop eax
-     pop ebp 
-	mov esp, ebp 
+	pop ebp
 	ret
 
 _multiply:
@@ -80,8 +68,7 @@ _multiply:
 	imul edx
         
 	; Destroy the stack frame
-     pop ebp 
-	mov esp, ebp 
+        pop ebp
 	ret 
 
 _divide:
@@ -104,20 +91,15 @@ _divide:
 	cmp esi, 0
 	jg .notDivisionByZeroError
 	mov eax, -1
-     push eax
 
 	; Destroy the stack frame
 	.done:
-          pop eax
-		pop ebp 
-		mov esp, ebp 
-		ret 
+        pop ebp
+        ret 
 
 	.notDivisionByZeroError:
-          mov eax, esi
-		div edx
-          push eax
-		jmp .done 
+          idiv edx
+          jmp .end
 
 _toNegative:
 
@@ -126,15 +108,11 @@ _toNegative:
    mov ebp, esp 
 
   ; Get the parameter and convert it to a negative number then store it into the accumulator
-  mov esi, dword ptr [ebp + 12]
-  neg esi
-  mov eax, esi
-  push eax ; save the result
+  mov eax, dword ptr [ebp + 12]
+  neg eax
 
   ; Destroy the stack frame
-  pop eax
-  pop ebp 
-  mov esp, ebp
+  pop ebp
   ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
