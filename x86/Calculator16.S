@@ -21,12 +21,9 @@ _add:
   mov ax, word ptr [bp + 4]
   mov dx, word ptr [bp + 8]
   add ax, dx
-  push ax ; save the sum
-  
+
   ; Destroy the stack frame
-  pop ax
   pop bp
-  mov sp, bp
   ret 
 
 _subtract:
@@ -42,18 +39,12 @@ _subtract:
    mov bp, sp
 
    ; Get the parameters and subtract them
-   mov si, word ptr [bp + 4]
+   mov ax, word ptr [bp + 4]
    mov dx, word ptr [bp + 8]
-   sub si, dx 
-   mov ax, si 
-
-   ; Save the result into the stack
-   push ax 
+   sub ax, dx
 
    ; Destroy the stack frame
-   pop ax
    pop bp
-   mov sp, bp
    ret
 
 _multiply:
@@ -70,16 +61,12 @@ _multiply:
   mov bp, sp
 
   ; Get the parameters and multiply them
-  mov si, word ptr [bp + 4]
+  mov ax, word ptr [bp + 4]
   mov dx, word ptr [bp + 8]
-  mov ax, si
   imul dx
-  push ax ; save the result
 
   ; Destroy the stack frame
-  pop ax
   pop bp
-  mov sp, bp
   ret
 
 _divide:
@@ -99,16 +86,12 @@ _divide:
   cmp ax, 0
   jnz .notDivisionByZeroError
   mov ax, -1
-  push ax
   .end:
-     pop ax
      pop bp
-     mov sp, bp
      ret
 
  .notDivisionByZeroError:
     idiv dx 
-    push ax
     jmp .end
 
 ;;;;;;;;;;;;;;
