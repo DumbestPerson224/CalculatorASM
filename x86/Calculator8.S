@@ -21,8 +21,7 @@ _add:
    add al, cl
 
    ; Destroy the stack frame
-   pop bp 
-   mov sp, bp 
+   pop bp
    ret 
 
 _subtract:
@@ -51,7 +50,6 @@ _multiply:
 
    ; Destroy the stack frame
    pop bp
-   mov sp, bp
    ret
 
 _divide:
@@ -67,8 +65,7 @@ _divide:
   mov al, -1
   jnz .divide 
   .end:
-   pop bp 
-   mov sp, bp
+   pop bp
    ret 
   
   .divide: 
