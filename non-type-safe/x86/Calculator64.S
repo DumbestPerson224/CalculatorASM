@@ -12,7 +12,8 @@ _add:
      push rbp 
      mov rbp, rsp 
 
-     ; Get the parameters
+     ; Get the parameters 
+     ; The parameters must be 64 bit integers and rbp + 16 and rbp + 24 must be memory addresses
      mov rax, qword ptr [rbp + 16]
      mov rdx, qword ptr [rbp + 24]
      
@@ -30,6 +31,7 @@ _subtract:
    mov rbp, rsp 
 
    ; Get the parameters
+   ; The parameters must be 64 bit integers and rbp + 16 and rbp + 24 must be memory addresses
    mov rax, qword ptr [rbp + 16]
    mov rdx, qword ptr [rbp + 24]
 
@@ -47,6 +49,7 @@ _multiply:
   mov rbp, rsp 
 
   ; Get the parameters and multiply them together
+  ; The parameters must be 64 bit integers and rbp + 16 and rbp + 24 must be memory addresses
   mov rax, qword ptr [rbp + 16]
   mov rdx, qword ptr [rbp + 24]
   imul rdx 
@@ -62,6 +65,7 @@ _divide:
     mov rbp, rsp 
 
     ; Get the parameters 
+    ; The parameters must be 64 bit integers and rbp + 16 and rbp + 24 must be memory addresses
     mov rax, qword ptr [rbp + 16]
     mov rdx, qword ptr [rbp + 24]
 
@@ -84,6 +88,7 @@ _toNegative:
    mov rbp, rsp
 
    ; Get the parameter and convert it to a negative
+   ; The parameter must be a 64 bit integer and rbp + 16 must be a memory address
    mov rax, qword ptr [rbp + 16]
    neg rax 
 
