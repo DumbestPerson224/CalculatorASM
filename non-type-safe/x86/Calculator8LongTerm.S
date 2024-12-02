@@ -30,7 +30,7 @@ _multiply:
      ; Get the parameters
      mov al, byte ptr [0x0104]
      mov dl, byte ptr [0x0105]
-     mul al 
+     mul dl 
 
      ; Store into memory
      mov ptr [0x0105], al 
@@ -45,9 +45,7 @@ _divide:
      cmp al, 0
      jg .divide
      mov byte ptr [0x0107], -0
-     ret
      
-          
      .divide:
           idiv dl 
           mov ptr [0x0107], al
