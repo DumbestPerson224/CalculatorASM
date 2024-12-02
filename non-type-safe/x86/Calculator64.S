@@ -7,7 +7,12 @@ section .text
   global _toNegative 
 
 _add:
-  
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ; Parameter RAX 64 bit integer ;
+     ; Parameter RDX 64 bit integer ;
+     ; Assumes _add was called      ;
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
      ; Setup the stack frame
      push rbp 
      mov rbp, rsp 
@@ -25,6 +30,11 @@ _add:
      ret 
 
 _subtract:
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   ; Parameter (64 bit integer) RAX ;
+   ; Parameter (64 bit integer) RDX ;
+   ; Assumes _subtract was called   ;
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
    ; Setup the stack frame
    push rbp 
@@ -43,6 +53,11 @@ _subtract:
    ret 
 
 _multiply:
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ; Parameter (64 bit integer) RAX ;
+  ; Parameter (64 bit integer) RDX ;
+  ; Assumes _multiply was called   ;
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   ; Setup the stack frame
   push rbp 
@@ -59,7 +74,12 @@ _multiply:
   ret 
 
 _divide:
-   
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ; Parameter (64 bit integer) RAX  ;
+    ; Parameter (64 bit integer) RDX  ;
+    ; Assumes _divide was called      ;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
     ; Setup the stack frame
     push rbp 
     mov rbp, rsp 
@@ -82,7 +102,11 @@ _divide:
        jmp .end
 
 _toNegative:
-   
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+   ; Parameter _toNegative              ;
+   ; Assumes _toNegative was called     ;
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
    ; Setup the stack frame
    push rbp 
    mov rbp, rsp
@@ -95,3 +119,4 @@ _toNegative:
    ; Destroy the stack frame
    pop rbp
    ret 
+
