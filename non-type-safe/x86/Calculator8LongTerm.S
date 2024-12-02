@@ -4,6 +4,7 @@ section .text
   global _subtract
   global _multiply
   global _divide
+  global _toNegative
 
 _add:
 
@@ -49,3 +50,9 @@ _divide:
      .divide:
           idiv dl 
           mov ptr [0x0107], al
+
+_toNegative:
+  ; Get the parameters
+  mov al, byte ptr [0x0108]
+  neg al 
+     
