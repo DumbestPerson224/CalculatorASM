@@ -5,54 +5,44 @@ section .text
   global _multiply
   global _divide
   global _toNegative
-
+  org 0x00008001
 _add:
 
-     ; Get the parameters and add them
-     mov al, byte ptr [0x0100]
-     mov dl, byte ptr [0x0101]
-     add al, dl 
-
-     ; Store into memory
-     mov ptr [0x0101], al 
+  ; Get the parameters and add them
+  mov ax, word ptr [0x00008002]
+  mov dx, word ptr [0x00008003]
+  add ax, dx 
 
 _subtract:
-
-     ; Get the parameters and subtract them
-     mov al, byte ptr [0x0102]
-     mov dl, byte ptr [0x0103]
-     sub al, dl 
-
-     ; Store into memory
-     mov ptr [0x0103], al
+  
+  ; Get the parameters and subtract them
+  mov ax, word ptr [0x00008004]
+  mov dx, word ptr [0x00008005]
+  sub ax, dx 
 
 _multiply:
 
-     ; Get the parameters
-     mov al, byte ptr [0x0104]
-     mov dl, byte ptr [0x0105]
-     mul dl 
-
-     ; Store into memory
-     mov ptr [0x0105], al 
+  ; Get the parameters and multiply them
+  mov ax, word ptr [0x00008006]
+  mov dx, word ptr [0x00008007]
+  mul dx 
 
 _divide:
 
-     ; Get the parameters
-     mov al, byte ptr [0x0106]
-     mov dl, byte ptr [0x0107]
+  ; Get the parameters
+  mov ax, word ptr [0x00008008]
+  mov dx, word ptr [0x00008009]
 
-     ; Check for a division by zero
-     cmp al, 0
-     jg .divide
-     mov byte ptr [0x0107], -0
-     
-     .divide:
-          idiv dl 
-          mov ptr [0x0107], al
+  ; Check for a division by zero error
+  cmp ax, 0
+  jg .divide 
+  mov word ptr [0x0000800A], -0
+  .divide:
+    idiv dx 
 
 _toNegative:
-  ; Get the parameters
-  mov al, byte ptr [0x0108]
-  neg al 
-     
+
+  ; Get the parameter and convert it to a negative
+  mov ax, word ptr [0x0000800B]
+  neg ax 
+  
