@@ -3,6 +3,7 @@ section .text
   global _add 
   global _subtract
   global _multiply
+  global _divide
 
 _add:
 
@@ -12,24 +13,41 @@ _add:
      add al, dl 
 
      ; Store into memory
-     mov [0x0101], al 
+     mov ptr [0x0101], al 
 
 _subtract:
 
      ; Get the parameters and subtract them
-     mov al, byte ptr [0x0103]
-     mov dl, byte ptr [0x0104]
+     mov al, byte ptr [0x0102]
+     mov dl, byte ptr [0x0103]
      sub al, dl 
 
      ; Store into memory
-     mov [0x0104], al 
+     mov ptr [0x0103], al
 
 _multiply:
 
      ; Get the parameters
-     mov al, byte ptr [0x0105]
-     mov dl, byte ptr [0x0106]
+     mov al, byte ptr [0x0104]
+     mov dl, byte ptr [0x0105]
      mul al 
 
      ; Store into memory
-     mov [0x0106], al 
+     mov ptr [0x0105], al 
+
+_divide:
+
+     ; Get the parameters
+     mov al, byte ptr [0x0106]
+     mov dl, byte ptr [0x0107]
+
+     ; Check for a division by zero
+     cmp al, 0
+     jg .divide
+     mov byte ptr [0x0107], -0
+     ret
+     
+          
+     .divide:
+          idiv dl 
+          mov ptr [0x0107], al
