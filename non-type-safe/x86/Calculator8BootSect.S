@@ -5,7 +5,16 @@ section .text
   global _multiply
   global _divide
   global _toNegative
+  global _start
   org 0x7C00
+
+_start:
+
+  ; Setup the stack
+  xor ax, ax 
+  mov ss, ax
+  mov sp, 0x7C00
+
 _add:
 
   ; Get the parameters from memory and add them
