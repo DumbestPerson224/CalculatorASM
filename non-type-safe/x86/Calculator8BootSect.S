@@ -6,7 +6,15 @@ section .text
   global _divide
   global _toNegative
   global _start
+  global _output
   org 0x7C00
+
+_output:
+ mov ah, 0x0E
+ int 0x10
+
+_halt:
+   hlt
 
 _start:
 
