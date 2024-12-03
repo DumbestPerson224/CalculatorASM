@@ -11,6 +11,7 @@ section .text
 _start:
 
   ; Setup the stack
+  cli
   xor ax, ax 
   mov ss, ax
   mov sp, 0x7C00
