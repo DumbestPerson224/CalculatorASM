@@ -28,33 +28,14 @@ _readSectorNumber:
   ; Read the sector number
   mov dx, 0x1F2
   in al, dx 
-  push ax
+  ret
 
-_readErrorRegister:
-
-  ; Read the error register
-  mov dx, 0x1F1
-  in al, dx
-  push ax
-
-_readDriveNumber:
-
-  ; Read the drive register
-  mov dx, 0x1F6
-  in al, dx
-  push ax 
-
-_readCylinderLow:
-
-  ; Read the low Cylinder register
-  mov dx, 0x1F4
+_writeSector: 
+  ; Write to the sector
+  mov dx, 0x1F2
   in al, dx 
-  push ax 
-
-_readCynlinderHigh:
-  mov dx, 0x1F5
-  in al, dx 
-  push ax
+  mov al, dl 
+  ret 
 
 _add:
 
@@ -62,6 +43,7 @@ _add:
   mov al, byte ptr [0x7E00]
   mov dl, byte ptr [0x7E01]
   add al, dl 
+  call _writeSector
 
 _subtract:
   
@@ -69,6 +51,7 @@ _subtract:
   mov al, byte ptr [0x7E02]
   mov dl, byte ptr [0x7E03]
   sub al, dl
+  call _writeSector
 
 _multiply:
 
@@ -76,7 +59,7 @@ _multiply:
   mov al, byte ptr [0x7E04]
   mov dl, byte ptr [0x7E05]
   mul dl 
-
+  call _writeSector
 _divide:
 
   ; Get the parameters from memory
@@ -89,11 +72,13 @@ _divide:
   mov byte ptr [0x7E08], -0
   .divide:
     idiv dl 
+  call _writeSector
 
 _toNegative:
 
   ; Get the parameter from memory and convert it to a negative
   mov al, byte ptr [0x7E09]
+  call _writeSector
   neg al 
 
 times 510 - ($ - $$) db 0 ; fill the rest of the boot sector with zeros
