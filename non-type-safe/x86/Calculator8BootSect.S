@@ -45,4 +45,6 @@ _toNegative:
   ; Get the parameter from memory and convert it to a negative
   mov al, byte ptr [0x7E09]
   neg al 
-  
+
+times 510 - ($ - $$) db 0 ; fill the rest of the boot sector with zeros
+dw 0xAA55                 ; boot signature
