@@ -16,6 +16,38 @@ _start:
   mov ss, ax
   mov sp, 0x7C00
 
+_readSectorNumber:
+  ; Read the sector number
+  mov dx, 0x1F2
+  in al, dx 
+  push ax
+
+_readErrorRegister:
+
+  ; Read the error register
+  mov dx, 0x1F1
+  in al, dx
+  push ax
+
+_readDriveNumber:
+
+  ; Read the drive register
+  mov dx, 0x1F6
+  in al, dx
+  push ax 
+
+_readCylinderLow:
+
+  ; Read the low Cylinder register
+  mov dx, 0x1F4
+  in al, dx 
+  push ax 
+
+_readCynlinderHigh:
+  mov dx, 0x1F5
+  in al, dx 
+  push ax
+
 _add:
 
   ; Get the parameters from memory and add them
