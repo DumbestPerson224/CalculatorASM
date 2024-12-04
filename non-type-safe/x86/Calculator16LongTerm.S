@@ -4,8 +4,8 @@ section .text
   global _subtract
   global _multiply
   global _divide
-  global _toNegative
-  
+  global _square
+
 _add:
 
   ; Get the parameters and add them
@@ -71,3 +71,21 @@ _toNegative:
   ; Result is stored at 0x00007E09
   mov ax, word ptr [0x00007E09]
   neg ax 
+
+_square:
+  ; Get the parameter
+  ; ASSUMES WORD MEMORY ADDRESS
+  ; MEMORY ADDRESS IS:
+  ; PARAMETER: 0x00007E0A
+  ; Result is stored at 0x00007E0A
+  mov ax, word ptr [0x0007E0A]
+  mov dx, word ptr [0x0007E0B] 
+  mul dx 
+  mov cx, 2 
+
+  ; Check for divisions by zero
+  cmp ax, 0 
+  jg .divide 
+  mov ax, -1 
+  .divide:
+    div cx 
