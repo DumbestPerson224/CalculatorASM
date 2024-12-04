@@ -1,100 +1,50 @@
-%use masm 
-section .text 
-  global _add 
-  global _subtract
-  global _multiply
-  global _divide
-  global _toNegative
-  global _start
-  global _output
-  org 0x7C00
+section .data
+   video_interrupt: equ 0x10
+   disk_interrupt:  equ 0x13
+   kernel_address:  equ 0x7E00
+section .text
+   global _start
 
-_output:
- mov ah, 0x0E
- int 0x10
+%macro output 1
+  mov ah, 0x0E
+  mov al, %1
+  int video_interrupt
+%endmacro
 
-_halt:
-   hlt
+%macro read_disk 4
+  mov ah, 0x02
+  mov al, 0x01  ; Number of sectors to read
+  mov bx, %1    ; Buffer address 
+  mov ch, %2    ; Cylinder
+  mov cl, %3    ; Sector number
+  mov dh, %4    ; Head number
+  int disk_interrupt
+%endmacro
+
+%macro write_disk 4
+  mov ah, 0x01
+  mov al, 0x01 ; Number of sectors to read
+  mov bx, %1   ; Bufferr address
+  mov ch, %2   ; Cylinder
+  mov cl, %3   ; Sector number
+  mov dh, %4   ; Head number
+  int disk_interrupt
+
+%macro setup_stack 1
+  xor ax, ax
+  mov ss, ax
+  mov sp, %1
+%endmacro
 
 _start:
+   setup_stack 0x7C00
+   read_disk 0x0, 0x7E00, 0x0, 0x0
+   jc .write
+   .boot:
+      jmp 0x7E00:0x0000
 
-  ; Setup the stack
-  cli
-  xor ax, ax 
-  mov ss, ax
-  mov sp, 0x7C00
-
-_readSectorNumber:
-  ; Read the sector number
-  mov dx, 0x1F2
-  in al, dx 
-  ret
-
-_writeSector: 
-  ; Write to the sector
-  mov dx, 0x1F2
-  in al, dx 
-  mov al, dl 
-
-_add:
-
-  ; Get the parameters from memory and add them
-  mov bl, byte ptr [0x7E00]
-  mov al, byte ptr [0x7E01]
-  add al, dl 
-
-  ; Check if we should write to the sector
-  cmp di, 1
-  je _writeSector 
-
-_subtract:
+   .write:
+      write_disk 0x0, kernel_address, 0x0, 0x0
   
-  ; Get the parameters from memory and subtract them
-  mov al, byte ptr [0x7E02]
-  mov dl, byte ptr [0x7E03]
-  sub al, dl
-
-  ; Check if we should write to the sector 
-  cmp di, 1
-  je _writeSector
-
-_multiply:
-
-  ; Get the parameters from memory and multiply them
-  mov al, byte ptr [0x7E04]
-  mov dl, byte ptr [0x7E05]
-  mul dl
-  
-  ; Check if we should write to the sector
-  cmp di, 1
-  je _writeSector 
-
-_divide:
-
-  ; Get the parameters from memory
-  mov al, byte ptr [0x7E06]
-  mov dl, byte ptr [0x7E07]
-
-  ; Check for a division by zero error
-  cmp al, 0
-  jg .divide 
-  mov byte ptr [0x7E08], -0
-  .divide:
-    idiv dl
-  
-  ; Check if we should write to the sector
-  cmp di, 1
-  je _writeSector
-
-_toNegative:
-
-  ; Get the parameter from memory and convert it to a negative
-  mov al, byte ptr [0x7E09]
-  neg al 
-
-  ; Check if we should write the result to the sector
-  cmp di, 1
-  je _writeSector
-
-times 510 - ($ - $$) db 0 ; fill the rest of the boot sector with zeros
-dw 0xAA55                 ; boot signature
+dw 0xAA55 ; Boot signature
+times 510 - ($ - $$) db 0 ; Fill the rest with zeros
