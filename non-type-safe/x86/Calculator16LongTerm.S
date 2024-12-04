@@ -13,6 +13,7 @@ _add:
   ; MEMORY ADDRESSES ARE:
   ; PARAMETER 1: 0x00007E00 (16 bit integer)
   ; PARAMETER 2: 0x00007E01 (16 bit integer)
+  ; Result stored at 0x00007E00
   mov ax, word ptr [0x00007E00]
   mov dx, word ptr [0x00007E01]
   add ax, dx 
@@ -24,6 +25,7 @@ _subtract:
   ; MEMORY ADDRESSES ARE:
   ; PARAMETER 1: 0x00007E02 (16 bit integer)
   ; PARAMETER 2: 0x00007E03 (16 bit integer)
+  ; Result stored at 0x00007E02
   mov ax, word ptr [0x00007E02]
   mov dx, word ptr [0x00007E03]
   sub ax, dx 
