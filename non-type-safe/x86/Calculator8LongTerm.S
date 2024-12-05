@@ -11,71 +11,71 @@ _add:
 
   ; Get the parameters and add them
   ; MEMORY ADDRESSES ARE:
-  ; PARAMETER 1: 0x00007E00 (16 bit integer)
-  ; PARAMETER 2: 0x00007E01 (16 bit integer)
-  ; Result stored at 0x00007E00
-  mov al, byte ptr [0x00007E00]
-  mov dl, byte ptr [0x00007E01]
+  ; PARAMETER 1: 0xF000 (16 bit integer)
+  ; PARAMETER 2: 0xF001 (16 bit integer)
+  ; Result stored at 0xF000
+  mov al, byte ptr [0xF000]
+  mov dl, byte ptr [0xF001]
   add al, dl 
 
 _subtract:
   
   ; Get the parameters and subtract them
   ; MEMORY ADDRESSES ARE:
-  ; PARAMETER 1: 0x00007E02 (16 bit integer)
-  ; PARAMETER 2: 0x00007E03 (16 bit integer)
+  ; PARAMETER 1: 0xF002 (16 bit integer)
+  ; PARAMETER 2: 0xF003 (16 bit integer)
   ; Result stored at 0x00007E02
-  mov al, byte ptr [0x00007E02]
-  mov dl, byte ptr [0x00007E03]
+  mov al, byte ptr [0xF002]
+  mov dl, byte ptr [0xF003]
   sub al, dl 
 
 _multiply:
 
   ; Get the parameters and multiply them
   ; MEMORY ADDRESSES ARE:
-  ; PARAMETER 1: 0x00007E04 (word)
-  ; PARAMETER 2: 0x00007E05 (word)
-  mov al, byte ptr [0x00007E04]
-  mov dl, byte ptr [0x00007E05]
+  ; PARAMETER 1: 0xF004 (byte)
+  ; PARAMETER 2: 0xF005 (byte)
+  mov al, byte ptr [0xF004]
+  mov dl, byte ptr [0xF005]
   mul dl 
-  ; Result is stored at 0x0007E04
+  ; Result is stored at 0xF004
 
 _divide:
 
   ; Get the parameters
   ; MEMORY ADDRESSES ARE:
-  ; PARAMETER 1: 0x00007E04 (word)
-  ; PARAMETER 2: 0x00007E05 (word)
+  ; PARAMETER 1: 0xF006 (byte)
+  ; PARAMETER 2: 0xF007 (byte)
   ; If the correct memory addresses or byte is not provided at either memory address the program will segfault, crash or corrupt 
   ; memory
-  mov al, byte ptr [0x00007E07]
-  mov dl, byte ptr [0x00007E08]
+  mov al, byte ptr [0xF006]
+  mov dl, byte ptr [0xF007]
 
   ; Check for a division by zero error
   cmp al, 0
   jg .divide 
-  mov byte ptr [0x00007E08], -0
+  mov byte ptr [0xF007], -0
   .divide:
     idiv dl
 
- ; Result is stored at 0x00007E07 if no division by zero error happened
+ ; Result is stored at 0xF007 if no division by zero error happened
 
 _toNegative:
 
   ; Get the parameter and convert it to a negative
   ; MEMORY ADDRESS IS:
-  ; PARAMETER: 0x00007E09 
-  ; Result is stored at 0x00007E09
-  mov al, byte ptr [0x00007E09]
+  ; PARAMETER: 0xF008 
+  ; Result is stored at 0xF008
+  mov al, byte ptr [0xF008]
   neg al 
 
 _triangle:
   ; Get the parameter
   ; MEMORY ADDRESS IS:
-  ; PARAMETER: 0x00007E0A
-  ; Result is stored at 0x00007E0A
-  mov al, byte ptr [0x0007E0A]
-  mov dl, byte ptr [0x0007E0B] 
+  ; PARAMETER: 0xF009
+  ; Result is stored at 0xF00A
+  mov al, byte ptr [0xF00A]
+  mov dl, byte ptr [0xF00B]
   mul dl 
   mov cl, 2 
 
@@ -91,8 +91,8 @@ _square:
  ; MEMORY ADDRESS IS:
  ; PARAMETER: 0x00007E0C
  ; Result is stored at 0x00007E0C
- mov al, byte ptr [0x00007E0C]
- mov dl, byte ptr [0x00007E0D]
+ mov al, byte ptr [0xF00C]
+ mov dl, byte ptr [0xF00D]
  cmp al, dl
  jnz .multiply
  mov al, -1
