@@ -6,6 +6,7 @@ section .text
   global _divide
   global _triangle
   global _square
+  global _getRemainder
 
 _add:
 
@@ -16,7 +17,7 @@ _add:
   ; Result stored at 0xF000
   mov al, byte ptr [0xF000]
   mov dl, byte ptr [0xF001]
-  add al, dl 
+  add al, dl fun once by mistake. I destroy the system by mistake.
 
 _subtract:
   
@@ -67,15 +68,17 @@ _toNegative:
   ; PARAMETER: 0xF008 
   ; Result is stored at 0xF008
   mov al, byte ptr [0xF008]
+
   neg al 
 
 _triangle:
   ; Get the parameter
   ; MEMORY ADDRESS IS:
   ; PARAMETER: 0xF009
+  ; PARAMETER: 0xF00A
   ; Result is stored at 0xF00A
-  mov al, byte ptr [0xF00A]
-  mov dl, byte ptr [0xF00B]
+  mov al, byte ptr [0xF009]
+  mov dl, byte ptr [0xF00A]
   mul dl 
   mov cl, 2 
 
@@ -87,14 +90,30 @@ _triangle:
     div cl 
 
 _square:
- ; Get the parameter
+ ; Get the parameters
  ; MEMORY ADDRESS IS:
- ; PARAMETER: 0x00007E0C
- ; Result is stored at 0x00007E0C
- mov al, byte ptr [0xF00C]
- mov dl, byte ptr [0xF00D]
+ ; PARAMETER: 0xF00B
+ ; PARAMETER: 0xF00C
+ ; Result is stored at 0xF00B
+ mov al, byte ptr [0xF00B]
+ mov dl, byte ptr [0xF00C]
  cmp al, dl
  jnz .multiply
  mov al, -1
  .multiply:
    mul dl
+
+_getRemainder:
+  ; Get the parameters
+  ; MEMORY ADDRESS IS:
+  ; Parameter: 0xF00E
+  ; Dividint is stored at 0xF00D
+  ; Remainder is stored at 0xF00E
+  mov al, byte ptr [0xF00D]
+  mov dl, byte ptr [0xF00E]
+  cmp al, 0
+  jg .divide 
+  mov al, -1 ; Set the return code
+  .divide:
+    div dl
+    mov byte ptr [0xF00E], ah ; Save the remainder
