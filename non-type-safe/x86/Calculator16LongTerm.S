@@ -4,6 +4,7 @@ section .text
   global _subtract
   global _multiply
   global _divide
+  global _triangle
   global _square
 
 _add:
@@ -67,7 +68,7 @@ _toNegative:
   mov ax, byte ptr [0x00007E09]
   neg ax 
 
-_square:
+_triangle:
   ; Get the parameter
   ; MEMORY ADDRESS IS:
   ; PARAMETER: 0x00007E0A
@@ -83,3 +84,16 @@ _square:
   mov ax, -1 
   .divide:
     div cx 
+
+_square:
+ ; Get the parameter
+ ; MEMORY ADDRESS IS:
+ ; PARAMETER: 0x00007E0C
+ ; Result is stored at 0x00007E0C
+ mov ax, byte ptr [0x00007E0C]
+ mov dx, byte ptr [0x00007E0D]
+ cmp ax, dx
+ jnz .multiply
+ mov ax, -1
+ .multiply:
+   mul dx 
