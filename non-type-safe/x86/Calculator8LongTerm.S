@@ -12,8 +12,8 @@ _add:
 
   ; Get the parameters and add them
   ; MEMORY ADDRESSES ARE:
-  ; PARAMETER 1: 0xF000 (16 bit integer)
-  ; PARAMETER 2: 0xF001 (16 bit integer)
+  ; PARAMETER 1: 0xF000 (8 bit integer)
+  ; PARAMETER 2: 0xF001 (8 bit integer)
   ; Result stored at 0xF000
   mov al, byte ptr [0xF000]
   mov dl, byte ptr [0xF001]
@@ -22,8 +22,8 @@ _subtract:
   
   ; Get the parameters and subtract them
   ; MEMORY ADDRESSES ARE:
-  ; PARAMETER 1: 0xF002 (16 bit integer)
-  ; PARAMETER 2: 0xF003 (16 bit integer)
+  ; PARAMETER 1: 0xF002 (8 bit integer)
+  ; PARAMETER 2: 0xF003 (8 bit integer)
   ; Result stored at 0x00007E02
   mov al, byte ptr [0xF002]
   mov dl, byte ptr [0xF003]
