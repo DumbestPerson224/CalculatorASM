@@ -7,6 +7,7 @@ section .text
   global _triangle
   global _square
   global _getRemainder
+  global _toPositive
 
 _add:
 
@@ -18,6 +19,7 @@ _add:
   mov al, byte ptr [0xF000]
   mov dl, byte ptr [0xF001]
   add al, dl
+
 _subtract:
   
   ; Get the parameters and subtract them
@@ -67,7 +69,6 @@ _toNegative:
   ; PARAMETER: 0xF008 
   ; Result is stored at 0xF008
   mov al, byte ptr [0xF008]
-
   neg al 
 
 _triangle:
@@ -116,3 +117,11 @@ _getRemainder:
   .divide:
     div dl
     mov byte ptr [0xF00E], ah ; Save the remainder
+
+_toPositive:
+
+ ; Get the parameter
+ ; MEMORY ADDRESS IS 
+ ; PARAMETER: 0xF00F
+ mov al, byte ptr [0xF00F]
+ not al
