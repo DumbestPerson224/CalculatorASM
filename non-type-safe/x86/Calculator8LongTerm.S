@@ -17,8 +17,7 @@ _add:
   ; Result stored at 0xF000
   mov al, byte ptr [0xF000]
   mov dl, byte ptr [0xF001]
-  add al, dl fun once by mistake. I destroy the system by mistake.
-
+  add al, dl
 _subtract:
   
   ; Get the parameters and subtract them
