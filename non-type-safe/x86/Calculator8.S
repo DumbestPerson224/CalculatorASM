@@ -16,8 +16,8 @@ _add:
    mov bp, sp 
 
    ; Get the parameters and add them together
-   mov al, byte ptr [bp + 4]
-   mov cl, byte ptr [bp + 8]
+   mov al, byte ptr [bp - 4]
+   mov cl, byte ptr [bp - 6]
    add al, cl
 
    ; Destroy the stack frame
@@ -32,7 +32,7 @@ _subtract:
 
     ; Get the parameters and subtract the parameters
     mov al, byte ptr [bp + 4]
-    mov dl, byte ptr [bp + 8]
+    mov dl, byte ptr [bp - 6]
     sub al, dl 
     
     ; Destroy the stack frame
@@ -46,8 +46,8 @@ _multiply:
    mov bp, sp 
 
    ; Multiply the parameters
-   mov al, byte ptr [bp + 4]
-   mov dl, byte ptr [bp + 8]
+   mov al, byte ptr [bp - 4]
+   mov dl, byte ptr [bp - 6]
    imul dl
 
    ; Destroy the stack frame
@@ -61,8 +61,8 @@ _divide:
   mov bp, sp 
 
   ; Get the parameters and check for a division by zero error
-  mov al, byte ptr [bp + 4]
-  mov cl, byte ptr [bp + 8]
+  mov al, byte ptr [bp - 4]
+  mov cl, byte ptr [bp - 6]
   cmp al, 0
   mov al, -1
   jnz .divide 
