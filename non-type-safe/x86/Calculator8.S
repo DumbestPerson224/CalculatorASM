@@ -31,7 +31,7 @@ _subtract:
     mov bp, sp 
 
     ; Get the parameters and subtract the parameters
-    mov al, byte ptr [bp + 4]
+    mov al, byte ptr [bp - 4]
     mov dl, byte ptr [bp - 6]
     sub al, dl 
     
