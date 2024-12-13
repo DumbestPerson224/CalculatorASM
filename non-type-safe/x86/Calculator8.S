@@ -50,4 +50,9 @@ _multiply:
    load 
    multiply 
    destroy_stack 
-   
+   jo .overflow
+
+   .overflow:
+     xor ax, ax 
+     xor cx, cx 
+     
