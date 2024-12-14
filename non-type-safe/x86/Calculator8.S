@@ -41,7 +41,7 @@ _add:
 
 _subtract:
    setup_stack
-   load 
+   load bp+4, bp+6
    subtract
    destroy_stack 
 
