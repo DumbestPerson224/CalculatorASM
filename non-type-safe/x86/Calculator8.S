@@ -16,7 +16,7 @@ section .text
 %endmacro
 
 %macro destroy_stack
-  pop ebp 
+  pop bp 
   ret 
 %endmacro 
 
