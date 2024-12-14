@@ -21,8 +21,8 @@ section .text
 %endmacro 
 
 %macro load 2
-  movsx ax, byte ptr [%1]
-  movsx cx, byte ptr [%2]
+  movzx ax, byte ptr [%1]
+  movzx cx, byte ptr [%2]
 %endmacro 
 
 %macro subtract 
