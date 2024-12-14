@@ -35,7 +35,7 @@ section .text
 
 _add:
   setup_stack 
-  load 
+  load bp+4, bp+6
   addition 
   destroy_stack 
 
@@ -47,7 +47,7 @@ _subtract:
 
 _multiply:
    setup_stack 
-   load 
+   load bp+4, bp+6
    multiply 
    destroy_stack 
    jo .overflow
